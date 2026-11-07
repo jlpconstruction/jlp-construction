@@ -1,0 +1,28 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+supabase/.temp/
+
+# Dependencies & builds
+node_modules/
+dist/
+build/
+.vite/
+coverage/
+
+# Claude Code personal settings
+.claude/settings.local.json
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Office temp/lock files
+~$*
+
+# Local tool settings
+.claude/

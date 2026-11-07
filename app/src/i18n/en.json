@@ -1,0 +1,604 @@
+{
+  "common": {
+    "skipToContent": "Skip to main content",
+    "switchTo": "Español",
+    "switchToShort": "ES",
+    "switchToLabel": "Ver en español",
+    "back": "Back",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "save": "Save",
+    "open": "Open",
+    "loading": "Loading…",
+    "call": "Call",
+    "directions": "Directions",
+    "none": "None",
+    "close": "Close"
+  },
+  "errors": {
+    "not_configured": "The database isn't connected yet. Add the Supabase keys to app/.env (see README).",
+    "load_failed": "Couldn't load the data. Check your connection and try again.",
+    "save_failed": "Couldn't save. Check your connection and try again.",
+    "submit_failed": "Something went wrong sending your request. Please try again.",
+    "photo_upload": "A photo couldn't be uploaded. Try again, or remove that photo.",
+    "slot_taken": "Sorry, that Saturday time was just taken. Please pick another one.",
+    "invalid_slot": "That time isn't available anymore. Please pick another one.",
+    "consent_required": "Please check the box to agree to project text messages.",
+    "invalid_phone": "Enter a mobile phone number.",
+    "invalid_email": "Enter your email address, or choose Text."
+  },
+  "site": {
+    "brandSub": "Residential Remodeling",
+    "nav": {
+      "home": "Home",
+      "services": "Services",
+      "ourWork": "Our Work"
+    },
+    "cta": "Request a free visit",
+    "ctaShort": "Request a visit",
+    "footer": {
+      "about1": "Residential construction & remodeling",
+      "about2": "Locally owned in Chicago, serving Illinois and Indiana",
+      "spanish": "Se habla español",
+      "contact": "Contact",
+      "hours": "Monday to Saturday. Requests answered within 1 business day.",
+      "referrals": "Most of our work comes from referrals",
+      "thanks": "Thank you for recommending us!",
+      "facebook": "Follow us on Facebook",
+      "privacy": "Privacy Policy",
+      "terms": "Terms",
+      "accessibility": "Accessibility"
+    },
+    "help": "Questions? You can also call or text Jorge:"
+  },
+  "home": {
+    "title": "From the first photo to the final walkthrough.",
+    "lead": "Kitchens, bathrooms, basements, flooring, tile, painting, windows and doors, handled start to finish by one contractor you can reach.",
+    "seeServices": "See all services",
+    "serving": "Serving homeowners in Illinois and Indiana. Se habla español.",
+    "howTitle": "How it works",
+    "how": [
+      {
+        "t": "Tell us about your project",
+        "d": "Pick the room, describe the work, upload a few photos."
+      },
+      {
+        "t": "Get a ballpark first",
+        "d": "Jorge reviews your photos and follows up with a rough range and questions."
+      },
+      {
+        "t": "Request your visit",
+        "d": "Pick a Saturday time (9 am – 6 pm). Jorge approves it after reviewing your request."
+      },
+      {
+        "t": "Clear quote & payment plan",
+        "d": "35% to start, 35% at halfway, 30% at completion."
+      }
+    ],
+    "servicesTitle": "Everything your remodel needs, under one roof",
+    "servicesLead": "No juggling separate trades. JLP handles every phase of the project.",
+    "notSureTitle": "Not sure?",
+    "notSureText": "Send photos and describe what you want. We'll tell you what it takes.",
+    "workTitle": "Recent projects",
+    "seeAllWork": "See all projects",
+    "photosTitle": "A faster, more accurate estimate",
+    "photosText": "A few photos let Jorge understand your project before the visit, so you get a realistic price range sooner and the on-site consultation is spent on details, not first impressions.",
+    "photosCta": "Start my request",
+    "payTitle": "Simple, transparent payments",
+    "payFirst": "First week",
+    "payHalf": "Halfway point",
+    "payDone": "On completion",
+    "payNote": "You always know what's due and when. Pay by check, Zelle, or the way you already pay Jorge.",
+    "faqTitle": "Common questions",
+    "faq": [
+      {
+        "q": "Do you charge for consultations?",
+        "a": "No, consultations are free. Every request is reviewed first, and once Jorge approves it you'll get a confirmation with your Saturday visit time."
+      },
+      {
+        "q": "When are consultations?",
+        "a": "Consultations are on Saturdays, between 9 am and 6 pm. You can request a time when you send your request, and Jorge confirms it once it's approved."
+      },
+      {
+        "q": "How does payment work?",
+        "a": "35% of the total is due in the first week, 35% once the project is halfway done, and the final 30% when the project is complete."
+      },
+      {
+        "q": "What kind of photos should I send?",
+        "a": "3–5 photos of the space from different angles, plus close-ups of anything specific (damage, or anything you want replaced). Phone photos are perfect."
+      },
+      {
+        "q": "What areas do you serve?",
+        "a": "We serve homeowners in Illinois and Indiana. If you're not sure we cover your area, submit a request and we'll let you know."
+      },
+      {
+        "q": "Will you post photos of my home?",
+        "a": "Never the photos you send us. Those are only for planning your project. Once a job is finished, Jorge may photograph the completed work for our website and Facebook, without your address, name, or faces. Prefer not? Just check the box on the form or tell Jorge."
+      },
+      {
+        "q": "How quickly will I hear back?",
+        "a": "Requests are reviewed within 1 business day. You'll get a text or email with next steps."
+      },
+      {
+        "q": "Do you speak Spanish?",
+        "a": "Sí. Jorge speaks Spanish and English, so you can use whichever language you prefer."
+      }
+    ],
+    "ctaTitle": "Ready to plan your remodel?",
+    "ctaText": "Takes about 3 minutes. Photos help, but they're optional.",
+    "heroAlt": "Bathroom with grey stone-look tile, a glass shower, and a round black mirror",
+    "projects": [
+      {
+        "title": "Slat-panel media wall",
+        "desc": "Custom built-ins, a walnut mantel, and new flooring.",
+        "alt": "TV wall with lit shelves and a walnut mantel"
+      },
+      {
+        "title": "Black tile bathroom",
+        "desc": "Large-format tile, a white vanity, and a dark plank floor.",
+        "alt": "Bathroom with black tile and a dark floor"
+      },
+      {
+        "title": "Geometric accent wall",
+        "desc": "Angled trim work and paint.",
+        "alt": "White wall with geometric trim in a living room"
+      }
+    ]
+  },
+  "services": {
+    "title": "Complete remodeling services",
+    "lead": "JLP Construction manages every part of your project, from the first consultation through construction and final billing.",
+    "requestThis": "Request this service"
+  },
+  "work": {
+    "title": "Recent projects",
+    "lead": "Every project here was managed start to finish by Jorge. Tap Before / After to compare.",
+    "cats": {
+      "all": "All",
+      "kitchen": "Kitchens",
+      "bathroom": "Bathrooms",
+      "basement": "Basements",
+      "flooring": "Flooring",
+      "painting": "Painting",
+      "windows": "Windows & Doors"
+    },
+    "weeks_one": "{{count}} week",
+    "weeks_other": "{{count}} weeks",
+    "before": "Before",
+    "after": "After",
+    "beforeOrAfter": "Before or after",
+    "photoAlt": "{{title}}: {{which}}",
+    "empty": "No projects in this category yet.",
+    "photosNote": "All photos are taken by Jorge on finished jobs.",
+    "sampleNote": "Sample projects and placeholder images, to be replaced with Jorge's own photos.",
+    "ctaTitle": "Have a project like these?",
+    "ctaText": "Send photos of your space and pick a Saturday for a free consultation.",
+    "items": {
+      "w1": {
+        "title": "Walk-in tile shower remodel",
+        "desc": "Removed an old tub and built a curbless tiled shower with a new tile floor and vanity."
+      },
+      "w2": {
+        "title": "Backsplash & cabinet refresh",
+        "desc": "New subway-tile backsplash and painted cabinets for a brighter kitchen without a full remodel."
+      },
+      "w3": {
+        "title": "Finished basement with home office",
+        "desc": "Framing, drywall, flooring and paint to turn an unfinished basement into a rec room and office."
+      },
+      "w4": {
+        "title": "Whole-home vinyl plank flooring",
+        "desc": "Replaced worn carpet with durable luxury vinyl plank across the main floor."
+      },
+      "w5": {
+        "title": "New front windows & entry door",
+        "desc": "Six energy-efficient windows and a steel entry door, sealed and trimmed."
+      },
+      "w6": {
+        "title": "Living room paint & trim",
+        "desc": "Fresh walls, ceilings and trim in a two-tone finish."
+      }
+    }
+  },
+  "policies": {
+    "title": "Privacy, Terms & Accessibility",
+    "draft": "Draft outline. Final wording to be reviewed by an attorney before launch.",
+    "sections": [
+      {
+        "h": "What we collect",
+        "p": "Your name, phone, email, project address, project details, and any photos you upload."
+      },
+      {
+        "h": "How we use it",
+        "p": "Only to review, estimate, schedule, and complete your project, and to contact you about it. We do not sell your information or use your photos for marketing."
+      },
+      {
+        "h": "Who we share it with",
+        "p": "Service providers that run this website, acting on our behalf: hosting & database, email/text delivery, and an AI service that helps summarize and translate project details (it does not receive your name or contact details)."
+      },
+      {
+        "h": "Project photos",
+        "p": "Photos you upload with your request are only used to review and plan your project. They are never posted, sold, or used for marketing. After a project is finished, Jorge may take his own photos of the completed work and share them on our website and social media (like Facebook). We never show your address, name, or anyone's face. If you'd rather we don't feature your project, check the box on the request form or just tell Jorge."
+      },
+      {
+        "h": "Text messages",
+        "p": "Text messages are how we handle your request and project: scheduling, updates, and payment reminders. We never send marketing texts. Reply STOP at any time, and we'll stop texting and use email or phone instead. Your project and payment schedule don't change."
+      },
+      {
+        "h": "How long we keep it",
+        "p": "Requests that don't become projects are deleted after 12–24 months [to be confirmed]. Contact us to request a copy or deletion of your information at any time."
+      },
+      {
+        "h": "Estimates",
+        "p": "Price ranges shared before a site visit are estimates only, not a binding quote. Your final price is in a written quote/contract after the visit."
+      },
+      {
+        "h": "Accessibility",
+        "p": "We want this site to work for everyone and aim to meet WCAG 2.2 AA. If anything is hard to use, contact us and we'll help."
+      }
+    ]
+  },
+  "options": {
+    "rooms": {
+      "kitchen": {
+        "name": "Kitchen",
+        "hint": "Cabinets, counters, backsplash"
+      },
+      "bathroom": {
+        "name": "Bathroom",
+        "hint": "Shower, tub, vanity, tile"
+      },
+      "bedroom": {
+        "name": "Bedroom",
+        "hint": "Paint, flooring, closets"
+      },
+      "living": {
+        "name": "Living / Dining",
+        "hint": "Open-concept, floors, paint"
+      },
+      "basement": {
+        "name": "Basement",
+        "hint": "Finishing, flooring, drywall"
+      },
+      "exterior": {
+        "name": "Exterior / Other",
+        "hint": "Windows, doors, painting"
+      }
+    },
+    "services": {
+      "interior": {
+        "name": "Interior Renovations",
+        "desc": "Full room remodels from layout changes to finishing touches.",
+        "items": [
+          "Kitchen & bath remodels",
+          "Drywall & framing",
+          "Trim, molding & finish carpentry"
+        ]
+      },
+      "painting": {
+        "name": "Painting",
+        "desc": "Clean, durable interior and exterior paint work.",
+        "items": [
+          "Walls, ceilings & trim",
+          "Cabinet refinishing",
+          "Exterior siding & decks"
+        ]
+      },
+      "tile": {
+        "name": "Tile Installation",
+        "desc": "Showers, backsplashes, and floors set with precision.",
+        "items": [
+          "Shower surrounds",
+          "Kitchen backsplashes",
+          "Tile floors"
+        ]
+      },
+      "flooring": {
+        "name": "Flooring Installation",
+        "desc": "New floors that hold up to everyday life.",
+        "items": [
+          "Luxury vinyl plank",
+          "Hardwood & laminate",
+          "Subfloor repair"
+        ]
+      },
+      "windows": {
+        "name": "Windows & Doors",
+        "desc": "Replacement windows and doors for comfort and curb appeal.",
+        "items": [
+          "Window replacement",
+          "Interior & exterior doors",
+          "Trim & weather sealing"
+        ]
+      },
+      "other": {
+        "name": "Other"
+      }
+    },
+    "sizes": {
+      "small": "Small (under 100 sq ft)",
+      "medium": "Medium (100–250 sq ft)",
+      "large": "Large (250+ sq ft)"
+    },
+    "sizeShort": {
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    },
+    "budgets": [
+      "Under $5,000",
+      "$5,000 – $15,000",
+      "$15,000 – $30,000",
+      "$30,000 – $50,000",
+      "$50,000+",
+      "Not sure yet"
+    ],
+    "contact": {
+      "text": "Text",
+      "email": "Email"
+    },
+    "status": {
+      "new": "New",
+      "needs-info": "Needs info",
+      "consult": "Visit booked",
+      "quoted": "Quote sent",
+      "won": "Won",
+      "declined": "Declined"
+    }
+  },
+  "form": {
+    "stepOf": "Step {{step}} of 5",
+    "titles": [
+      "What room is this for?",
+      "Tell us about the project",
+      "Add photos of the space",
+      "Your info & consultation time",
+      "Review your request"
+    ],
+    "roomsHint": "Pick one or more. You can add details next.",
+    "servicesLabel": "Services needed",
+    "otherLabel": "Other service",
+    "otherPlaceholder": "What else do you need? (e.g. deck repair, closet build-out)",
+    "descLabel": "Describe what you'd like done",
+    "descPlaceholder": "e.g. Replace the tub with a walk-in tile shower, new vanity. Bathroom is about 5×8 ft.",
+    "descHint": "Include rough measurements if you know them.",
+    "sizeLabel": "Size of the space",
+    "budgetLabel": "Budget range",
+    "select": "Select…",
+    "photosTap": "Tap to take or upload photos",
+    "photosLimit": "Up to 6 photos, optional",
+    "photoAlt": "Uploaded photo {{n}}",
+    "removePhoto": "Remove photo {{n}}",
+    "processing": "Preparing photos…",
+    "tipsTitle": "Photo tips for the most accurate estimate",
+    "tips": [
+      "Stand in each corner and take a wide shot",
+      "Close-ups of damage or anything you want replaced",
+      "Turn on the lights; daylight works best"
+    ],
+    "noPhotos": "No photos handy? You can skip this step, but photos help us give you a price range before the visit.",
+    "skip": "Skip for now",
+    "name": "Full name",
+    "phone": "Mobile phone (for texts)",
+    "email": "Email",
+    "emailOptional": "Email (optional)",
+    "contactPref": "Best way to reach you",
+    "address": "Project address",
+    "city": "City",
+    "slotLabel": "Pick a Saturday for your on-site consultation",
+    "slotHint": "Saturdays, 9 am – 6 pm (about 1 hour), Central (Chicago) time. Jorge will confirm after reviewing your request.",
+    "slotsLoading": "Loading open times…",
+    "noSlots": "No open Saturday times right now. Please call or text Jorge.",
+    "required": "Required:",
+    "smsConsent": "I agree to receive text messages from JLP Construction about my request, consultation, and project, including scheduling, updates, and payment reminders. These are never marketing messages. Msg & data rates may apply. If you reply STOP, we'll stop texting and contact you by email or phone instead.",
+    "aboutPhotosTitle": "About photos",
+    "aboutPhotos": "The photos you upload here are only used to plan your project. They are never posted or used for marketing. If we work together, Jorge may take his own photos of the finished work to show on our website and Facebook (no address, names, or faces).",
+    "noFeature": "Optional: please don't feature photos of my finished project.",
+    "review": {
+      "rooms": "Room(s)",
+      "services": "Services",
+      "description": "Description",
+      "sizeBudget": "Size and budget",
+      "photos": "Photos",
+      "contact": "Contact",
+      "prefers": "Prefers",
+      "address": "Address",
+      "consultation": "Consultation",
+      "texts": "Text messages",
+      "textsAgreed": "Agreed",
+      "featuring": "Finished-project photos",
+      "noFeature": "Please don't feature my project",
+      "okFeature": "OK for Jorge to feature photos he takes"
+    },
+    "agree": "By submitting, you agree to our Privacy Policy and Terms. Any price range we share before the site visit is an estimate, not a binding quote.",
+    "submit": "Submit request",
+    "submitting": "Sending…",
+    "err": {
+      "rooms": "Pick at least one room.",
+      "services": "Pick at least one service (or the closest match).",
+      "description": "Add a short description of the work (at least 10 characters).",
+      "size": "Choose the size of the space.",
+      "budget": "Choose a budget range (or \"Not sure yet\").",
+      "name": "Please enter your name.",
+      "phone": "Enter a mobile phone number. Jorge coordinates requests by text.",
+      "email": "Enter your email address, or choose Text.",
+      "address": "Enter the project address and city.",
+      "slot": "Pick a Saturday time for your consultation.",
+      "consent": "Please check the box to agree to project text messages. Jorge uses text to schedule and update you."
+    },
+    "done": {
+      "title": "Request received!",
+      "text": "Thanks, {{name}}. Your reference number is {{ref}}.",
+      "next": "Jorge will review your project details and reach out by {{via}} within 1 business day.",
+      "via": {
+        "text": "text",
+        "email": "email"
+      },
+      "slot": "Requested consultation: {{when}} (pending confirmation)",
+      "another": "Submit another request",
+      "home": "Back to home"
+    }
+  },
+  "admin": {
+    "title": "Dashboard",
+    "nav": {
+      "today": "Today",
+      "requests": "Requests",
+      "saturdays": "Saturdays"
+    },
+    "viewSite": "View customer site →",
+    "signOut": "Sign out",
+    "login": {
+      "title": "Owner dashboard",
+      "intro": "Only Jorge's Google account can sign in.",
+      "google": "Sign in with Google",
+      "failed": "Couldn't start Google sign-in. Please try again.",
+      "notAdmin": "That Google account doesn't have access to this dashboard.",
+      "backToSite": "← Back to the customer website"
+    },
+    "today": {
+      "morning": "Good morning, Jorge",
+      "afternoon": "Good afternoon, Jorge",
+      "evening": "Good evening, Jorge",
+      "caughtUp": "You're all caught up.",
+      "todo": "Here's your to-do list.",
+      "answer": "1. Answer new requests",
+      "answerEmpty": "No new requests",
+      "saturday": "2. This Saturday",
+      "saturdayEmpty": "No visits confirmed yet",
+      "followUp": "3. Follow up",
+      "followUpSub": "Waiting on the client",
+      "followUpEmpty": "Nobody to follow up with",
+      "waitingInfo": "Waiting for photos/info",
+      "waitingQuote": "Quote sent, no answer",
+      "wants": "wants {{when}}",
+      "payments": "Payments tracker (35/35/30) comes in the next version."
+    },
+    "requests": {
+      "title": "Requests",
+      "lead": "Every request from the website, with photos.",
+      "open": "Open",
+      "closed": "Closed",
+      "empty": "No requests here",
+      "refresh": "Refresh"
+    },
+    "detail": {
+      "back": "← Requests",
+      "notFound": "Request not found.",
+      "aiSoon": "AI project brief",
+      "aiSoonText": "Coming in the next version: Claude will read the photos and description and suggest a verdict, a typical price, and questions to ask.",
+      "nextStep": "Next step",
+      "photos": "Photos",
+      "noPhotos": "No photos yet.",
+      "photoAlt": "Project photo {{n}}",
+      "project": "The project",
+      "moreInfo": "More info",
+      "contact": "Contact",
+      "prefers": "Prefers {{via}}",
+      "language": "Language",
+      "texts": "Texts",
+      "textsAgreed": "Agreed {{date}}",
+      "textsStopped": "Stopped: use email or call",
+      "markStop": "Client replied STOP",
+      "markStopConfirm": "Mark that this client replied STOP? The Text button will be hidden. The project and payments don't change.",
+      "markStart": "Client said START",
+      "featuring": "Photos of finished work",
+      "featureNo": "Don't feature",
+      "featureOk": "OK to feature",
+      "change": "Change",
+      "request": "Request",
+      "statusByHand": "Change status by hand",
+      "remind": "Remind me in 2 days",
+      "notes": "Notes",
+      "noNotes": "No notes yet.",
+      "notePlaceholder": "Add a note (e.g. 'Called, left voicemail')",
+      "noteLabel": "Note",
+      "add": "Add",
+      "saved": "Saved"
+    },
+    "next": {
+      "confirmTitle": "Confirm the visit?",
+      "confirmText": "{{name}} asked for {{when}}.",
+      "confirm": "Confirm visit",
+      "askInfo": "Ask for photos/info first",
+      "notFit": "Not a fit",
+      "otherTime": "Or pick a different time…",
+      "bookTitle": "Book a visit",
+      "bookText": "No time picked yet.",
+      "chooseTime": "Choose a Saturday…",
+      "book": "Book",
+      "pickFirst": "Choose a time first",
+      "waitingTitle": "Waiting on the client",
+      "waitingText": "You asked for photos or more info.",
+      "remindClient": "Send a reminder",
+      "bookAnyway": "Or book a visit anyway…",
+      "bookedTitle": "Visit booked",
+      "addCalendar": "Add to Google Calendar",
+      "icsFile": "iPhone / Outlook calendar file",
+      "sendConfirm": "Send confirmation",
+      "reschedule": "Reschedule to…",
+      "quoteLabel": "After the visit: quote amount ($)",
+      "quoteSave": "Quote sent",
+      "quotedTitle": "Did they accept?",
+      "quotedText": "Quote sent: {{amount}}",
+      "accepted": "Yes, accepted",
+      "notAccepted": "No",
+      "followUp": "Send a follow-up",
+      "wonTitle": "Project accepted 🎉",
+      "wonText": "The payments tracker (35/35/30) comes in the next version.",
+      "closedTitle": "Closed",
+      "closedText": "This request is closed.",
+      "reopen": "Reopen"
+    },
+    "message": {
+      "label": "Message to the client (you can edit it)",
+      "inLang": "Written in the client's language",
+      "sendText": "Text from my phone",
+      "sendEmail": "Send email",
+      "noTexts": "This client stopped texts. Use email or call."
+    },
+    "events": {
+      "status": "Status changed to {{status}}.",
+      "booked": "Visit booked for {{when}}.",
+      "confirmed": "Confirmed the client's requested visit for {{when}}.",
+      "quoted": "Quote sent: {{amount}}.",
+      "sent_text": "Sent a text: {{kind}}.",
+      "sent_email": "Sent an email: {{kind}}.",
+      "sms_stop": "Client replied STOP. Switched to email/phone. Project and payments continue as agreed.",
+      "sms_start": "Client texted START. Texts resumed.",
+      "feature_no": "Client asked not to feature project photos.",
+      "feature_ok": "Client OK with featuring finished-project photos.",
+      "followup_set": "Follow-up reminder set for {{date}}.",
+      "kinds": {
+        "confirm": "visit confirmation",
+        "info": "asked for photos/info",
+        "decline": "polite decline",
+        "followup": "quote follow-up"
+      }
+    },
+    "saturdays": {
+      "title": "Saturdays",
+      "lead": "The next 4 Saturdays, hour by hour.",
+      "summary": "{{booked}} booked, {{open}} open",
+      "open": "Open",
+      "needsConfirm": "Needs confirmation",
+      "legendConfirmed": "Confirmed",
+      "legendRequested": "Requested by client"
+    },
+    "calendar": {
+      "title": "Consultation: {{name}} ({{rooms}})",
+      "request": "Request {{ref}}"
+    }
+  },
+  "templates": {
+    "subject": "Your JLP Construction request {{ref}}",
+    "confirm": "Hi {{first}}, this is Jorge from JLP Construction. You're confirmed for a consultation on {{when}} at {{address}}. Reply here if anything changes. See you then!",
+    "info": "Hi {{first}}, this is Jorge from JLP Construction. Thanks for your request ({{ref}})! Before I come out, could you send 3–5 photos of the space from different angles, and rough measurements if you have them? That way I can give you a price range first.",
+    "decline": "Hi {{first}}, thank you for thinking of JLP Construction. Unfortunately this project isn't a good fit for us right now, but I appreciate you reaching out and wish you the best with it.",
+    "followup": "Hi {{first}}, just checking in on the quote I sent for your project. Happy to answer any questions or adjust anything. — Jorge, JLP Construction"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "backHome": "Back to home"
+  }
+}

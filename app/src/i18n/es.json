@@ -1,0 +1,604 @@
+{
+  "common": {
+    "skipToContent": "Saltar al contenido principal",
+    "switchTo": "English",
+    "switchToShort": "EN",
+    "switchToLabel": "View in English",
+    "back": "Atrás",
+    "continue": "Continuar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "open": "Abrir",
+    "loading": "Cargando…",
+    "call": "Llamar",
+    "directions": "Cómo llegar",
+    "none": "Ninguna",
+    "close": "Cerrar"
+  },
+  "errors": {
+    "not_configured": "La base de datos aún no está conectada. Agrega las claves de Supabase en app/.env (ver README).",
+    "load_failed": "No se pudieron cargar los datos. Revisa tu conexión e inténtalo de nuevo.",
+    "save_failed": "No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.",
+    "submit_failed": "Algo salió mal al enviar su solicitud. Por favor inténtelo de nuevo.",
+    "photo_upload": "No se pudo subir una foto. Inténtelo de nuevo o quite esa foto.",
+    "slot_taken": "Lo sentimos, alguien acaba de tomar ese horario. Por favor elija otro.",
+    "invalid_slot": "Ese horario ya no está disponible. Por favor elija otro.",
+    "consent_required": "Por favor marque la casilla para aceptar los mensajes de texto del proyecto.",
+    "invalid_phone": "Escriba un número de celular.",
+    "invalid_email": "Escriba su correo electrónico, o elija Texto."
+  },
+  "site": {
+    "brandSub": "Remodelación residencial",
+    "nav": {
+      "home": "Inicio",
+      "services": "Servicios",
+      "ourWork": "Nuestros trabajos"
+    },
+    "cta": "Solicitar una visita gratis",
+    "ctaShort": "Pedir una visita",
+    "footer": {
+      "about1": "Construcción y remodelación residencial",
+      "about2": "Negocio local en Chicago; servimos Illinois e Indiana",
+      "spanish": "Hablamos español e inglés",
+      "contact": "Contacto",
+      "hours": "De lunes a sábado. Respondemos en 1 día hábil.",
+      "referrals": "La mayoría de nuestro trabajo viene de recomendaciones",
+      "thanks": "¡Gracias por recomendarnos!",
+      "facebook": "Síguenos en Facebook",
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "accessibility": "Accesibilidad"
+    },
+    "help": "¿Preguntas? También puede llamar o mandar texto a Jorge:"
+  },
+  "home": {
+    "title": "Desde la primera foto hasta la entrega final.",
+    "lead": "Cocinas, baños, sótanos, pisos, azulejos, pintura, ventanas y puertas. Un solo contratista que se encarga de todo, de principio a fin, y con quien siempre puede comunicarse.",
+    "seeServices": "Ver todos los servicios",
+    "serving": "Atendemos a propietarios en Illinois e Indiana. We speak English.",
+    "howTitle": "Cómo funciona",
+    "how": [
+      {
+        "t": "Cuéntenos de su proyecto",
+        "d": "Elija el espacio, describa el trabajo y suba unas fotos."
+      },
+      {
+        "t": "Reciba un estimado primero",
+        "d": "Jorge revisa sus fotos y le responde con un rango aproximado y algunas preguntas."
+      },
+      {
+        "t": "Solicite su visita",
+        "d": "Elija un horario el sábado (9 a.m. – 6 p.m.). Jorge lo aprueba después de revisar su solicitud."
+      },
+      {
+        "t": "Cotización clara y plan de pagos",
+        "d": "35% al empezar, 35% a la mitad, 30% al terminar."
+      }
+    ],
+    "servicesTitle": "Todo lo que su remodelación necesita, en un solo lugar",
+    "servicesLead": "Sin tener que coordinar diferentes contratistas. JLP se encarga de cada etapa del proyecto.",
+    "notSureTitle": "¿No está seguro?",
+    "notSureText": "Envíe fotos y describa lo que quiere. Le diremos lo que se necesita.",
+    "workTitle": "Proyectos recientes",
+    "seeAllWork": "Ver todos los proyectos",
+    "photosTitle": "Una cotización más rápida y precisa",
+    "photosText": "Con unas cuantas fotos, Jorge entiende su proyecto antes de la visita. Así usted recibe un rango de precio realista más pronto, y la consulta en persona se dedica a los detalles.",
+    "photosCta": "Empezar mi solicitud",
+    "payTitle": "Pagos simples y claros",
+    "payFirst": "Primera semana",
+    "payHalf": "A la mitad",
+    "payDone": "Al terminar",
+    "payNote": "Siempre sabe cuánto se debe y cuándo. Pague con cheque, Zelle o como ya le paga a Jorge.",
+    "faqTitle": "Preguntas frecuentes",
+    "faq": [
+      {
+        "q": "¿Cobran por la consulta?",
+        "a": "No, las consultas son gratis. Cada solicitud se revisa primero, y cuando Jorge la aprueba usted recibirá una confirmación con el horario de su visita del sábado."
+      },
+      {
+        "q": "¿Cuándo son las consultas?",
+        "a": "Las consultas son los sábados, entre las 9 a.m. y las 6 p.m. Puede solicitar un horario al enviar su solicitud, y Jorge se lo confirma cuando la aprueba."
+      },
+      {
+        "q": "¿Cómo funcionan los pagos?",
+        "a": "El 35% del total se paga la primera semana, otro 35% cuando el proyecto va a la mitad, y el 30% final cuando se termina."
+      },
+      {
+        "q": "¿Qué tipo de fotos debo enviar?",
+        "a": "De 3 a 5 fotos del espacio desde diferentes ángulos, más acercamientos de cualquier detalle (daños o cosas que quiera cambiar). Las fotos del celular son perfectas."
+      },
+      {
+        "q": "¿En qué áreas trabajan?",
+        "a": "Atendemos a propietarios en Illinois e Indiana. Si no está seguro si llegamos a su zona, envíe una solicitud y le avisamos."
+      },
+      {
+        "q": "¿Van a publicar fotos de mi casa?",
+        "a": "Nunca las fotos que usted nos envía; esas solo son para planear su proyecto. Al terminar un trabajo, Jorge puede fotografiar el resultado para nuestro sitio web y Facebook, sin su dirección, nombre ni caras. ¿Prefiere que no? Marque la casilla en el formulario o avísele a Jorge."
+      },
+      {
+        "q": "¿Qué tan pronto me responden?",
+        "a": "Revisamos las solicitudes en 1 día hábil. Recibirá un mensaje de texto o un correo con los siguientes pasos."
+      },
+      {
+        "q": "¿Hablan inglés?",
+        "a": "Sí. Jorge habla español e inglés, así que puede comunicarse en el idioma que prefiera."
+      }
+    ],
+    "ctaTitle": "¿Listo para planear su remodelación?",
+    "ctaText": "Toma unos 3 minutos. Las fotos ayudan, pero son opcionales.",
+    "heroAlt": "Baño con azulejo gris tipo piedra, regadera de vidrio y espejo redondo negro",
+    "projects": [
+      {
+        "title": "Pared de TV con paneles de listones",
+        "desc": "Repisas a la medida, repisa de nogal y piso nuevo.",
+        "alt": "Pared de TV con repisas iluminadas y repisa de nogal"
+      },
+      {
+        "title": "Baño de azulejo negro",
+        "desc": "Azulejo de gran formato, mueble blanco y piso oscuro.",
+        "alt": "Baño con azulejo negro y piso oscuro"
+      },
+      {
+        "title": "Pared de acento geométrica",
+        "desc": "Molduras en ángulo y pintura.",
+        "alt": "Pared blanca con molduras geométricas en una sala"
+      }
+    ]
+  },
+  "services": {
+    "title": "Servicios completos de remodelación",
+    "lead": "JLP Construction se encarga de cada parte de su proyecto: desde la primera consulta hasta la construcción y la facturación final.",
+    "requestThis": "Solicitar este servicio"
+  },
+  "work": {
+    "title": "Proyectos recientes",
+    "lead": "Jorge manejó cada uno de estos proyectos de principio a fin. Toque Antes / Después para comparar.",
+    "cats": {
+      "all": "Todos",
+      "kitchen": "Cocinas",
+      "bathroom": "Baños",
+      "basement": "Sótanos",
+      "flooring": "Pisos",
+      "painting": "Pintura",
+      "windows": "Ventanas y puertas"
+    },
+    "weeks_one": "{{count}} semana",
+    "weeks_other": "{{count}} semanas",
+    "before": "Antes",
+    "after": "Después",
+    "beforeOrAfter": "Antes o después",
+    "photoAlt": "{{title}}: {{which}}",
+    "empty": "Aún no hay proyectos en esta categoría.",
+    "photosNote": "Todas las fotos las toma Jorge en trabajos terminados.",
+    "sampleNote": "Proyectos e imágenes de ejemplo; se reemplazarán con las fotos de Jorge.",
+    "ctaTitle": "¿Tiene un proyecto parecido?",
+    "ctaText": "Envíe fotos de su espacio y elija un sábado para una consulta gratis.",
+    "items": {
+      "w1": {
+        "title": "Remodelación con regadera de azulejo",
+        "desc": "Quitamos una tina vieja y construimos una regadera de azulejo sin escalón, con piso y mueble nuevos."
+      },
+      "w2": {
+        "title": "Backsplash y gabinetes renovados",
+        "desc": "Backsplash nuevo y gabinetes pintados para una cocina más luminosa sin remodelación completa."
+      },
+      "w3": {
+        "title": "Sótano terminado con oficina",
+        "desc": "Estructura, drywall, piso y pintura para convertir un sótano sin terminar en cuarto de juegos y oficina."
+      },
+      "w4": {
+        "title": "Piso vinílico en toda la casa",
+        "desc": "Cambiamos la alfombra gastada por piso vinílico resistente en todo el primer piso."
+      },
+      "w5": {
+        "title": "Ventanas y puerta principal nuevas",
+        "desc": "Seis ventanas eficientes y una puerta principal de acero, selladas y con molduras."
+      },
+      "w6": {
+        "title": "Pintura y molduras en la sala",
+        "desc": "Paredes, techos y molduras pintados en dos tonos."
+      }
+    }
+  },
+  "policies": {
+    "title": "Privacidad, términos y accesibilidad",
+    "draft": "Borrador. El texto final debe ser revisado por un abogado antes del lanzamiento.",
+    "sections": [
+      {
+        "h": "Qué información recopilamos",
+        "p": "Su nombre, teléfono, correo, dirección del proyecto, detalles del proyecto y cualquier foto que suba."
+      },
+      {
+        "h": "Cómo la usamos",
+        "p": "Solo para revisar, cotizar, agendar y realizar su proyecto, y para comunicarnos con usted sobre él. No vendemos su información ni usamos sus fotos para publicidad."
+      },
+      {
+        "h": "Con quién la compartimos",
+        "p": "Proveedores de servicios que hacen funcionar este sitio, en nuestro nombre: alojamiento y base de datos, envío de correos y mensajes de texto, y un servicio de IA que ayuda a resumir y traducir los detalles del proyecto (no recibe su nombre ni sus datos de contacto)."
+      },
+      {
+        "h": "Fotos del proyecto",
+        "p": "Las fotos que suba con su solicitud solo se usan para revisar y planear su proyecto. Nunca se publican, venden ni usan para publicidad. Al terminar un proyecto, Jorge puede tomar sus propias fotos del trabajo terminado y compartirlas en nuestro sitio web y redes sociales (como Facebook). Nunca mostramos su dirección, su nombre ni la cara de nadie. Si prefiere que no mostremos su proyecto, marque la casilla en el formulario o avísele a Jorge."
+      },
+      {
+        "h": "Mensajes de texto",
+        "p": "Los mensajes de texto son la forma en que manejamos su solicitud y su proyecto: citas, avisos y recordatorios de pago. Nunca enviamos mensajes de publicidad. Responda STOP o ALTO en cualquier momento y dejaremos de enviarle mensajes; usaremos correo o teléfono. Su proyecto y su plan de pagos no cambian."
+      },
+      {
+        "h": "Cuánto tiempo la guardamos",
+        "p": "Las solicitudes que no se convierten en proyectos se borran después de 12–24 meses [por confirmar]. Comuníquese con nosotros para pedir una copia o el borrado de su información en cualquier momento."
+      },
+      {
+        "h": "Cotizaciones",
+        "p": "Los rangos de precio que compartimos antes de la visita son solo estimados, no una cotización final. El precio final se da en una cotización o contrato por escrito después de la visita."
+      },
+      {
+        "h": "Accesibilidad",
+        "p": "Queremos que este sitio funcione para todos y buscamos cumplir con WCAG 2.2 AA. Si algo es difícil de usar, comuníquese con nosotros y le ayudamos."
+      }
+    ]
+  },
+  "options": {
+    "rooms": {
+      "kitchen": {
+        "name": "Cocina",
+        "hint": "Gabinetes, cubiertas, backsplash"
+      },
+      "bathroom": {
+        "name": "Baño",
+        "hint": "Regadera, tina, mueble, azulejo"
+      },
+      "bedroom": {
+        "name": "Habitación",
+        "hint": "Pintura, pisos, clósets"
+      },
+      "living": {
+        "name": "Sala / Comedor",
+        "hint": "Concepto abierto, pisos, pintura"
+      },
+      "basement": {
+        "name": "Sótano",
+        "hint": "Acabado, pisos, drywall"
+      },
+      "exterior": {
+        "name": "Exterior / Otro",
+        "hint": "Ventanas, puertas, pintura"
+      }
+    },
+    "services": {
+      "interior": {
+        "name": "Remodelación de interiores",
+        "desc": "Remodelación completa de espacios, desde cambios de distribución hasta los acabados.",
+        "items": [
+          "Remodelación de cocinas y baños",
+          "Drywall y estructura",
+          "Molduras y carpintería de acabados"
+        ]
+      },
+      "painting": {
+        "name": "Pintura",
+        "desc": "Pintura de interiores y exteriores, limpia y duradera.",
+        "items": [
+          "Paredes, techos y molduras",
+          "Repintado de gabinetes",
+          "Fachadas y terrazas"
+        ]
+      },
+      "tile": {
+        "name": "Instalación de azulejos",
+        "desc": "Regaderas, backsplash y pisos instalados con precisión.",
+        "items": [
+          "Paredes de regadera",
+          "Backsplash de cocina",
+          "Pisos de azulejo"
+        ]
+      },
+      "flooring": {
+        "name": "Instalación de pisos",
+        "desc": "Pisos nuevos que aguantan el uso diario.",
+        "items": [
+          "Piso vinílico (LVP)",
+          "Madera y laminado",
+          "Reparación de subpiso"
+        ]
+      },
+      "windows": {
+        "name": "Ventanas y puertas",
+        "desc": "Cambio de ventanas y puertas para más comodidad y mejor apariencia.",
+        "items": [
+          "Cambio de ventanas",
+          "Puertas interiores y exteriores",
+          "Molduras y sellado"
+        ]
+      },
+      "other": {
+        "name": "Otro"
+      }
+    },
+    "sizes": {
+      "small": "Pequeño (menos de 100 pies²)",
+      "medium": "Mediano (100–250 pies²)",
+      "large": "Grande (más de 250 pies²)"
+    },
+    "sizeShort": {
+      "small": "Pequeño",
+      "medium": "Mediano",
+      "large": "Grande"
+    },
+    "budgets": [
+      "Menos de $5,000",
+      "$5,000 – $15,000",
+      "$15,000 – $30,000",
+      "$30,000 – $50,000",
+      "$50,000+",
+      "Aún no sé"
+    ],
+    "contact": {
+      "text": "Texto",
+      "email": "Correo"
+    },
+    "status": {
+      "new": "Nuevo",
+      "needs-info": "Falta info",
+      "consult": "Visita agendada",
+      "quoted": "Cotización enviada",
+      "won": "Aceptado",
+      "declined": "Descartado"
+    }
+  },
+  "form": {
+    "stepOf": "Paso {{step}} de 5",
+    "titles": [
+      "¿Para qué espacio es?",
+      "Cuéntenos sobre el proyecto",
+      "Agregue fotos del espacio",
+      "Sus datos y horario de consulta",
+      "Revise su solicitud"
+    ],
+    "roomsHint": "Elija uno o más. Puede agregar detalles en el siguiente paso.",
+    "servicesLabel": "Servicios que necesita",
+    "otherLabel": "Otro servicio",
+    "otherPlaceholder": "¿Qué más necesita? (ej. reparar una terraza, armar un clóset)",
+    "descLabel": "Describa lo que quiere hacer",
+    "descPlaceholder": "Ej.: Cambiar la tina por una regadera de azulejo sin escalón y un mueble de baño nuevo. El baño mide como 5×8 pies.",
+    "descHint": "Incluya medidas aproximadas si las sabe.",
+    "sizeLabel": "Tamaño del espacio",
+    "budgetLabel": "Presupuesto",
+    "select": "Seleccione…",
+    "photosTap": "Toque para tomar o subir fotos",
+    "photosLimit": "Hasta 6 fotos, opcional",
+    "photoAlt": "Foto subida {{n}}",
+    "removePhoto": "Quitar foto {{n}}",
+    "processing": "Preparando fotos…",
+    "tipsTitle": "Consejos para una cotización más precisa",
+    "tips": [
+      "Párese en cada esquina y tome una foto amplia",
+      "Acercamientos de daños o de lo que quiera cambiar",
+      "Prenda las luces; la luz del día es mejor"
+    ],
+    "noPhotos": "¿No tiene fotos a la mano? Puede saltarse este paso, pero las fotos nos ayudan a darle un rango de precio antes de la visita.",
+    "skip": "Saltar por ahora",
+    "name": "Nombre completo",
+    "phone": "Celular (para mensajes de texto)",
+    "email": "Correo electrónico",
+    "emailOptional": "Correo electrónico (opcional)",
+    "contactPref": "¿Cómo prefiere que lo contactemos?",
+    "address": "Dirección del proyecto",
+    "city": "Ciudad",
+    "slotLabel": "Elija un sábado para la consulta en su casa",
+    "slotHint": "Sábados, de 9 a.m. a 6 p.m. (aprox. 1 hora), hora central (Chicago). Jorge le confirmará después de revisar su solicitud.",
+    "slotsLoading": "Cargando horarios libres…",
+    "noSlots": "No hay horarios libres el sábado por ahora. Por favor llame o mande mensaje a Jorge.",
+    "required": "Obligatorio:",
+    "smsConsent": "Acepto recibir mensajes de texto de JLP Construction sobre mi solicitud, mi consulta y mi proyecto, incluyendo citas, avisos y recordatorios de pago. Nunca son mensajes de publicidad. Pueden aplicar tarifas de mensajes y datos. Si responde STOP o ALTO, dejaremos de enviarle mensajes y nos comunicaremos por correo o teléfono.",
+    "aboutPhotosTitle": "Sobre las fotos",
+    "aboutPhotos": "Las fotos que suba aquí solo se usan para planear su proyecto. Nunca se publican ni se usan para publicidad. Si trabajamos juntos, Jorge puede tomar sus propias fotos del trabajo terminado para mostrarlas en nuestro sitio web y Facebook (sin dirección, nombres ni caras).",
+    "noFeature": "Opcional: prefiero que no muestren fotos de mi proyecto terminado.",
+    "review": {
+      "rooms": "Espacio(s)",
+      "services": "Servicios",
+      "description": "Descripción",
+      "sizeBudget": "Tamaño y presupuesto",
+      "photos": "Fotos",
+      "contact": "Contacto",
+      "prefers": "Prefiere",
+      "address": "Dirección",
+      "consultation": "Consulta",
+      "texts": "Mensajes de texto",
+      "textsAgreed": "Aceptó",
+      "featuring": "Fotos del proyecto terminado",
+      "noFeature": "Prefiero que no se muestre mi proyecto",
+      "okFeature": "Jorge puede mostrar las fotos que él tome"
+    },
+    "agree": "Al enviar, acepta nuestra Política de Privacidad y Términos. Cualquier rango de precio que compartamos antes de la visita es un estimado, no una cotización final.",
+    "submit": "Enviar solicitud",
+    "submitting": "Enviando…",
+    "err": {
+      "rooms": "Elija al menos un espacio.",
+      "services": "Elija al menos un servicio (o el más parecido).",
+      "description": "Agregue una descripción breve del trabajo (al menos 10 caracteres).",
+      "size": "Elija el tamaño del espacio.",
+      "budget": "Elija un presupuesto (o \"Aún no sé\").",
+      "name": "Por favor escriba su nombre.",
+      "phone": "Escriba un número de celular. Jorge coordina las solicitudes por mensaje de texto.",
+      "email": "Escriba su correo electrónico, o elija Texto.",
+      "address": "Escriba la dirección y la ciudad del proyecto.",
+      "slot": "Elija un horario el sábado para su consulta.",
+      "consent": "Por favor marque la casilla para aceptar los mensajes de texto del proyecto. Jorge los usa para agendar y darle avisos."
+    },
+    "done": {
+      "title": "¡Recibimos su solicitud!",
+      "text": "Gracias, {{name}}. Su número de referencia es {{ref}}.",
+      "next": "Jorge revisará los detalles de su proyecto y se comunicará con usted por {{via}} en 1 día hábil.",
+      "via": {
+        "text": "mensaje de texto",
+        "email": "correo"
+      },
+      "slot": "Consulta solicitada: {{when}} (pendiente de confirmar)",
+      "another": "Enviar otra solicitud",
+      "home": "Volver al inicio"
+    }
+  },
+  "admin": {
+    "title": "Panel",
+    "nav": {
+      "today": "Hoy",
+      "requests": "Solicitudes",
+      "saturdays": "Sábados"
+    },
+    "viewSite": "Ver sitio para clientes →",
+    "signOut": "Cerrar sesión",
+    "login": {
+      "title": "Panel del dueño",
+      "intro": "Solo la cuenta de Google de Jorge puede entrar.",
+      "google": "Entrar con Google",
+      "failed": "No se pudo iniciar sesión con Google. Inténtalo de nuevo.",
+      "notAdmin": "Esa cuenta de Google no tiene acceso a este panel.",
+      "backToSite": "← Volver al sitio para clientes"
+    },
+    "today": {
+      "morning": "Buenos días, Jorge",
+      "afternoon": "Buenas tardes, Jorge",
+      "evening": "Buenas noches, Jorge",
+      "caughtUp": "Estás al día.",
+      "todo": "Esta es tu lista de pendientes.",
+      "answer": "1. Responde solicitudes nuevas",
+      "answerEmpty": "No hay solicitudes nuevas",
+      "saturday": "2. Este sábado",
+      "saturdayEmpty": "Aún no hay visitas confirmadas",
+      "followUp": "3. Da seguimiento",
+      "followUpSub": "Esperando al cliente",
+      "followUpEmpty": "Nadie pendiente",
+      "waitingInfo": "Esperando fotos/info",
+      "waitingQuote": "Cotización enviada, sin respuesta",
+      "wants": "quiere {{when}}",
+      "payments": "El control de pagos (35/35/30) llega en la próxima versión."
+    },
+    "requests": {
+      "title": "Solicitudes",
+      "lead": "Todas las solicitudes del sitio web, con fotos.",
+      "open": "Abiertas",
+      "closed": "Cerradas",
+      "empty": "No hay solicitudes aquí",
+      "refresh": "Actualizar"
+    },
+    "detail": {
+      "back": "← Solicitudes",
+      "notFound": "No se encontró la solicitud.",
+      "aiSoon": "Resumen del proyecto (IA)",
+      "aiSoonText": "Llega en la próxima versión: Claude leerá las fotos y la descripción, y sugerirá un veredicto, un precio típico y preguntas para el cliente.",
+      "nextStep": "Siguiente paso",
+      "photos": "Fotos",
+      "noPhotos": "Aún no hay fotos.",
+      "photoAlt": "Foto del proyecto {{n}}",
+      "project": "El proyecto",
+      "moreInfo": "Más información",
+      "contact": "Contacto",
+      "prefers": "Prefiere {{via}}",
+      "language": "Idioma",
+      "texts": "Mensajes",
+      "textsAgreed": "Aceptó el {{date}}",
+      "textsStopped": "Detenidos: usa correo o llamada",
+      "markStop": "El cliente respondió STOP",
+      "markStopConfirm": "¿Marcar que este cliente respondió STOP? Se ocultará el botón de texto. El proyecto y los pagos no cambian.",
+      "markStart": "El cliente pidió START",
+      "featuring": "Fotos del trabajo terminado",
+      "featureNo": "No mostrar",
+      "featureOk": "Se pueden mostrar",
+      "change": "Cambiar",
+      "request": "Solicitud",
+      "statusByHand": "Cambiar estado a mano",
+      "remind": "Recordarme en 2 días",
+      "notes": "Notas",
+      "noNotes": "Aún no hay notas.",
+      "notePlaceholder": "Agregar una nota (ej. \"Llamé, dejé mensaje de voz\")",
+      "noteLabel": "Nota",
+      "add": "Agregar",
+      "saved": "Guardado"
+    },
+    "next": {
+      "confirmTitle": "¿Confirmar la visita?",
+      "confirmText": "{{name}} pidió el {{when}}.",
+      "confirm": "Confirmar visita",
+      "askInfo": "Pedir fotos/info primero",
+      "notFit": "No conviene",
+      "otherTime": "O elige otro horario…",
+      "bookTitle": "Agenda una visita",
+      "bookText": "Aún no eligió horario.",
+      "chooseTime": "Elige un sábado…",
+      "book": "Agendar",
+      "pickFirst": "Primero elige un horario",
+      "waitingTitle": "Esperando al cliente",
+      "waitingText": "Pediste fotos o más información.",
+      "remindClient": "Enviar recordatorio",
+      "bookAnyway": "O agenda la visita de todos modos…",
+      "bookedTitle": "Visita agendada",
+      "addCalendar": "Agregar a Google Calendar",
+      "icsFile": "Archivo para iPhone / Outlook",
+      "sendConfirm": "Enviar confirmación",
+      "reschedule": "Reagendar para…",
+      "quoteLabel": "Después de la visita: monto de la cotización ($)",
+      "quoteSave": "Cotización enviada",
+      "quotedTitle": "¿Aceptó la cotización?",
+      "quotedText": "Cotización enviada: {{amount}}",
+      "accepted": "Sí, aceptó",
+      "notAccepted": "No",
+      "followUp": "Dar seguimiento",
+      "wonTitle": "Proyecto aceptado 🎉",
+      "wonText": "El control de pagos (35/35/30) llega en la próxima versión.",
+      "closedTitle": "Cerrada",
+      "closedText": "Esta solicitud está cerrada.",
+      "reopen": "Reabrir"
+    },
+    "message": {
+      "label": "Mensaje para el cliente (puedes editarlo)",
+      "inLang": "Escrito en el idioma del cliente",
+      "sendText": "Mandar texto desde mi celular",
+      "sendEmail": "Enviar correo",
+      "noTexts": "Este cliente detuvo los mensajes. Usa correo o llamada."
+    },
+    "events": {
+      "status": "Estado cambiado a {{status}}.",
+      "booked": "Visita agendada para el {{when}}.",
+      "confirmed": "Se confirmó la visita que pidió el cliente para el {{when}}.",
+      "quoted": "Cotización enviada: {{amount}}.",
+      "sent_text": "Envió un mensaje de texto: {{kind}}.",
+      "sent_email": "Envió un correo: {{kind}}.",
+      "sms_stop": "El cliente respondió STOP. Se cambió a correo/teléfono. El proyecto y los pagos siguen como se acordó.",
+      "sms_start": "El cliente envió START. Se reanudaron los mensajes.",
+      "feature_no": "El cliente pidió no mostrar fotos del proyecto.",
+      "feature_ok": "El cliente acepta que se muestren fotos del proyecto terminado.",
+      "followup_set": "Recordatorio de seguimiento para el {{date}}.",
+      "kinds": {
+        "confirm": "confirmación de visita",
+        "info": "pidió fotos/info",
+        "decline": "rechazo amable",
+        "followup": "seguimiento de cotización"
+      }
+    },
+    "saturdays": {
+      "title": "Sábados",
+      "lead": "Los próximos 4 sábados, hora por hora.",
+      "summary": "{{booked}} agendadas, {{open}} libres",
+      "open": "Libre",
+      "needsConfirm": "Por confirmar",
+      "legendConfirmed": "Confirmada",
+      "legendRequested": "Solicitada por el cliente"
+    },
+    "calendar": {
+      "title": "Consulta: {{name}} ({{rooms}})",
+      "request": "Solicitud {{ref}}"
+    }
+  },
+  "templates": {
+    "subject": "Su solicitud a JLP Construction {{ref}}",
+    "confirm": "Hola {{first}}, soy Jorge de JLP Construction. Su consulta quedó confirmada para el {{when}} en {{address}}. Si algo cambia, respóndame aquí. ¡Nos vemos!",
+    "info": "Hola {{first}}, soy Jorge de JLP Construction. ¡Gracias por su solicitud ({{ref}})! Antes de ir a verlo, ¿me podría enviar de 3 a 5 fotos del espacio desde diferentes ángulos, y medidas aproximadas si las tiene? Así le puedo dar un rango de precio primero.",
+    "decline": "Hola {{first}}, gracias por pensar en JLP Construction. Desafortunadamente, este proyecto no es adecuado para nosotros en este momento, pero le agradezco mucho que se haya comunicado y le deseo mucho éxito.",
+    "followup": "Hola {{first}}, solo quería darle seguimiento a la cotización que le envié para su proyecto. Con gusto respondo cualquier pregunta o ajusto lo que necesite. — Jorge, JLP Construction"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "backHome": "Volver al inicio"
+  }
+}
