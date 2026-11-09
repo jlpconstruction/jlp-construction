@@ -126,24 +126,7 @@
     ],
     "ctaTitle": "Ready to plan your remodel?",
     "ctaText": "Takes about 3 minutes. Photos help, but they're optional.",
-    "heroAlt": "Bathroom with grey stone-look tile, a glass shower, and a round black mirror",
-    "projects": [
-      {
-        "title": "Slat-panel media wall",
-        "desc": "Custom built-ins, a walnut mantel, and new flooring.",
-        "alt": "TV wall with lit shelves and a walnut mantel"
-      },
-      {
-        "title": "Black tile bathroom",
-        "desc": "Large-format tile, a white vanity, and a dark plank floor.",
-        "alt": "Bathroom with black tile and a dark floor"
-      },
-      {
-        "title": "Geometric accent wall",
-        "desc": "Angled trim work and paint.",
-        "alt": "White wall with geometric trim in a living room"
-      }
-    ]
+    "heroAlt": "Bathroom with grey stone-look tile, a glass shower, and a round black mirror"
   },
   "services": {
     "title": "Complete remodeling services",
@@ -152,53 +135,74 @@
   },
   "work": {
     "title": "Recent projects",
-    "lead": "Every project here was managed start to finish by Jorge. Tap Before / After to compare.",
+    "lead": "Real jobs by Jorge. Tap the small photos to see more, and use Before and After where we have both.",
     "cats": {
       "all": "All",
-      "kitchen": "Kitchens",
       "bathroom": "Bathrooms",
       "basement": "Basements",
-      "flooring": "Flooring",
-      "painting": "Painting",
-      "windows": "Windows & Doors"
+      "living": "Living spaces",
+      "floorsDoors": "Floors & doors"
     },
-    "weeks_one": "{{count}} week",
-    "weeks_other": "{{count}} weeks",
     "before": "Before",
     "after": "After",
     "beforeOrAfter": "Before or after",
-    "photoAlt": "{{title}}: {{which}}",
-    "empty": "No projects in this category yet.",
-    "photosNote": "All photos are taken by Jorge on finished jobs.",
-    "sampleNote": "Sample projects and placeholder images, to be replaced with Jorge's own photos.",
+    "photosNote": "All photos are from Jorge's real jobs. No addresses, names, or faces are shown.",
     "ctaTitle": "Have a project like these?",
     "ctaText": "Send photos of your space and pick a Saturday for a free consultation.",
     "items": {
-      "w1": {
-        "title": "Walk-in tile shower remodel",
-        "desc": "Removed an old tub and built a curbless tiled shower with a new tile floor and vanity."
+      "gym": {
+        "title": "Basement home gym and family room",
+        "desc": "An unfinished basement turned into a finished gym and family room, with new flooring and a sliding barn door."
       },
-      "w2": {
-        "title": "Backsplash & cabinet refresh",
-        "desc": "New subway-tile backsplash and painted cabinets for a brighter kitchen without a full remodel."
+      "suite": {
+        "title": "Full basement remodel",
+        "desc": "Marble-look tile floors, new walls and doors, a bathroom, a laundry room, and new stairs."
       },
-      "w3": {
-        "title": "Finished basement with home office",
-        "desc": "Framing, drywall, flooring and paint to turn an unfinished basement into a rec room and office."
+      "lux": {
+        "title": "Gold-accent bathroom",
+        "desc": "A glass shower with gold fixtures, textured wall tile, and a sliding barn door."
       },
-      "w4": {
-        "title": "Whole-home vinyl plank flooring",
-        "desc": "Replaced worn carpet with durable luxury vinyl plank across the main floor."
+      "ledbath": {
+        "title": "Basement bathroom",
+        "desc": "A walk-in shower, marble-look walls, a new vanity, and a lit mirror."
       },
-      "w5": {
-        "title": "New front windows & entry door",
-        "desc": "Six energy-efficient windows and a steel entry door, sealed and trimmed."
+      "mosaic": {
+        "title": "Tile shower with a mosaic band",
+        "desc": "Marble-look wall tile with a glass mosaic stripe and a new tile floor."
       },
-      "w6": {
-        "title": "Living room paint & trim",
-        "desc": "Fresh walls, ceilings and trim in a two-tone finish."
+      "media": {
+        "title": "Slat-panel media wall",
+        "desc": "Custom built-ins, a walnut mantel, and new flooring."
+      },
+      "stone": {
+        "title": "Stone-look bathroom",
+        "desc": "Floor-to-ceiling tile with black trim."
+      },
+      "blacktile": {
+        "title": "Black tile bathroom",
+        "desc": "Large-format tile, a white vanity, and a dark plank floor."
+      },
+      "hall": {
+        "title": "Hallway floors and closet doors",
+        "desc": "New plank flooring and white bifold closet doors."
+      },
+      "bar": {
+        "title": "Home bar",
+        "desc": "A stacked stone front, stone top, and open shelves."
+      },
+      "door": {
+        "title": "New storm door",
+        "desc": "A white storm door with a full glass panel."
+      },
+      "accent": {
+        "title": "Geometric accent wall",
+        "desc": "Angled trim work and paint."
       }
-    }
+    },
+    "altBefore": "{{title}}, before the work",
+    "altPhoto": "{{title}}, photo {{n}} of {{total}}",
+    "morePhotos": "More photos of this project",
+    "showPhoto": "Show photo {{n}} of {{total}}"
   },
   "policies": {
     "title": "Privacy, Terms & Accessibility",

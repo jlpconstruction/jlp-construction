@@ -126,24 +126,7 @@
     ],
     "ctaTitle": "¿Listo para planear su remodelación?",
     "ctaText": "Toma unos 3 minutos. Las fotos ayudan, pero son opcionales.",
-    "heroAlt": "Baño con azulejo gris tipo piedra, regadera de vidrio y espejo redondo negro",
-    "projects": [
-      {
-        "title": "Pared de TV con paneles de listones",
-        "desc": "Repisas a la medida, repisa de nogal y piso nuevo.",
-        "alt": "Pared de TV con repisas iluminadas y repisa de nogal"
-      },
-      {
-        "title": "Baño de azulejo negro",
-        "desc": "Azulejo de gran formato, mueble blanco y piso oscuro.",
-        "alt": "Baño con azulejo negro y piso oscuro"
-      },
-      {
-        "title": "Pared de acento geométrica",
-        "desc": "Molduras en ángulo y pintura.",
-        "alt": "Pared blanca con molduras geométricas en una sala"
-      }
-    ]
+    "heroAlt": "Baño con azulejo gris tipo piedra, regadera de vidrio y espejo redondo negro"
   },
   "services": {
     "title": "Servicios completos de remodelación",
@@ -152,53 +135,74 @@
   },
   "work": {
     "title": "Proyectos recientes",
-    "lead": "Jorge manejó cada uno de estos proyectos de principio a fin. Toque Antes / Después para comparar.",
+    "lead": "Trabajos reales de Jorge. Toque las fotos pequeñas para ver más, y use Antes y Después cuando tenemos las dos.",
     "cats": {
       "all": "Todos",
-      "kitchen": "Cocinas",
       "bathroom": "Baños",
       "basement": "Sótanos",
-      "flooring": "Pisos",
-      "painting": "Pintura",
-      "windows": "Ventanas y puertas"
+      "living": "Salas y espacios",
+      "floorsDoors": "Pisos y puertas"
     },
-    "weeks_one": "{{count}} semana",
-    "weeks_other": "{{count}} semanas",
     "before": "Antes",
     "after": "Después",
     "beforeOrAfter": "Antes o después",
-    "photoAlt": "{{title}}: {{which}}",
-    "empty": "Aún no hay proyectos en esta categoría.",
-    "photosNote": "Todas las fotos las toma Jorge en trabajos terminados.",
-    "sampleNote": "Proyectos e imágenes de ejemplo; se reemplazarán con las fotos de Jorge.",
+    "photosNote": "Todas las fotos son de trabajos reales de Jorge. No se muestran direcciones, nombres ni caras.",
     "ctaTitle": "¿Tiene un proyecto parecido?",
     "ctaText": "Envíe fotos de su espacio y elija un sábado para una consulta gratis.",
     "items": {
-      "w1": {
-        "title": "Remodelación con regadera de azulejo",
-        "desc": "Quitamos una tina vieja y construimos una regadera de azulejo sin escalón, con piso y mueble nuevos."
+      "gym": {
+        "title": "Gimnasio y sala en el sótano",
+        "desc": "Un sótano sin terminar convertido en gimnasio y sala, con piso nuevo y una puerta corrediza de granero."
       },
-      "w2": {
-        "title": "Backsplash y gabinetes renovados",
-        "desc": "Backsplash nuevo y gabinetes pintados para una cocina más luminosa sin remodelación completa."
+      "suite": {
+        "title": "Remodelación completa de sótano",
+        "desc": "Pisos de azulejo tipo mármol, paredes y puertas nuevas, un baño, cuarto de lavado y escaleras nuevas."
       },
-      "w3": {
-        "title": "Sótano terminado con oficina",
-        "desc": "Estructura, drywall, piso y pintura para convertir un sótano sin terminar en cuarto de juegos y oficina."
+      "lux": {
+        "title": "Baño con detalles dorados",
+        "desc": "Regadera de vidrio con accesorios dorados, azulejo de pared con textura y puerta corrediza de granero."
       },
-      "w4": {
-        "title": "Piso vinílico en toda la casa",
-        "desc": "Cambiamos la alfombra gastada por piso vinílico resistente en todo el primer piso."
+      "ledbath": {
+        "title": "Baño en el sótano",
+        "desc": "Regadera sin escalón, paredes tipo mármol, mueble nuevo y espejo con luz."
       },
-      "w5": {
-        "title": "Ventanas y puerta principal nuevas",
-        "desc": "Seis ventanas eficientes y una puerta principal de acero, selladas y con molduras."
+      "mosaic": {
+        "title": "Regadera de azulejo con franja de mosaico",
+        "desc": "Azulejo de pared tipo mármol con una franja de mosaico de vidrio y piso de azulejo nuevo."
       },
-      "w6": {
-        "title": "Pintura y molduras en la sala",
-        "desc": "Paredes, techos y molduras pintados en dos tonos."
+      "media": {
+        "title": "Pared de TV con paneles de listones",
+        "desc": "Repisas a la medida, repisa de nogal y piso nuevo."
+      },
+      "stone": {
+        "title": "Baño con azulejo tipo piedra",
+        "desc": "Azulejo de piso a techo con detalles en negro."
+      },
+      "blacktile": {
+        "title": "Baño de azulejo negro",
+        "desc": "Azulejo de gran formato, mueble blanco y piso oscuro."
+      },
+      "hall": {
+        "title": "Piso de pasillo y puertas de clóset",
+        "desc": "Piso nuevo de tablones y puertas plegables blancas de clóset."
+      },
+      "bar": {
+        "title": "Bar en casa",
+        "desc": "Frente y cubierta de piedra, con repisas abiertas."
+      },
+      "door": {
+        "title": "Puerta de tormenta nueva",
+        "desc": "Una puerta de tormenta blanca con panel de vidrio completo."
+      },
+      "accent": {
+        "title": "Pared de acento geométrica",
+        "desc": "Molduras en ángulo y pintura."
       }
-    }
+    },
+    "altBefore": "{{title}}, antes del trabajo",
+    "altPhoto": "{{title}}, foto {{n}} de {{total}}",
+    "morePhotos": "Más fotos de este proyecto",
+    "showPhoto": "Ver foto {{n}} de {{total}}"
   },
   "policies": {
     "title": "Privacidad, términos y accesibilidad",

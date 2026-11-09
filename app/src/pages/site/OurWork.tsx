@@ -1,43 +1,58 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { samplePhoto, WORK, WORK_CATS } from '../../components/samplePhoto'
+import { PROJECTS, WORK_CATS, type Project } from '../../lib/projects'
 
-type Work = (typeof WORK)[number]
-
-export function WorkCard({ w }: { w: Work }) {
+/** One project: a Before/After switch when there's a real "before", and small photos to flip through. */
+export function WorkCard({ p }: { p: Project }) {
   const { t } = useTranslation()
-  const [before, setBefore] = useState(false)
-  const title = t(`work.items.${w.id}.title`)
+  const [showBefore, setShowBefore] = useState(false)
+  const [current, setCurrent] = useState(0)
+  const title = t(`work.items.${p.id}.title`)
+  const src = showBefore && p.before ? p.before : p.photos[current]
 
   return (
     <article className="card proj">
-      <div className="proj-img">
+      <div className="proj-img tall">
         <img
-          src={samplePhoto(w.room, before ? w.v[0] : w.v[1])}
-          className={before ? 'is-before' : ''}
-          alt={t('work.photoAlt', { title, which: before ? t('work.before') : t('work.after') })}
+          src={src}
+          alt={showBefore ? t('work.altBefore', { title }) : t('work.altPhoto', { title, n: current + 1, total: p.photos.length })}
+          loading="lazy"
         />
-        <div className="ba" role="group" aria-label={t('work.beforeOrAfter')}>
-          <button type="button" aria-pressed={before} onClick={() => setBefore(true)}>
-            {t('work.before')}
-          </button>
-          <button type="button" aria-pressed={!before} onClick={() => setBefore(false)}>
-            {t('work.after')}
-          </button>
-        </div>
+        {p.before && (
+          <div className="ba" role="group" aria-label={t('work.beforeOrAfter')}>
+            <button type="button" aria-pressed={showBefore} onClick={() => setShowBefore(true)}>
+              {t('work.before')}
+            </button>
+            <button type="button" aria-pressed={!showBefore} onClick={() => setShowBefore(false)}>
+              {t('work.after')}
+            </button>
+          </div>
+        )}
       </div>
-      <div className="proj-body">
-        <div className="small muted meta">
-          <span>{w.city}</span>
-          <span>{t('work.weeks', { count: w.weeks })}</span>
+      {p.photos.length > 1 && (
+        <div className="proj-thumbs" role="group" aria-label={t('work.morePhotos')}>
+          {p.photos.map((photo, i) => (
+            <button
+              key={photo}
+              type="button"
+              aria-pressed={!showBefore && current === i}
+              aria-label={t('work.showPhoto', { n: i + 1, total: p.photos.length })}
+              onClick={() => {
+                setCurrent(i)
+                setShowBefore(false)
+              }}
+            >
+              <img src={photo} alt="" loading="lazy" />
+            </button>
+          ))}
         </div>
-        <h3 style={{ fontSize: 17, margin: '4px 0 6px' }}>{title}</h3>
-        <p className="muted" style={{ margin: '0 0 10px', fontSize: 14.5 }}>
-          {t(`work.items.${w.id}.desc`)}
-        </p>
+      )}
+      <div className="proj-body">
+        <h3>{title}</h3>
+        <p className="muted">{t(`work.items.${p.id}.desc`)}</p>
         <div className="chips">
-          {w.services.map((s) => (
+          {p.services.map((s) => (
             <span key={s} className="pill">
               {t(`options.services.${s}.name`)}
             </span>
@@ -51,7 +66,7 @@ export function WorkCard({ w }: { w: Work }) {
 export default function OurWork() {
   const { t } = useTranslation()
   const [cat, setCat] = useState<(typeof WORK_CATS)[number]>('all')
-  const list = WORK.filter((w) => cat === 'all' || w.cat === cat)
+  const list = PROJECTS.filter((p) => cat === 'all' || p.cat === cat)
 
   return (
     <section className="sect">
@@ -68,12 +83,11 @@ export default function OurWork() {
           ))}
         </div>
         <div className="cards g3">
-          {list.length ? list.map((w) => <WorkCard key={w.id} w={w} />) : <div className="empty">{t('work.empty')}</div>}
+          {list.map((p) => (
+            <WorkCard key={p.id} p={p} />
+          ))}
         </div>
         <p className="small muted mt">{t('work.photosNote')}</p>
-        <p className="small muted">
-          <span className="ph">{t('work.sampleNote')}</span>
-        </p>
         <div className="cta-band" style={{ marginTop: 40 }}>
           <div>
             <h2>{t('work.ctaTitle')}</h2>

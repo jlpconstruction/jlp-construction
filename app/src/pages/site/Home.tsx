@@ -2,22 +2,22 @@ import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import Icon from '../../components/Icon'
 import { SERVICES } from '../../lib/options'
+import { PROJECTS } from '../../lib/projects'
+import { WorkCard } from './OurWork'
 
 // Jorge's real work (from his Facebook page). `pos` picks the part of each tall photo to show.
 const SERVICE_PHOTO: Record<(typeof SERVICES)[number], { src: string; pos: string }> = {
-  interior: { src: '/work/d1.jpg', pos: '50% 62%' },
+  interior: { src: '/work/suite-2.jpg', pos: '50% 55%' },
   painting: { src: '/work/b2.jpg', pos: '50% 42%' },
-  tile: { src: '/work/c3.jpg', pos: '50% 45%' },
-  flooring: { src: '/work/a1.jpg', pos: '50% 92%' },
-  windows: { src: '/work/c2.jpg', pos: '50% 22%' },
+  tile: { src: '/work/mosaic-1.jpg', pos: '50% 40%' },
+  flooring: { src: '/work/hall-1.jpg', pos: '50% 70%' },
+  windows: { src: '/work/door-1.jpg', pos: '50% 40%' },
 }
-const PROJECT_PHOTOS = ['/work/a1.jpg', '/work/c2.jpg', '/work/b2.jpg']
 
 export default function Home() {
   const { t } = useTranslation()
   const how = t('home.how', { returnObjects: true }) as { t: string; d: string }[]
   const faq = t('home.faq', { returnObjects: true }) as { q: string; a: string }[]
-  const projects = t('home.projects', { returnObjects: true }) as { title: string; desc: string; alt: string }[]
 
   return (
     <>
@@ -76,18 +76,8 @@ export default function Home() {
             </Link>
           </div>
           <div className="cards g3">
-            {projects.map((p, i) => (
-              <article key={p.title} className="card proj">
-                <div className="proj-img tall">
-                  <img src={PROJECT_PHOTOS[i]} alt={p.alt} loading="lazy" />
-                </div>
-                <div className="proj-body">
-                  <h3 style={{ fontSize: 18, margin: '0 0 6px' }}>{p.title}</h3>
-                  <p className="muted" style={{ margin: 0, fontSize: 15 }}>
-                    {p.desc}
-                  </p>
-                </div>
-              </article>
+            {['gym', 'suite', 'lux'].map((id) => (
+              <WorkCard key={id} p={PROJECTS.find((p) => p.id === id)!} />
             ))}
           </div>
         </div>
