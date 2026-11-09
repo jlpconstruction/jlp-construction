@@ -1,5 +1,7 @@
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import Icon from '../../components/Icon'
+import { fullAddress } from '../../lib/address'
 import type { RequestRow } from '../../lib/api'
 import type { Status } from '../../lib/options'
 import { timeAgo } from '../../lib/time'
@@ -39,9 +41,11 @@ export function RequestItem({ r, extra }: { r: RequestRow; extra?: string }) {
         <div className="t">
           {r.name} <LangTag lang={r.lang} />
         </div>
-        <div className="s">
-          {[rooms(r), r.city, extra].filter(Boolean).join(', ')}
+        <div className="addr-line">
+          <Icon name="pin" size={16} />
+          <span>{fullAddress(r)}</span>
         </div>
+        <div className="s">{[rooms(r), extra].filter(Boolean).join(', ')}</div>
       </div>
       <div style={{ textAlign: 'right' }}>
         <StatusPill status={r.status} />

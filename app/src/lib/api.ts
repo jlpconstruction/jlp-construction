@@ -33,6 +33,8 @@ export type NewRequest = {
   contact_pref: ContactPref
   address: string
   city: string
+  state: 'IL' | 'IN'
+  zip: string
   slot: string
   sms_consent: boolean
   sms_consent_text: string
@@ -52,7 +54,8 @@ export async function submitRequest(req: NewRequest, photos: Blob[]): Promise<st
   }
   const { data, error } = await client.rpc('submit_request', { p: { ...req, id, photos: paths } })
   if (error) {
-    const known = ['slot_taken', 'invalid_slot', 'consent_required', 'invalid_phone', 'invalid_email']
+    const known = ['slot_taken', 'invalid_slot', 'consent_required', 'invalid_phone', 'invalid_email', 'invalid_address']
+    if (error.message.includes('requests_email_required')) throw new ApiError('invalid_email')
     throw new ApiError(known.find((k) => error.message.includes(k)) ?? 'submit_failed')
   }
   return data as string
@@ -71,6 +74,8 @@ export type RequestRow = {
   contact_pref: ContactPref
   address: string
   city: string
+  state: string | null
+  zip: string | null
   rooms: Room[]
   services: Service[]
   other_service: string | null

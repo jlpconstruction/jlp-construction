@@ -40,8 +40,10 @@ export default function Saturdays() {
                         {fmtTime(s, lng)}, {r.name.split(/\s+/)[0]}
                       </b>
                       <span>
-                        {rooms(r)}, {r.city}
+                        {r.address}, {r.city}
                       </span>
+                      <br />
+                      <span>{rooms(r)}</span>
                       {r.status === 'new' && (
                         <>
                           <br />

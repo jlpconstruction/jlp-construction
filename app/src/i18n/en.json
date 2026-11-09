@@ -25,7 +25,8 @@
     "invalid_slot": "That time isn't available anymore. Please pick another one.",
     "consent_required": "Please check the box to agree to project text messages.",
     "invalid_phone": "Enter a mobile phone number.",
-    "invalid_email": "Enter your email address, or choose Text."
+    "invalid_email": "Enter your email address.",
+    "invalid_address": "Please check the project address and ZIP code."
   },
   "site": {
     "brandSub": "Residential Remodeling",
@@ -48,8 +49,7 @@
       "privacy": "Privacy Policy",
       "terms": "Terms",
       "accessibility": "Accessibility"
-    },
-    "help": "Questions? You can also call or text Jorge:"
+    }
   },
   "home": {
     "title": "From the first photo to the final walkthrough.",
@@ -113,7 +113,7 @@
       },
       {
         "q": "Will you post photos of my home?",
-        "a": "Never the photos you send us. Those are only for planning your project. Once a job is finished, Jorge may photograph the completed work for our website and Facebook, without your address, name, or faces. Prefer not? Just check the box on the form or tell Jorge."
+        "a": "Never the photos you send us. Those are only for planning your project. Once a job is finished, Jorge may photograph the completed work for our website and Facebook, without your address, name, or faces. Prefer not? Just tell Jorge."
       },
       {
         "q": "How quickly will I hear back?",
@@ -218,11 +218,11 @@
       },
       {
         "h": "Who we share it with",
-        "p": "Service providers that run this website, acting on our behalf: hosting & database, email/text delivery, and an AI service that helps summarize and translate project details (it does not receive your name or contact details)."
+        "p": "Service providers that run this website, acting on our behalf: hosting & database, email/text delivery, an address-lookup service (OpenStreetMap's Photon) that suggests addresses as you type, and an AI service that helps summarize and translate project details (it does not receive your name or contact details)."
       },
       {
         "h": "Project photos",
-        "p": "Photos you upload with your request are only used to review and plan your project. They are never posted, sold, or used for marketing. After a project is finished, Jorge may take his own photos of the completed work and share them on our website and social media (like Facebook). We never show your address, name, or anyone's face. If you'd rather we don't feature your project, check the box on the request form or just tell Jorge."
+        "p": "Photos you upload with your request are only used to review and plan your project. They are never posted, sold, or used for marketing. After a project is finished, Jorge may take his own photos of the completed work and share them on our website and social media (like Facebook). We never show your address, name, or anyone's face. If you'd rather we don't feature your project, just tell Jorge."
       },
       {
         "h": "Text messages",
@@ -330,12 +330,13 @@
       "large": "Large"
     },
     "budgets": [
-      "Under $5,000",
+      "$2,000 – $5,000",
       "$5,000 – $15,000",
       "$15,000 – $30,000",
       "$30,000 – $50,000",
       "$50,000+",
-      "Not sure yet"
+      "Not sure yet",
+      "Under $2,000"
     ],
     "contact": {
       "text": "Text",
@@ -348,6 +349,10 @@
       "quoted": "Quote sent",
       "won": "Won",
       "declined": "Declined"
+    },
+    "states": {
+      "IL": "Illinois",
+      "IN": "Indiana"
     }
   },
   "form": {
@@ -385,7 +390,6 @@
     "name": "Full name",
     "phone": "Mobile phone (for texts)",
     "email": "Email",
-    "emailOptional": "Email (optional)",
     "contactPref": "Best way to reach you",
     "address": "Project address",
     "city": "City",
@@ -395,9 +399,6 @@
     "noSlots": "No open Saturday times right now. Please call or text Jorge.",
     "required": "Required:",
     "smsConsent": "I agree to receive text messages from JLP Construction about my request, consultation, and project, including scheduling, updates, and payment reminders. These are never marketing messages. Msg & data rates may apply. If you reply STOP, we'll stop texting and contact you by email or phone instead.",
-    "aboutPhotosTitle": "About photos",
-    "aboutPhotos": "The photos you upload here are only used to plan your project. They are never posted or used for marketing. If we work together, Jorge may take his own photos of the finished work to show on our website and Facebook (no address, names, or faces).",
-    "noFeature": "Optional: please don't feature photos of my finished project.",
     "review": {
       "rooms": "Room(s)",
       "services": "Services",
@@ -409,10 +410,7 @@
       "address": "Address",
       "consultation": "Consultation",
       "texts": "Text messages",
-      "textsAgreed": "Agreed",
-      "featuring": "Finished-project photos",
-      "noFeature": "Please don't feature my project",
-      "okFeature": "OK for Jorge to feature photos he takes"
+      "textsAgreed": "Agreed"
     },
     "agree": "By submitting, you agree to our Privacy Policy and Terms. Any price range we share before the site visit is an estimate, not a binding quote.",
     "submit": "Submit request",
@@ -425,10 +423,11 @@
       "budget": "Choose a budget range (or \"Not sure yet\").",
       "name": "Please enter your name.",
       "phone": "Enter a mobile phone number. Jorge coordinates requests by text.",
-      "email": "Enter your email address, or choose Text.",
-      "address": "Enter the project address and city.",
+      "email": "Enter your email address.",
+      "address": "Enter the project street address with the house number, and the city.",
       "slot": "Pick a Saturday time for your consultation.",
-      "consent": "Please check the box to agree to project text messages. Jorge uses text to schedule and update you."
+      "consent": "Please check the box to agree to project text messages. Jorge uses text to schedule and update you.",
+      "zip": "Enter the 5-digit ZIP code."
     },
     "done": {
       "title": "Request received!",
@@ -441,7 +440,11 @@
       "slot": "Requested consultation: {{when}} (pending confirmation)",
       "another": "Submit another request",
       "home": "Back to home"
-    }
+    },
+    "state": "State",
+    "zip": "ZIP code",
+    "addressHint": "Start typing and pick your address from the list, or type it in.",
+    "addressSuggestions": "Address suggestions"
   },
   "admin": {
     "title": "Dashboard",
@@ -518,13 +521,16 @@
       "notePlaceholder": "Add a note (e.g. 'Called, left voicemail')",
       "noteLabel": "Note",
       "add": "Add",
-      "saved": "Saved"
+      "saved": "Saved",
+      "directionsTo": "Get directions to {{address}}",
+      "moreInfoHint": "Phone, email, texts, photo permission, and status",
+      "notesHint": "History of this request, and your own notes"
     },
     "next": {
       "confirmTitle": "Confirm the visit?",
-      "confirmText": "{{name}} asked for {{when}}.",
+      "confirmText": "{{name}} asked for {{when}}",
       "confirm": "Confirm visit",
-      "askInfo": "Ask for photos/info first",
+      "askInfo": "Ask for more info",
       "notFit": "Not a fit",
       "otherTime": "Or pick a different time…",
       "bookTitle": "Book a visit",
@@ -537,7 +543,7 @@
       "remindClient": "Send a reminder",
       "bookAnyway": "Or book a visit anyway…",
       "bookedTitle": "Visit booked",
-      "addCalendar": "Add to Google Calendar",
+      "addCalendar": "Add to calendar",
       "icsFile": "iPhone / Outlook calendar file",
       "sendConfirm": "Send confirmation",
       "reschedule": "Reschedule to…",
@@ -552,14 +558,17 @@
       "wonText": "The payments tracker (35/35/30) comes in the next version.",
       "closedTitle": "Closed",
       "closedText": "This request is closed.",
-      "reopen": "Reopen"
+      "reopen": "Reopen",
+      "cancelVisit": "Cancel visit",
+      "cancelConfirm": "Cancel this visit? The request goes back to New and the Saturday time becomes free again. Next, you'll get a message to let the client know."
     },
     "message": {
       "label": "Message to the client (you can edit it)",
       "inLang": "Written in the client's language",
       "sendText": "Text from my phone",
       "sendEmail": "Send email",
-      "noTexts": "This client stopped texts. Use email or call."
+      "noTexts": "This client stopped texts. Use email or call.",
+      "close": "Close without sending"
     },
     "events": {
       "status": "Status changed to {{status}}.",
@@ -577,8 +586,10 @@
         "confirm": "visit confirmation",
         "info": "asked for photos/info",
         "decline": "polite decline",
-        "followup": "quote follow-up"
-      }
+        "followup": "quote follow-up",
+        "cancel": "visit cancelled"
+      },
+      "cancelled": "Visit for {{when}} was cancelled."
     },
     "saturdays": {
       "title": "Saturdays",
@@ -599,7 +610,8 @@
     "confirm": "Hi {{first}}, this is Jorge from JLP Construction. You're confirmed for a consultation on {{when}} at {{address}}. Reply here if anything changes. See you then!",
     "info": "Hi {{first}}, this is Jorge from JLP Construction. Thanks for your request ({{ref}})! Before I come out, could you send 3–5 photos of the space from different angles, and rough measurements if you have them? That way I can give you a price range first.",
     "decline": "Hi {{first}}, thank you for thinking of JLP Construction. Unfortunately this project isn't a good fit for us right now, but I appreciate you reaching out and wish you the best with it.",
-    "followup": "Hi {{first}}, just checking in on the quote I sent for your project. Happy to answer any questions or adjust anything. — Jorge, JLP Construction"
+    "followup": "Hi {{first}}, just checking in on the quote I sent for your project. Happy to answer any questions or adjust anything. — Jorge, JLP Construction",
+    "cancel": "Hi {{first}}, this is Jorge from JLP Construction. I'm sorry, but I need to cancel our consultation on {{when}}. I'll reach out soon to find a new time that works for you."
   },
   "notFound": {
     "title": "Page not found",

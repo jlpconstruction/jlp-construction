@@ -2,7 +2,9 @@
 export const ROOMS = ['kitchen', 'bathroom', 'bedroom', 'living', 'basement', 'exterior'] as const
 export const SERVICES = ['interior', 'painting', 'tile', 'flooring', 'windows'] as const
 export const SIZES = ['small', 'medium', 'large'] as const
-export const BUDGET_COUNT = 6 // options.budgets.0 … options.budgets.5 ("Not sure yet")
+// Budget choices are saved as these numbers (options.budgets.<n>). New choices get a new number,
+// so saved requests keep their meaning; BUDGET_ORDER is the order they're shown in.
+export const BUDGET_ORDER = [6, 0, 1, 2, 3, 4, 5] // 6 = under $2,000 … 5 = not sure yet
 export const CONTACT_PREFS = ['text', 'email'] as const
 export const STATUSES = ['new', 'needs-info', 'consult', 'quoted', 'won', 'declined'] as const
 

@@ -16,9 +16,10 @@ import {
   slotsFor,
   upcomingSaturdays,
 } from '../../lib/time'
+import { fullAddress } from '../../lib/address'
 import { LangTag, LoadError, StatusPill, useRoomsText } from './shared'
 
-type MessageKind = 'confirm' | 'info' | 'decline' | 'followup'
+type MessageKind = 'confirm' | 'info' | 'decline' | 'followup' | 'cancel'
 type Detail = { request: RequestRow | null; photoUrls: string[]; notes: NoteRow[] }
 
 const DAY = 86400000
@@ -128,18 +129,23 @@ export default function RequestDetail() {
     })
 
   const slotPicker = (label: string) => (
-    <div className="hrow wraps" style={{ marginTop: 12 }}>
-      <select className="input" style={{ flex: 1, minWidth: 180 }} value={slotPick} onChange={(e) => setSlotPick(e.target.value)} aria-label={label}>
-        <option value="">{label}</option>
-        {openSlots.map((s) => (
-          <option key={s.toISOString()} value={s.toISOString()}>
-            {fmtDateTime(s, lng)}
-          </option>
-        ))}
-      </select>
-      <button type="button" className="btn btn-dark" onClick={book} disabled={busy}>
-        {t('admin.next.book')}
-      </button>
+    <div className="slot-pick">
+      <label className="slot-pick-label" htmlFor="slot-pick">
+        {label.replace(/[.…]+$/, '')}
+      </label>
+      <div className="slot-pick-row">
+        <select id="slot-pick" className="input" value={slotPick} onChange={(e) => setSlotPick(e.target.value)}>
+          <option value="">{t('admin.next.chooseTime')}</option>
+          {openSlots.map((s) => (
+            <option key={s.toISOString()} value={s.toISOString()}>
+              {fmtDateTime(s, lng)}
+            </option>
+          ))}
+        </select>
+        <button type="button" className="btn btn-dark" onClick={book} disabled={busy}>
+          {t('admin.next.book')}
+        </button>
+      </div>
     </div>
   )
 
@@ -149,12 +155,12 @@ export default function RequestDetail() {
         uid: r.id,
         title: t('admin.calendar.title', { name: r.name, rooms: rooms(r) }),
         details: [r.phone, r.email ?? '', '', r.description, '', t('admin.calendar.request', { ref: r.ref })].join('\n'),
-        location: `${r.address}, ${r.city}`,
+        location: fullAddress(r),
       }
     : null
 
   // The one thing Jorge should do next, based on where the request is
-  let next: { title: string; text?: React.ReactNode; actions: React.ReactNode; more?: React.ReactNode }
+  let next: { title: string; text?: React.ReactNode; actions: React.ReactNode; more?: React.ReactNode; stacked?: boolean }
   const ghost = (label: string, onClick: () => void) => (
     <button type="button" className="btn btn-ghost" onClick={onClick} disabled={busy}>
       {label}
@@ -211,6 +217,7 @@ export default function RequestDetail() {
       break
     case 'consult':
       next = {
+        stacked: true, // the calendar button gets its own row; the two smaller actions sit below it
         title: t('admin.next.bookedTitle'),
         text: r.slot && (
           <>
@@ -225,6 +232,14 @@ export default function RequestDetail() {
               </a>
             )}
             {ghost(t('admin.next.sendConfirm'), () => openMessage('confirm'))}
+            {ghost(t('admin.next.cancelVisit'), () => {
+              const slot = r.slot
+              if (!slot || !confirm(t('admin.next.cancelConfirm'))) return
+              // Back to New with no time: the Saturday slot is free again, and a note is logged
+              change({ status: 'new', slot: null, follow_up_due: null }, event('cancelled', { when: slot })).then(() =>
+                openMessageFor('cancel', slot),
+              )
+            })}
           </>
         ),
         more: (
@@ -337,24 +352,24 @@ export default function RequestDetail() {
           <h1 style={{ marginTop: 6 }}>
             {r.name} <LangTag lang={r.lang} />
           </h1>
+          <a
+            className="addr-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(fullAddress(r))}`}
+            aria-label={t('admin.detail.directionsTo', { address: fullAddress(r) })}
+          >
+            <Icon name="pin" size={22} />
+            <span>{fullAddress(r)}</span>
+          </a>
           <p className="hrow wraps">
-            <span>
-              {rooms(r)}, {r.city}
-            </span>
+            <span>{rooms(r)}</span>
             <StatusPill status={r.status} />
           </p>
         </div>
         <div className="actions">
           <a className="btn btn-ghost btn-sm" href={`tel:${phoneDigits}`}>
             <Icon name="phone" size={16} /> {t('common.call')}
-          </a>
-          <a
-            className="btn btn-ghost btn-sm"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${r.address}, ${r.city}`)}`}
-          >
-            {t('common.directions')}
           </a>
         </div>
       </div>
@@ -379,7 +394,7 @@ export default function RequestDetail() {
                 {next.title}
               </h2>
               {next.text && <p style={{ margin: '0 0 14px' }}>{next.text}</p>}
-              {next.actions && <div className="actions">{next.actions}</div>}
+              {next.actions && <div className={`next-actions${next.stacked ? ' stacked' : ''}`}>{next.actions}</div>}
               {next.more}
               {message && (
                 <div className="msg-draft">
@@ -414,7 +429,7 @@ export default function RequestDetail() {
                       </a>
                     )}
                     <button type="button" className="btn btn-ghost btn-sm" onClick={() => setMessage(null)}>
-                      {t('common.cancel')}
+                      {t('admin.message.close')}
                     </button>
                   </div>
                 </div>
@@ -458,9 +473,6 @@ export default function RequestDetail() {
                 <span>{services}</span>
                 <span>{t(`options.sizeShort.${r.size}`)}</span>
                 <span>{(t('options.budgets', { returnObjects: true }) as string[])[r.budget]}</span>
-                <span>
-                  {r.address}, {r.city}
-                </span>
               </div>
             </div>
           </section>
@@ -468,7 +480,18 @@ export default function RequestDetail() {
 
         <div className="stack">
           <details className="panel more">
-            <summary>{t('admin.detail.moreInfo')}</summary>
+            <summary>
+              <span className="more-ico" aria-hidden="true">
+                <Icon name="info" size={22} />
+              </span>
+              <span className="more-text">
+                <span className="more-title">{t('admin.detail.moreInfo')}</span>
+                <span className="more-hint">{t('admin.detail.moreInfoHint')}</span>
+              </span>
+              <span className="more-chev" aria-hidden="true">
+                <Icon name="chevron" size={22} />
+              </span>
+            </summary>
             <div className="body">
               <dl className="kv">
                 <dt>{t('admin.detail.contact')}</dt>
@@ -566,7 +589,18 @@ export default function RequestDetail() {
 
           <details className="panel more" open={detail.notes.length > 0}>
             <summary>
-              {t('admin.detail.notes')} ({detail.notes.length})
+              <span className="more-ico" aria-hidden="true">
+                <Icon name="note" size={22} />
+              </span>
+              <span className="more-text">
+                <span className="more-title">
+                  {t('admin.detail.notes')} <span className="count">{detail.notes.length}</span>
+                </span>
+                <span className="more-hint">{t('admin.detail.notesHint')}</span>
+              </span>
+              <span className="more-chev" aria-hidden="true">
+                <Icon name="chevron" size={22} />
+              </span>
             </summary>
             <div className="body">
               {detail.notes.length ? (

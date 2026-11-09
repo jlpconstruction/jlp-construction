@@ -25,7 +25,8 @@
     "invalid_slot": "Ese horario ya no está disponible. Por favor elija otro.",
     "consent_required": "Por favor marque la casilla para aceptar los mensajes de texto del proyecto.",
     "invalid_phone": "Escriba un número de celular.",
-    "invalid_email": "Escriba su correo electrónico, o elija Texto."
+    "invalid_email": "Escriba su correo electrónico.",
+    "invalid_address": "Por favor revise la dirección del proyecto y el código postal."
   },
   "site": {
     "brandSub": "Remodelación residencial",
@@ -48,8 +49,7 @@
       "privacy": "Privacidad",
       "terms": "Términos",
       "accessibility": "Accesibilidad"
-    },
-    "help": "¿Preguntas? También puede llamar o mandar texto a Jorge:"
+    }
   },
   "home": {
     "title": "Desde la primera foto hasta la entrega final.",
@@ -113,7 +113,7 @@
       },
       {
         "q": "¿Van a publicar fotos de mi casa?",
-        "a": "Nunca las fotos que usted nos envía; esas solo son para planear su proyecto. Al terminar un trabajo, Jorge puede fotografiar el resultado para nuestro sitio web y Facebook, sin su dirección, nombre ni caras. ¿Prefiere que no? Marque la casilla en el formulario o avísele a Jorge."
+        "a": "Nunca las fotos que usted nos envía; esas solo son para planear su proyecto. Al terminar un trabajo, Jorge puede fotografiar el resultado para nuestro sitio web y Facebook, sin su dirección, nombre ni caras. ¿Prefiere que no? Solo avísele a Jorge."
       },
       {
         "q": "¿Qué tan pronto me responden?",
@@ -218,11 +218,11 @@
       },
       {
         "h": "Con quién la compartimos",
-        "p": "Proveedores de servicios que hacen funcionar este sitio, en nuestro nombre: alojamiento y base de datos, envío de correos y mensajes de texto, y un servicio de IA que ayuda a resumir y traducir los detalles del proyecto (no recibe su nombre ni sus datos de contacto)."
+        "p": "Proveedores de servicios que hacen funcionar este sitio, en nuestro nombre: alojamiento y base de datos, envío de correos y mensajes de texto, un servicio de búsqueda de direcciones (Photon de OpenStreetMap) que sugiere direcciones mientras escribe, y un servicio de IA que ayuda a resumir y traducir los detalles del proyecto (no recibe su nombre ni sus datos de contacto)."
       },
       {
         "h": "Fotos del proyecto",
-        "p": "Las fotos que suba con su solicitud solo se usan para revisar y planear su proyecto. Nunca se publican, venden ni usan para publicidad. Al terminar un proyecto, Jorge puede tomar sus propias fotos del trabajo terminado y compartirlas en nuestro sitio web y redes sociales (como Facebook). Nunca mostramos su dirección, su nombre ni la cara de nadie. Si prefiere que no mostremos su proyecto, marque la casilla en el formulario o avísele a Jorge."
+        "p": "Las fotos que suba con su solicitud solo se usan para revisar y planear su proyecto. Nunca se publican, venden ni usan para publicidad. Al terminar un proyecto, Jorge puede tomar sus propias fotos del trabajo terminado y compartirlas en nuestro sitio web y redes sociales (como Facebook). Nunca mostramos su dirección, su nombre ni la cara de nadie. Si prefiere que no mostremos su proyecto, solo avísele a Jorge."
       },
       {
         "h": "Mensajes de texto",
@@ -330,12 +330,13 @@
       "large": "Grande"
     },
     "budgets": [
-      "Menos de $5,000",
+      "$2,000 – $5,000",
       "$5,000 – $15,000",
       "$15,000 – $30,000",
       "$30,000 – $50,000",
       "$50,000+",
-      "Aún no sé"
+      "Aún no sé",
+      "Menos de $2,000"
     ],
     "contact": {
       "text": "Texto",
@@ -348,6 +349,10 @@
       "quoted": "Cotización enviada",
       "won": "Aceptado",
       "declined": "Descartado"
+    },
+    "states": {
+      "IL": "Illinois",
+      "IN": "Indiana"
     }
   },
   "form": {
@@ -385,7 +390,6 @@
     "name": "Nombre completo",
     "phone": "Celular (para mensajes de texto)",
     "email": "Correo electrónico",
-    "emailOptional": "Correo electrónico (opcional)",
     "contactPref": "¿Cómo prefiere que lo contactemos?",
     "address": "Dirección del proyecto",
     "city": "Ciudad",
@@ -395,9 +399,6 @@
     "noSlots": "No hay horarios libres el sábado por ahora. Por favor llame o mande mensaje a Jorge.",
     "required": "Obligatorio:",
     "smsConsent": "Acepto recibir mensajes de texto de JLP Construction sobre mi solicitud, mi consulta y mi proyecto, incluyendo citas, avisos y recordatorios de pago. Nunca son mensajes de publicidad. Pueden aplicar tarifas de mensajes y datos. Si responde STOP o ALTO, dejaremos de enviarle mensajes y nos comunicaremos por correo o teléfono.",
-    "aboutPhotosTitle": "Sobre las fotos",
-    "aboutPhotos": "Las fotos que suba aquí solo se usan para planear su proyecto. Nunca se publican ni se usan para publicidad. Si trabajamos juntos, Jorge puede tomar sus propias fotos del trabajo terminado para mostrarlas en nuestro sitio web y Facebook (sin dirección, nombres ni caras).",
-    "noFeature": "Opcional: prefiero que no muestren fotos de mi proyecto terminado.",
     "review": {
       "rooms": "Espacio(s)",
       "services": "Servicios",
@@ -409,10 +410,7 @@
       "address": "Dirección",
       "consultation": "Consulta",
       "texts": "Mensajes de texto",
-      "textsAgreed": "Aceptó",
-      "featuring": "Fotos del proyecto terminado",
-      "noFeature": "Prefiero que no se muestre mi proyecto",
-      "okFeature": "Jorge puede mostrar las fotos que él tome"
+      "textsAgreed": "Aceptó"
     },
     "agree": "Al enviar, acepta nuestra Política de Privacidad y Términos. Cualquier rango de precio que compartamos antes de la visita es un estimado, no una cotización final.",
     "submit": "Enviar solicitud",
@@ -425,10 +423,11 @@
       "budget": "Elija un presupuesto (o \"Aún no sé\").",
       "name": "Por favor escriba su nombre.",
       "phone": "Escriba un número de celular. Jorge coordina las solicitudes por mensaje de texto.",
-      "email": "Escriba su correo electrónico, o elija Texto.",
-      "address": "Escriba la dirección y la ciudad del proyecto.",
+      "email": "Escriba su correo electrónico.",
+      "address": "Escriba la dirección del proyecto con el número de la casa, y la ciudad.",
       "slot": "Elija un horario el sábado para su consulta.",
-      "consent": "Por favor marque la casilla para aceptar los mensajes de texto del proyecto. Jorge los usa para agendar y darle avisos."
+      "consent": "Por favor marque la casilla para aceptar los mensajes de texto del proyecto. Jorge los usa para agendar y darle avisos.",
+      "zip": "Escriba el código postal de 5 dígitos."
     },
     "done": {
       "title": "¡Recibimos su solicitud!",
@@ -441,7 +440,11 @@
       "slot": "Consulta solicitada: {{when}} (pendiente de confirmar)",
       "another": "Enviar otra solicitud",
       "home": "Volver al inicio"
-    }
+    },
+    "state": "Estado",
+    "zip": "Código postal",
+    "addressHint": "Empiece a escribir y elija su dirección de la lista, o escríbala completa.",
+    "addressSuggestions": "Sugerencias de dirección"
   },
   "admin": {
     "title": "Panel",
@@ -518,13 +521,16 @@
       "notePlaceholder": "Agregar una nota (ej. \"Llamé, dejé mensaje de voz\")",
       "noteLabel": "Nota",
       "add": "Agregar",
-      "saved": "Guardado"
+      "saved": "Guardado",
+      "directionsTo": "Cómo llegar a {{address}}",
+      "moreInfoHint": "Teléfono, correo, mensajes, permiso de fotos y estado",
+      "notesHint": "Historial de esta solicitud y tus notas"
     },
     "next": {
       "confirmTitle": "¿Confirmar la visita?",
-      "confirmText": "{{name}} pidió el {{when}}.",
+      "confirmText": "{{name}} pidió el {{when}}",
       "confirm": "Confirmar visita",
-      "askInfo": "Pedir fotos/info primero",
+      "askInfo": "Pedir más info",
       "notFit": "No conviene",
       "otherTime": "O elige otro horario…",
       "bookTitle": "Agenda una visita",
@@ -537,7 +543,7 @@
       "remindClient": "Enviar recordatorio",
       "bookAnyway": "O agenda la visita de todos modos…",
       "bookedTitle": "Visita agendada",
-      "addCalendar": "Agregar a Google Calendar",
+      "addCalendar": "Agregar al calendario",
       "icsFile": "Archivo para iPhone / Outlook",
       "sendConfirm": "Enviar confirmación",
       "reschedule": "Reagendar para…",
@@ -552,14 +558,17 @@
       "wonText": "El control de pagos (35/35/30) llega en la próxima versión.",
       "closedTitle": "Cerrada",
       "closedText": "Esta solicitud está cerrada.",
-      "reopen": "Reabrir"
+      "reopen": "Reabrir",
+      "cancelVisit": "Cancelar visita",
+      "cancelConfirm": "¿Cancelar esta visita? La solicitud vuelve a Nuevo y el horario del sábado queda libre otra vez. Después verás un mensaje para avisarle al cliente."
     },
     "message": {
       "label": "Mensaje para el cliente (puedes editarlo)",
       "inLang": "Escrito en el idioma del cliente",
       "sendText": "Mandar texto desde mi celular",
       "sendEmail": "Enviar correo",
-      "noTexts": "Este cliente detuvo los mensajes. Usa correo o llamada."
+      "noTexts": "Este cliente detuvo los mensajes. Usa correo o llamada.",
+      "close": "Cerrar sin enviar"
     },
     "events": {
       "status": "Estado cambiado a {{status}}.",
@@ -577,8 +586,10 @@
         "confirm": "confirmación de visita",
         "info": "pidió fotos/info",
         "decline": "rechazo amable",
-        "followup": "seguimiento de cotización"
-      }
+        "followup": "seguimiento de cotización",
+        "cancel": "visita cancelada"
+      },
+      "cancelled": "Se canceló la visita del {{when}}."
     },
     "saturdays": {
       "title": "Sábados",
@@ -599,7 +610,8 @@
     "confirm": "Hola {{first}}, soy Jorge de JLP Construction. Su consulta quedó confirmada para el {{when}} en {{address}}. Si algo cambia, respóndame aquí. ¡Nos vemos!",
     "info": "Hola {{first}}, soy Jorge de JLP Construction. ¡Gracias por su solicitud ({{ref}})! Antes de ir a verlo, ¿me podría enviar de 3 a 5 fotos del espacio desde diferentes ángulos, y medidas aproximadas si las tiene? Así le puedo dar un rango de precio primero.",
     "decline": "Hola {{first}}, gracias por pensar en JLP Construction. Desafortunadamente, este proyecto no es adecuado para nosotros en este momento, pero le agradezco mucho que se haya comunicado y le deseo mucho éxito.",
-    "followup": "Hola {{first}}, solo quería darle seguimiento a la cotización que le envié para su proyecto. Con gusto respondo cualquier pregunta o ajusto lo que necesite. — Jorge, JLP Construction"
+    "followup": "Hola {{first}}, solo quería darle seguimiento a la cotización que le envié para su proyecto. Con gusto respondo cualquier pregunta o ajusto lo que necesite. — Jorge, JLP Construction",
+    "cancel": "Hola {{first}}, soy Jorge de JLP Construction. Lo siento, pero necesito cancelar nuestra consulta del {{when}}. Me comunicaré pronto para buscar otro horario que le funcione."
   },
   "notFound": {
     "title": "Página no encontrada",

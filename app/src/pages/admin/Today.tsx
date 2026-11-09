@@ -4,6 +4,8 @@ import Icon from '../../components/Icon'
 import { useAdmin } from '../../components/AdminLayout'
 import { isOpen } from '../../lib/options'
 import { chicagoHour, fmtDate, fmtDateTime, fmtLongDay, fmtTime, sameDay, upcomingSaturdays, ymdDate } from '../../lib/time'
+import { fullAddress } from '../../lib/address'
+import type { RequestRow } from '../../lib/api'
 import { initials, LoadError, RequestItem } from './shared'
 
 /** "Today": a short to-do list instead of stats. */
@@ -41,8 +43,7 @@ export default function Today() {
     </section>
   )
 
-  const directions = (address: string, city: string) =>
-    `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${address}, ${city}`)}`
+  const directions = (r: RequestRow) => `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(fullAddress(r))}`
 
   return (
     <>
@@ -78,11 +79,12 @@ export default function Today() {
                 <div className="t">
                   {fmtTime(r.slot!, lng)}, {r.name}
                 </div>
-                <div className="s">
-                  {r.address}, {r.city}
+                <div className="addr-line">
+                  <Icon name="pin" size={16} />
+                  <span>{fullAddress(r)}</span>
                 </div>
               </div>
-              <a className="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" href={directions(r.address, r.city)}>
+              <a className="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" href={directions(r)}>
                 {t('common.directions')}
               </a>
               <Link className="btn btn-dark btn-sm" to={`/admin/requests/${r.id}`}>

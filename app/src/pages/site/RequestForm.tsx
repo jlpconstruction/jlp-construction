@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import AddressField from '../../components/AddressField'
 import Icon from '../../components/Icon'
 import { ApiError, fetchTakenSlots, submitRequest } from '../../lib/api'
 import {
-  BUDGET_COUNT,
-  PHONE,
+  BUDGET_ORDER,
   CONTACT_PREFS,
   ROOM_ICON,
   ROOMS,
@@ -16,6 +16,7 @@ import {
   type Service,
   type Size,
 } from '../../lib/options'
+import { fullAddress, STATES, type StateCode } from '../../lib/address'
 import { MAX_PHOTOS, preparePhoto, type PreparedPhoto } from '../../lib/photos'
 import { fmtDateTime, fmtLongDay, fmtTime, slotsFor, upcomingSaturdays, ymdDate } from '../../lib/time'
 
@@ -25,7 +26,7 @@ type Form = {
   otherService: string
   description: string
   size: Size | ''
-  budget: string // '' until chosen, then '0'…'5'
+  budget: string // '' until chosen, then a key from BUDGET_ORDER
   photos: PreparedPhoto[]
   name: string
   phone: string
@@ -33,9 +34,10 @@ type Form = {
   contactPref: ContactPref
   address: string
   city: string
+  state: StateCode
+  zip: string
   slot: string
   smsConsent: boolean
-  noFeature: boolean
 }
 
 const emptyForm = (service?: string | null): Form => ({
@@ -52,9 +54,10 @@ const emptyForm = (service?: string | null): Form => ({
   contactPref: 'text',
   address: '',
   city: '',
+  state: 'IL',
+  zip: '',
   slot: '',
   smsConsent: false, // unchecked by default; the customer has to check it
-  noFeature: false,
 })
 
 const toggle = <T,>(list: T[], item: T) => (list.includes(item) ? list.filter((x) => x !== item) : [...list, item])
@@ -71,8 +74,9 @@ function validate(step: number, f: Form, hasSlots: boolean): string {
   if (step === 4) {
     if (!f.name.trim()) return 'form.err.name'
     if (f.phone.replace(/\D/g, '').length < 10) return 'form.err.phone'
-    if (f.contactPref === 'email' && !/^\S+@\S+\.\S+$/.test(f.email.trim())) return 'form.err.email'
-    if (!f.address.trim() || !f.city.trim()) return 'form.err.address'
+    if (!/^\S+@\S+\.\S+$/.test(f.email.trim())) return 'form.err.email'
+    if (!/\d/.test(f.address) || !f.city.trim()) return 'form.err.address'
+    if (!/^\d{5}$/.test(f.zip.trim())) return 'form.err.zip'
     if (!f.slot && hasSlots) return 'form.err.slot'
     if (!f.smsConsent) return 'form.err.consent'
   }
@@ -161,10 +165,12 @@ export default function RequestForm() {
           contact_pref: form.contactPref,
           address: form.address.trim(),
           city: form.city.trim(),
+          state: form.state,
+          zip: form.zip.trim(),
           slot: form.slot,
           sms_consent: form.smsConsent,
           sms_consent_text: t('form.smsConsent'), // exact wording they agreed to, in their language
-          no_feature: form.noFeature,
+          no_feature: false, // a client who'd rather not be featured tells Jorge; he records it on the request page
         },
         form.photos.map((p) => p.blob),
       )
@@ -326,9 +332,9 @@ export default function RequestForm() {
                   <label htmlFor="f-budget">{t('form.budgetLabel')}</label>
                   <select id="f-budget" className="input" value={form.budget} onChange={(e) => set('budget', e.target.value)} required>
                     <option value="">{t('form.select')}</option>
-                    {budgets.slice(0, BUDGET_COUNT).map((b, i) => (
+                    {BUDGET_ORDER.map((i) => (
                       <option key={i} value={i}>
-                        {b}
+                        {budgets[i]}
                       </option>
                     ))}
                   </select>
@@ -401,8 +407,8 @@ export default function RequestForm() {
               </div>
               <div className="row2">
                 <div className="field">
-                  <label htmlFor="f-email">{form.contactPref === 'email' ? t('form.email') : t('form.emailOptional')}</label>
-                  <input id="f-email" className="input" type="email" value={form.email} maxLength={200} onChange={(e) => set('email', e.target.value)} autoComplete="email" />
+                  <label htmlFor="f-email">{t('form.email')}</label>
+                  <input id="f-email" className="input" type="email" value={form.email} maxLength={200} onChange={(e) => set('email', e.target.value)} autoComplete="email" required />
                 </div>
                 <div className="field" role="group" aria-labelledby="pref-label">
                   <div className="label" id="pref-label">
@@ -417,14 +423,32 @@ export default function RequestForm() {
                   </div>
                 </div>
               </div>
-              <div className="row2">
-                <div className="field">
-                  <label htmlFor="f-addr">{t('form.address')}</label>
-                  <input id="f-addr" className="input" value={form.address} maxLength={200} onChange={(e) => set('address', e.target.value)} autoComplete="street-address" required />
-                </div>
+              <div className="field">
+                <label htmlFor="f-addr">{t('form.address')}</label>
+                <AddressField
+                  value={form.address}
+                  onChange={(v) => set('address', v)}
+                  onPick={(s) => setForm((f) => ({ ...f, address: s.street, city: s.city, state: s.state, zip: s.zip }))}
+                />
+              </div>
+              <div className="row3">
                 <div className="field">
                   <label htmlFor="f-city">{t('form.city')}</label>
                   <input id="f-city" className="input" value={form.city} maxLength={100} onChange={(e) => set('city', e.target.value)} autoComplete="address-level2" required />
+                </div>
+                <div className="field">
+                  <label htmlFor="f-state">{t('form.state')}</label>
+                  <select id="f-state" className="input" value={form.state} onChange={(e) => set('state', e.target.value as StateCode)} required>
+                    {STATES.map((s) => (
+                      <option key={s} value={s}>
+                        {t(`options.states.${s}`)}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="field">
+                  <label htmlFor="f-zip">{t('form.zip')}</label>
+                  <input id="f-zip" className="input" value={form.zip} inputMode="numeric" maxLength={5} onChange={(e) => set('zip', e.target.value.replace(/\D/g, ''))} autoComplete="postal-code" required />
                 </div>
               </div>
               <div className="field" role="group" aria-labelledby="slot-label">
@@ -471,15 +495,6 @@ export default function RequestForm() {
                   <strong>{t('form.required')}</strong> {t('form.smsConsent')}
                 </span>
               </label>
-              <div className="tips">
-                <strong>{t('form.aboutPhotosTitle')}</strong>
-                <br />
-                {t('form.aboutPhotos')}
-                <label className="check" style={{ marginTop: 10 }}>
-                  <input type="checkbox" checked={form.noFeature} onChange={(e) => set('noFeature', e.target.checked)} />
-                  <span>{t('form.noFeature')}</span>
-                </label>
-              </div>
             </>
           )}
 
@@ -527,14 +542,12 @@ export default function RequestForm() {
                   </dd>
                   <dt>{t('form.review.address')}</dt>
                   <dd>
-                    {form.address}, {form.city}
+                    {fullAddress(form)}
                   </dd>
                   <dt>{t('form.review.consultation')}</dt>
                   <dd>{form.slot ? fmtDateTime(form.slot, lng) : '—'}</dd>
                   <dt>{t('form.review.texts')}</dt>
                   <dd>{t('form.review.textsAgreed')}</dd>
-                  <dt>{t('form.review.featuring')}</dt>
-                  <dd>{form.noFeature ? t('form.review.noFeature') : t('form.review.okFeature')}</dd>
                 </dl>
               </div>
               <p className="small muted mt">
@@ -567,9 +580,6 @@ export default function RequestForm() {
               </button>
             )}
           </div>
-          <p className="form-help">
-            {t('site.help')} <a href={PHONE.tel}>{PHONE.display}</a>
-          </p>
         </div>
       </div>
     </section>
