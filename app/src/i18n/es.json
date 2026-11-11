@@ -42,7 +42,7 @@
       "about2": "Negocio local en Chicago; servimos Illinois e Indiana",
       "spanish": "Hablamos español e inglés",
       "contact": "Contacto",
-      "hours": "De lunes a sábado. Respondemos en 1 día hábil.",
+      "hours": "De lunes a sábado. Respondemos en 1 a 3 días hábiles.",
       "referrals": "La mayoría de nuestro trabajo viene de recomendaciones",
       "thanks": "¡Gracias por recomendarnos!",
       "facebook": "Síguenos en Facebook",
@@ -52,43 +52,42 @@
     }
   },
   "home": {
-    "title": "Desde la primera foto hasta la entrega final.",
-    "lead": "Cocinas, baños, sótanos, pisos, azulejos, pintura, ventanas y puertas. Un solo contratista que se encarga de todo, de principio a fin, y con quien siempre puede comunicarse.",
+    "title": "Remodelación de casas en Chicago",
+    "lead": "Azulejo, pisos, pintura, ventanas y puertas, y remodelaciones completas. Mande unas fotos de su espacio para que Jorge vea el trabajo y confirme que es para él antes de ir.",
     "seeServices": "Ver todos los servicios",
     "serving": "Atendemos a propietarios en Illinois e Indiana. We speak English.",
     "howTitle": "Cómo funciona",
     "how": [
       {
-        "t": "Cuéntenos de su proyecto",
-        "d": "Elija el espacio, describa el trabajo y suba unas fotos."
+        "t": "Mande su proyecto",
+        "d": "Elija el espacio, describa el trabajo y agregue unas fotos si puede."
       },
       {
-        "t": "Reciba un estimado primero",
-        "d": "Jorge revisa sus fotos y le responde con un rango aproximado y algunas preguntas."
+        "t": "Jorge lo revisa",
+        "d": "Le manda un mensaje o correo para confirmar que el trabajo es para él, o para hacerle unas preguntas."
       },
       {
-        "t": "Solicite su visita",
-        "d": "Elija un horario el sábado (9 a.m. – 6 p.m.). Jorge lo aprueba después de revisar su solicitud."
+        "t": "Visita el sábado",
+        "d": "Elija un horario entre 9 a.m. y 6 p.m. Jorge lo confirma después de revisar su solicitud."
       },
       {
-        "t": "Cotización clara y plan de pagos",
-        "d": "35% al empezar, 35% a la mitad, 30% al terminar."
+        "t": "Cotización por escrito",
+        "d": "Después de la visita, recibe el precio por escrito antes de empezar. El pago se divide en 35%, 35% y 30%."
       }
     ],
-    "servicesTitle": "Todo lo que su remodelación necesita, en un solo lugar",
-    "servicesLead": "Sin tener que coordinar diferentes contratistas. JLP se encarga de cada etapa del proyecto.",
-    "notSureTitle": "¿No está seguro?",
-    "notSureText": "Envíe fotos y describa lo que quiere. Le diremos lo que se necesita.",
+    "servicesTitle": "Lo que hacemos",
+    "notSureTitle": "¿No sabe qué necesita?",
+    "notSureText": "Mande fotos y una descripción corta. Jorge le dice si es algo que él hace.",
     "workTitle": "Proyectos recientes",
     "seeAllWork": "Ver todos los proyectos",
-    "photosTitle": "Una cotización más rápida y precisa",
-    "photosText": "Con unas cuantas fotos, Jorge entiende su proyecto antes de la visita. Así usted recibe un rango de precio realista más pronto, y la consulta en persona se dedica a los detalles.",
-    "photosCta": "Empezar mi solicitud",
-    "payTitle": "Pagos simples y claros",
+    "photosTitle": "Por qué pedimos fotos",
+    "photosText": "Con las fotos, Jorge ve el espacio antes de ir. Así sabe si el trabajo es para él, y la visita del sábado se dedica a los detalles.",
+    "photosCta": "Empezar una solicitud",
+    "payTitle": "Cómo se paga",
     "payFirst": "Primera semana",
     "payHalf": "A la mitad",
     "payDone": "Al terminar",
-    "payNote": "Siempre sabe cuánto se debe y cuándo. Pague con cheque, Zelle o como ya le paga a Jorge.",
+    "payNote": "Pague con cheque, Zelle o efectivo.",
     "faqTitle": "Preguntas frecuentes",
     "faq": [
       {
@@ -117,25 +116,24 @@
       },
       {
         "q": "¿Qué tan pronto me responden?",
-        "a": "Revisamos las solicitudes en 1 día hábil. Recibirá un mensaje de texto o un correo con los siguientes pasos."
+        "a": "Revisamos las solicitudes en 1 a 3 días hábiles. Recibirá un mensaje de texto o un correo con los siguientes pasos."
       },
       {
         "q": "¿Hablan inglés?",
         "a": "Sí. Jorge habla español e inglés, así que puede comunicarse en el idioma que prefiera."
       }
     ],
-    "ctaTitle": "¿Listo para planear su remodelación?",
-    "ctaText": "Toma unos 3 minutos. Las fotos ayudan, pero son opcionales.",
+    "ctaTitle": "¿Tiene un proyecto en mente?",
+    "ctaText": "La solicitud toma unos 3 minutos. Las fotos ayudan, pero no son obligatorias.",
     "heroAlt": "Baño con azulejo gris tipo piedra, regadera de vidrio y espejo redondo negro"
   },
   "services": {
-    "title": "Servicios completos de remodelación",
-    "lead": "JLP Construction se encarga de cada parte de su proyecto: desde la primera consulta hasta la construcción y la facturación final.",
+    "title": "Nuestros servicios",
     "requestThis": "Solicitar este servicio"
   },
   "work": {
     "title": "Proyectos recientes",
-    "lead": "Trabajos reales de Jorge. Toque las fotos pequeñas para ver más, y use Antes y Después cuando tenemos las dos.",
+    "lead": "Fotos de los trabajos de Jorge. Toque las fotos pequeñas para ver más.",
     "cats": {
       "all": "Todos",
       "bathroom": "Baños",
@@ -147,8 +145,8 @@
     "after": "Después",
     "beforeOrAfter": "Antes o después",
     "photosNote": "Todas las fotos son de trabajos reales de Jorge. No se muestran direcciones, nombres ni caras.",
-    "ctaTitle": "¿Tiene un proyecto parecido?",
-    "ctaText": "Envíe fotos de su espacio y elija un sábado para una consulta gratis.",
+    "ctaTitle": "¿Quiere algo así?",
+    "ctaText": "Mande unas fotos de su espacio y elija un sábado para una visita gratis.",
     "items": {
       "gym": {
         "title": "Gimnasio y sala en el sótano",
@@ -272,7 +270,7 @@
     "services": {
       "interior": {
         "name": "Remodelación de interiores",
-        "desc": "Remodelación completa de espacios, desde cambios de distribución hasta los acabados.",
+        "desc": "Remodelaciones completas, con cambios de distribución y acabados.",
         "items": [
           "Remodelación de cocinas y baños",
           "Drywall y estructura",
@@ -281,7 +279,7 @@
       },
       "painting": {
         "name": "Pintura",
-        "desc": "Pintura de interiores y exteriores, limpia y duradera.",
+        "desc": "Por dentro y por fuera: paredes, techos, molduras y gabinetes.",
         "items": [
           "Paredes, techos y molduras",
           "Repintado de gabinetes",
@@ -290,7 +288,7 @@
       },
       "tile": {
         "name": "Instalación de azulejos",
-        "desc": "Regaderas, backsplash y pisos instalados con precisión.",
+        "desc": "Regaderas, backsplash y pisos de azulejo.",
         "items": [
           "Paredes de regadera",
           "Backsplash de cocina",
@@ -299,7 +297,7 @@
       },
       "flooring": {
         "name": "Instalación de pisos",
-        "desc": "Pisos nuevos que aguantan el uso diario.",
+        "desc": "Piso vinílico, madera y laminado, y reparación de subpiso.",
         "items": [
           "Piso vinílico (LVP)",
           "Madera y laminado",
@@ -308,7 +306,7 @@
       },
       "windows": {
         "name": "Ventanas y puertas",
-        "desc": "Cambio de ventanas y puertas para más comodidad y mejor apariencia.",
+        "desc": "Cambio de ventanas, y puertas interiores y exteriores.",
         "items": [
           "Cambio de ventanas",
           "Puertas interiores y exteriores",
@@ -379,13 +377,13 @@
     "photoAlt": "Foto subida {{n}}",
     "removePhoto": "Quitar foto {{n}}",
     "processing": "Preparando fotos…",
-    "tipsTitle": "Consejos para una cotización más precisa",
+    "tipsTitle": "Consejos para las fotos",
     "tips": [
       "Párese en cada esquina y tome una foto amplia",
       "Acercamientos de daños o de lo que quiera cambiar",
       "Prenda las luces; la luz del día es mejor"
     ],
-    "noPhotos": "¿No tiene fotos a la mano? Puede saltarse este paso, pero las fotos nos ayudan a darle un rango de precio antes de la visita.",
+    "noPhotos": "¿No tiene fotos a la mano? Puede saltarse este paso, pero las fotos le ayudan a Jorge a entender el trabajo antes de la visita.",
     "skip": "Saltar por ahora",
     "name": "Nombre completo",
     "phone": "Celular (para mensajes de texto)",
@@ -432,7 +430,7 @@
     "done": {
       "title": "¡Recibimos su solicitud!",
       "text": "Gracias, {{name}}. Su número de referencia es {{ref}}.",
-      "next": "Jorge revisará los detalles de su proyecto y se comunicará con usted por {{via}} en 1 día hábil.",
+      "next": "Jorge revisará los detalles de su proyecto y se comunicará con usted por {{via}} en 1 a 3 días hábiles.",
       "via": {
         "text": "mensaje de texto",
         "email": "correo"
@@ -608,7 +606,7 @@
   "templates": {
     "subject": "Su solicitud a JLP Construction {{ref}}",
     "confirm": "Hola {{first}}, soy Jorge de JLP Construction. Su consulta quedó confirmada para el {{when}} en {{address}}. Si algo cambia, respóndame aquí. ¡Nos vemos!",
-    "info": "Hola {{first}}, soy Jorge de JLP Construction. ¡Gracias por su solicitud ({{ref}})! Antes de ir a verlo, ¿me podría enviar de 3 a 5 fotos del espacio desde diferentes ángulos, y medidas aproximadas si las tiene? Así le puedo dar un rango de precio primero.",
+    "info": "Hola {{first}}, soy Jorge de JLP Construction. ¡Gracias por su solicitud ({{ref}})! Antes de ir a verlo, ¿me podría enviar de 3 a 5 fotos del espacio desde diferentes ángulos, y medidas aproximadas si las tiene? Así entiendo mejor el trabajo antes de la visita.",
     "decline": "Hola {{first}}, gracias por pensar en JLP Construction. Desafortunadamente, este proyecto no es adecuado para nosotros en este momento, pero le agradezco mucho que se haya comunicado y le deseo mucho éxito.",
     "followup": "Hola {{first}}, solo quería darle seguimiento a la cotización que le envié para su proyecto. Con gusto respondo cualquier pregunta o ajusto lo que necesite. — Jorge, JLP Construction",
     "cancel": "Hola {{first}}, soy Jorge de JLP Construction. Lo siento, pero necesito cancelar nuestra consulta del {{when}}. Me comunicaré pronto para buscar otro horario que le funcione."

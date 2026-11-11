@@ -11,7 +11,6 @@ export default function Services() {
       <div className="wrap">
         <div className="sec-head">
           <h1>{t('services.title')}</h1>
-          <p>{t('services.lead')}</p>
         </div>
         <div className="cards g3">
           {SERVICES.map((s) => (

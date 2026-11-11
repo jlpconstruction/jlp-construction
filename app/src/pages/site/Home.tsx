@@ -44,7 +44,6 @@ export default function Home() {
         <div className="wrap">
           <div className="sec-head">
             <h2>{t('home.servicesTitle')}</h2>
-            <p>{t('home.servicesLead')}</p>
           </div>
           <div className="cards g3">
             {SERVICES.map((s) => (
