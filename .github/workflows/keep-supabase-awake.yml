@@ -1,0 +1,32 @@
+# Free Supabase projects pause after about a week with no activity.
+# This asks the database for the taken Saturday times once a day (a harmless public
+# read), so the project always has activity and the request form keeps working.
+#
+# Needs two repository secrets (Settings → Secrets and variables → Actions):
+#   SUPABASE_URL       e.g. https://abcdxyz.supabase.co
+#   SUPABASE_ANON_KEY  the public anon / publishable key (never the secret key)
+name: Keep Supabase awake
+
+on:
+  schedule:
+    - cron: '0 14 * * *' # every day at 14:00 UTC (8 or 9 am in Chicago)
+  workflow_dispatch: # adds a "Run workflow" button for testing
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping the database
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          curl --fail --silent --show-error --max-time 30 \
+            -X POST "$SUPABASE_URL/rest/v1/rpc/taken_slots" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{}' > /dev/null
+          echo "Supabase answered, so it stays awake."

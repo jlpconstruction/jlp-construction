@@ -162,6 +162,18 @@ Questions worth asking him (write down the answers):
 
 ---
 
+## Part 7: Keep the database awake
+
+Free Supabase projects pause after about a week with no activity, and while paused the request form can't save anything. The file [`.github/workflows/keep-supabase-awake.yml`](../.github/workflows/keep-supabase-awake.yml) pings the database once a day for free, using GitHub Actions.
+
+1. On GitHub, open the repo → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**. Add two secrets:
+   - `SUPABASE_URL`: your Supabase Project URL
+   - `SUPABASE_ANON_KEY`: the anon / publishable key (the same public key as in `app/.env`, never the secret key)
+2. Commit and push the workflow file.
+3. Test it: GitHub → **Actions** tab → **Keep Supabase awake** → **Run workflow**. After a few seconds it should show a green check.
+
+After that it runs every day by itself. If it ever fails, GitHub emails the repo owner, and the run log shows why.
+
 ## Troubleshooting
 
 | Problem | Fix |
