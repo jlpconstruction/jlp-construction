@@ -10,6 +10,7 @@ This guide takes the MVP from "code on my computer" to "a live link Jorge can op
 | **Supabase** | The app's **database and login system**. Requests, photos, and notes are saved here. Only Jorge can sign in. |
 | **Cloudflare Pages** | The **web host**. It copies the code from GitHub, builds the website, and gives you a public link. Every time you push to GitHub, it rebuilds automatically. |
 | **`.env` file** | A private file on your computer holding the Supabase address and public key. It's never uploaded to GitHub. |
+| **Resend** | The **email sender**. When a new request comes in, it emails Jorge a notice in Spanish (Part 8). |
 
 The main workflow the MVP covers:
 
@@ -174,6 +175,67 @@ Free Supabase projects pause after about a week with no activity, and while paus
 
 After that it runs every day by itself. If it ever fails, GitHub emails the repo owner, and the run log shows why.
 
+## Part 8: Email Jorge when a new request comes in
+
+Every time someone submits the form, Jorge gets an email in Spanish: who it is, the Saturday they picked, the rooms and services, the budget, the description, and an orange **Abrir la solicitud** button that opens the request in his dashboard.
+
+How it works: Supabase notices the new request (a **database webhook**) → calls a small server function (`notify-new-request`) → the function sends the email through **Resend**. The website itself doesn't change, so **you don't need to push anything for this to work**, and if an email ever fails, the customer's request is still saved.
+
+Plan on about 30 minutes. Do the steps in order.
+
+### 8a. Set up Resend (the email sender)
+1. Go to **https://resend.com** → **Sign up** (free: up to 100 emails a day).
+2. **Domains** → **Add domain** → type `jlpconstructionchicago.com` → Region: **North Virginia (us-east-1)** → **Add**.
+3. Resend shows a few DNS records (an **MX** and a **TXT** for `send`, and a **TXT** for `resend._domainkey`). They prove to email providers that the site is allowed to send email.
+   - If Resend offers **Sign in to Cloudflare** / **Auto configure**, use it and approve.
+   - Otherwise, in a new tab open **Cloudflare** → your domain → **DNS** → **Records** → **Add record**, and copy each record exactly (Type, Name, Content, and Priority for the MX).
+   - These records only touch the `send` and `resend._domainkey` names, so they don't affect any email Jorge already gets at the domain.
+4. Back in Resend, click **Verify DNS records**. It can take a few minutes. Wait until the domain says **Verified**.
+5. **API Keys** → **Create API key** → Name: `supabase-notify` → Permission: **Sending access** → Domain: `jlpconstructionchicago.com` → **Add**. Copy the key (starts with `re_`). Resend shows it only once.
+   - ⚠️ This key is a secret. It goes only into Supabase (next step), never in `app/.env` or the code.
+
+### 8b. Give Supabase the secrets
+1. Make a long random password for the webhook. In a terminal, run:
+   ```bash
+   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+   ```
+   Copy what it prints. You'll paste it twice: here and in step 8d.
+2. Supabase → **Edge Functions** → **Secrets** (it may be under **Project Settings → Edge Functions**). Add these three, then **Save**:
+   | Name | Value |
+   |---|---|
+   | `RESEND_API_KEY` | the Resend key from 8a |
+   | `NOTIFY_EMAIL` | Jorge's email. **While testing**, add yours after a comma: `jorge@…, you@…` |
+   | `WEBHOOK_SECRET` | the random password from step 1 |
+
+### 8c. Deploy the function
+1. Supabase → **Edge Functions** → **Deploy a new function** → **Via Editor**.
+2. Name it exactly `notify-new-request`.
+3. Delete the sample code, paste everything from [`supabase/functions/notify-new-request/index.ts`](../supabase/functions/notify-new-request/index.ts), and click **Deploy**.
+4. Open the function's **Settings** (or **Details**) and turn **off** "Verify JWT" (it may say "Enforce JWT verification"). Save. The `WEBHOOK_SECRET` check is what protects it.
+5. Copy the function's URL. It looks like `https://abcdxyz.supabase.co/functions/v1/notify-new-request`.
+
+### 8d. Turn on the webhook
+1. Supabase → **Database** → **Webhooks** (it may be under **Integrations → Database Webhooks**). If asked, click **Enable webhooks**.
+2. **Create a new hook**:
+   | Setting | Value |
+   |---|---|
+   | Name | `notify_new_request` |
+   | Table | `requests` |
+   | Events | **Insert** only (uncheck Update and Delete) |
+   | Type | **HTTP Request** |
+   | Method | `POST` |
+   | URL | the function URL from 8c |
+   | Timeout | `5000` |
+   | HTTP Headers | keep `Content-type: application/json`, then **Add a new header**: name `x-webhook-secret`, value = the random password from 8b |
+3. **Create webhook**.
+
+### 8e. Test it
+1. Submit a test request, either on your computer (http://localhost:5174/request) or on the live site. Both save to the same Supabase, so both send the email.
+2. Within a minute, the addresses in `NOTIFY_EMAIL` should get **"Nueva solicitud JLP-…"**. Check the spam folder the first time, and mark it **Not spam** so the next ones land in the inbox.
+3. Tap **Abrir la solicitud**: it should open that request in the dashboard (after Google sign-in).
+4. When it works, change `NOTIFY_EMAIL` to **only Jorge's email** and save. Delete your test request in Supabase → **Table Editor** → `requests` (if it had photos, also delete its folder in **Storage** → `request-photos`).
+5. Ask Jorge to open the first real notice on his iPhone and mark it Not spam (or add `avisos@jlpconstructionchicago.com` to his contacts).
+
 ## Troubleshooting
 
 | Problem | Fix |
@@ -186,3 +248,4 @@ After that it runs every day by itself. If it ever fails, GitHub emails the repo
 | Photos don't show in the dashboard | Check the `request-photos` bucket exists in Storage (Part 2). |
 | Live site shows "Page not found" on refresh | `app/public/_redirects` must be in the deploy (it is in the repo). |
 | Supabase project "paused" | Free projects pause after 7 days with no activity. Click **Restore** in Supabase. (Keep-awake ping is a later checklist item.) |
+| No "Nueva solicitud" email | Check spam first. Then Supabase → **Edge Functions → notify-new-request → Logs**. "unauthorized" = the `x-webhook-secret` header doesn't match `WEBHOOK_SECRET` exactly. "not configured" = a secret is missing. "Resend error 403" = the domain isn't verified yet (8a, step 4). No log at all = the webhook isn't set up or isn't on **Insert** (8d). |
