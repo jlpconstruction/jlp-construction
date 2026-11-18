@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import AddressField from '../../components/AddressField'
 import Icon from '../../components/Icon'
+import Turnstile from '../../components/Turnstile'
 import { ApiError, fetchTakenSlots, submitRequest } from '../../lib/api'
 import {
   BUDGET_ORDER,
@@ -94,6 +95,10 @@ export default function RequestForm() {
   const [busy, setBusy] = useState(false)
   const [done, setDone] = useState<{ ref: string; name: string; via: ContactPref; slot: string } | null>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
+  const [captcha, setCaptcha] = useState('')
+  const [captchaKey, setCaptchaKey] = useState(0)
+  const onCaptcha = useCallback((token: string) => setCaptcha(token), [])
+  const needCaptcha = Boolean(import.meta.env.VITE_TURNSTILE_SITE_KEY)
 
   const set = <K extends keyof Form>(key: K, value: Form[K]) => setForm((f) => ({ ...f, [key]: value }))
 
@@ -173,12 +178,15 @@ export default function RequestForm() {
           no_feature: false, // a client who'd rather not be featured tells Jorge; he records it on the request page
         },
         form.photos.map((p) => p.blob),
+        captcha,
       )
       setDone({ ref, name: form.name.trim().split(/\s+/)[0], via: form.contactPref, slot: form.slot })
       form.photos.forEach((p) => URL.revokeObjectURL(p.url))
       window.scrollTo(0, 0)
     } catch (e) {
       const key = e instanceof ApiError ? e.message : 'submit_failed'
+      setCaptcha('')
+      setCaptchaKey((k) => k + 1) // each check works once
       setError(`errors.${key}`)
       if (key === 'slot_taken' || key === 'invalid_slot') {
         set('slot', '')
@@ -550,6 +558,10 @@ export default function RequestForm() {
                   <dd>{t('form.review.textsAgreed')}</dd>
                 </dl>
               </div>
+              <div className="mt">
+                <Turnstile key={`${captchaKey}-${lng}`} lang={lng} onToken={onCaptcha} />
+                {needCaptcha && !captcha && <p className="small muted">{t('form.captchaWaiting')}</p>}
+              </div>
               <p className="small muted mt">
                 {t('form.agree')} <Link to="/policies">{t('site.footer.privacy')}</Link>
               </p>
@@ -575,7 +587,7 @@ export default function RequestForm() {
                 {step === 3 && !form.photos.length ? t('form.skip') : t('common.continue')} <Icon name="arrowR" size={18} />
               </button>
             ) : (
-              <button type="button" className="btn btn-primary" onClick={submit} disabled={busy}>
+              <button type="button" className="btn btn-primary" onClick={submit} disabled={busy || (needCaptcha && !captcha)}>
                 <Icon name="check" size={18} /> {busy ? t('form.submitting') : t('form.submit')}
               </button>
             )}

@@ -236,6 +236,39 @@ Plan on about 30 minutes. Do the steps in order.
 4. When it works, change `NOTIFY_EMAIL` to **only Jorge's email** and save. Delete your test request in Supabase → **Table Editor** → `requests` (if it had photos, also delete its folder in **Storage** → `request-photos`).
 5. Ask Jorge to open the first real notice on his iPhone and mark it Not spam (or add `avisos@jlpconstructionchicago.com` to his contacts).
 
+## Part 9: Spam protection (Turnstile)
+
+This stops bots from flooding the request form or the photo storage. It has three pieces: the "not a robot" check on the form (Cloudflare Turnstile), a small server step that confirms it (the `submit-request` Edge Function), and a database lock-down so requests can only come in through that step.
+
+**Do the steps in this order.** The live form keeps working the whole time.
+
+### 9a. Create the Turnstile check (Cloudflare)
+1. In Cloudflare, open **Turnstile** in the left sidebar → **Add widget** (or **Add site**).
+2. Name: `JLP request form`. Hostnames: add `jlpconstructionchicago.com`, `www.jlpconstructionchicago.com`, `jlp-construction.pages.dev`, and `localhost`.
+3. Widget mode: **Managed**. Create it.
+4. Copy the **Site key** (public) and the **Secret key** (private). The secret key goes only into Supabase, in the next step.
+
+### 9b. Give Supabase the secret key
+1. Supabase → **Edge Functions** → **Secrets** (it may be under **Project Settings → Edge Functions**).
+2. Add a secret named `TURNSTILE_SECRET_KEY` with the Turnstile **Secret key** as the value. Save.
+
+### 9c. Deploy the server step (Edge Function)
+1. Supabase → **Edge Functions** → **Deploy a new function** → **Via Editor**.
+2. Name it exactly `submit-request`.
+3. Delete the sample code, paste everything from [`supabase/functions/submit-request/index.ts`](../supabase/functions/submit-request/index.ts), and click **Deploy**.
+4. Open the function's settings and turn **off** "Verify JWT" (it may say "Enforce JWT verification"). Save. The function is public on purpose; the Turnstile check is what protects it.
+
+### 9d. Add the site key to the website
+1. In `app/.env` on your computer, add: `VITE_TURNSTILE_SITE_KEY=your-site-key`. Restart `npm run dev`.
+2. Test locally: submit a request at http://localhost:5174/request. On the last step you should see the check (usually it passes by itself), then a reference number.
+3. In Cloudflare → your Pages project → **Settings** → **Environment variables**, add `VITE_TURNSTILE_SITE_KEY` with the same site key.
+
+### 9e. Push the new site
+Commit and push (I'll give you the exact commands). When Cloudflare shows the new deployment as **Success**, submit a test request on the live site.
+
+### 9f. Lock the database (last)
+Only after the live test works: run [`supabase/migrations/005_lock_down_submissions.sql`](../supabase/migrations/005_lock_down_submissions.sql) in the SQL Editor. From then on, requests and photos can only come in through the spam-checked server step. Submit one more test request on the live site to confirm.
+
 ## Troubleshooting
 
 | Problem | Fix |
@@ -248,4 +281,7 @@ Plan on about 30 minutes. Do the steps in order.
 | Photos don't show in the dashboard | Check the `request-photos` bucket exists in Storage (Part 2). |
 | Live site shows "Page not found" on refresh | `app/public/_redirects` must be in the deploy (it is in the repo). |
 | Supabase project "paused" | Free projects pause after 7 days with no activity. Click **Restore** in Supabase. (Keep-awake ping is a later checklist item.) |
+| Request form says "The spam check didn't finish" | Wait a few seconds and press Submit again. If it keeps happening: the site key in Cloudflare Pages / `app/.env` must match the Turnstile widget, the site's domain must be in the widget's Hostnames (9a), and `TURNSTILE_SECRET_KEY` in Supabase must be that widget's secret key (9b). |
+| Request form says "couldn't send" after Part 9 | Supabase → **Edge Functions → submit-request → Logs**. If the function isn't deployed or "Verify JWT" is still on, the new site can't save requests (9c). |
+| The domain won't load on one Wi-Fi (school, work) but `jlp-construction.pages.dev` does | That network's firewall blocks "newly registered domains." The site is fine; check on phone data to be sure. It usually clears on its own as the domain gets older, or the network's IT department can unblock it. Meanwhile, test with the `pages.dev` link. |
 | No "Nueva solicitud" email | Check spam first. Then Supabase → **Edge Functions → notify-new-request → Logs**. "unauthorized" = the `x-webhook-secret` header doesn't match `WEBHOOK_SECRET` exactly. "not configured" = a secret is missing. "Resend error 403" = the domain isn't verified yet (8a, step 4). No log at all = the webhook isn't set up or isn't on **Insert** (8d). |

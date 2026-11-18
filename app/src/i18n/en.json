@@ -26,7 +26,8 @@
     "consent_required": "Please check the box to agree to project text messages.",
     "invalid_phone": "Enter a mobile phone number.",
     "invalid_email": "Enter your email address.",
-    "invalid_address": "Please check the project address and ZIP code."
+    "invalid_address": "Please check the project address and ZIP code.",
+    "spam_check": "The spam check didn't finish. Please wait a few seconds, then press Submit again."
   },
   "site": {
     "brandSub": "Residential Remodeling",
@@ -216,7 +217,7 @@
       },
       {
         "h": "Who we share it with",
-        "p": "Service providers that run this website, acting on our behalf: hosting & database, email/text delivery, an address-lookup service (OpenStreetMap's Photon) that suggests addresses as you type, and an AI service that helps summarize and translate project details (it does not receive your name or contact details)."
+        "p": "Service providers that run this website, acting on our behalf: hosting & database, email/text delivery, Cloudflare Turnstile (a spam check on the request form), an address-lookup service (OpenStreetMap's Photon) that suggests addresses as you type, and an AI service that helps summarize and translate project details (it does not receive your name or contact details)."
       },
       {
         "h": "Project photos",
@@ -442,7 +443,8 @@
     "state": "State",
     "zip": "ZIP code",
     "addressHint": "Start typing and pick your address from the list, or type it in.",
-    "addressSuggestions": "Address suggestions"
+    "addressSuggestions": "Address suggestions",
+    "captchaWaiting": "Checking that you're not a robot. This usually takes a second."
   },
   "admin": {
     "title": "Dashboard",

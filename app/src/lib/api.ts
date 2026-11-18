@@ -41,24 +41,36 @@ export type NewRequest = {
   no_feature: boolean
 }
 
-/** Uploads the photos, then saves the request. Returns the reference number. */
-export async function submitRequest(req: NewRequest, photos: Blob[]): Promise<string> {
+/**
+ * Sends the request through the submit-request Edge Function, which checks the spam token
+ * and saves it, then uploads the photos with the one-time links it returns.
+ * Returns the reference number.
+ */
+export async function submitRequest(req: NewRequest, photos: Blob[], token: string): Promise<string> {
   const client = db()
-  const id = crypto.randomUUID()
-  const paths: string[] = []
-  for (const [i, blob] of photos.entries()) {
-    const path = `${id}/${i + 1}.jpg`
-    const { error } = await client.storage.from(PHOTO_BUCKET).upload(path, blob, { contentType: 'image/jpeg' })
-    if (error) throw new ApiError('photo_upload')
-    paths.push(path)
-  }
-  const { data, error } = await client.rpc('submit_request', { p: { ...req, id, photos: paths } })
+  const { data, error } = await client.functions.invoke('submit-request', {
+    body: { token, request: req, photoCount: photos.length },
+  })
   if (error) {
-    const known = ['slot_taken', 'invalid_slot', 'consent_required', 'invalid_phone', 'invalid_email', 'invalid_address']
-    if (error.message.includes('requests_email_required')) throw new ApiError('invalid_email')
-    throw new ApiError(known.find((k) => error.message.includes(k)) ?? 'submit_failed')
+    let key = 'submit_failed'
+    try {
+      const body = await (error as { context?: Response }).context?.json()
+      if (typeof body?.error === 'string') key = body.error
+    } catch {
+      // network error or no JSON body
+    }
+    throw new ApiError(key)
   }
-  return data as string
+  const { ref, uploads } = data as { ref: string; uploads: { path: string; token: string }[] }
+  // The request is already saved; a photo that fails to upload just won't show on Jorge's page.
+  await Promise.all(
+    uploads.map((u, i) =>
+      photos[i]
+        ? client.storage.from(PHOTO_BUCKET).uploadToSignedUrl(u.path, u.token, photos[i], { contentType: 'image/jpeg' })
+        : null,
+    ),
+  )
+  return ref
 }
 
 /* ---------- Admin (Jorge's dashboard) ---------- */

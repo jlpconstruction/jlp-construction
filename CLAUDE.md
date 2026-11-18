@@ -19,7 +19,7 @@ A bilingual (English/Spanish) web app with two sides:
 Planned next: an AI project brief from the photos and description, translation, automatic emails, and a 35/35/30 payments tracker.
 
 ## Tech
-React, Vite, TypeScript, Tailwind CSS, React Router, and react-i18next in `app/`. Supabase for the database, login, and photo storage (`supabase/migrations/`). Address suggestions on the request form come from Photon (free OpenStreetMap search, no key). Hosted on Cloudflare Pages. Setup steps are in `docs/setup-and-deploy.md`.
+React, Vite, TypeScript, Tailwind CSS, React Router, and react-i18next in `app/`. Supabase for the database, login, and photo storage (`supabase/migrations/`). Address suggestions on the request form come from Photon (free OpenStreetMap search, no key). Requests are saved only through the `submit-request` Edge Function (`supabase/functions/`), which checks a Cloudflare Turnstile token first; photos upload with one-time signed links it returns. A Supabase database webhook calls the `notify-new-request` Edge Function, which emails Jorge in Spanish through Resend when a request is saved. Hosted on Cloudflare Pages. Setup steps are in `docs/setup-and-deploy.md`.
 
 ## Working rules
 - Every customer-facing string needs English and Spanish (`app/src/i18n/`). Store choices as keys, not display text (`app/src/lib/options.ts`).

@@ -26,7 +26,8 @@
     "consent_required": "Por favor marque la casilla para aceptar los mensajes de texto del proyecto.",
     "invalid_phone": "Escriba un número de celular.",
     "invalid_email": "Escriba su correo electrónico.",
-    "invalid_address": "Por favor revise la dirección del proyecto y el código postal."
+    "invalid_address": "Por favor revise la dirección del proyecto y el código postal.",
+    "spam_check": "La verificación contra spam no terminó. Espere unos segundos y presione Enviar otra vez."
   },
   "site": {
     "brandSub": "Remodelación residencial",
@@ -216,7 +217,7 @@
       },
       {
         "h": "Con quién la compartimos",
-        "p": "Proveedores de servicios que hacen funcionar este sitio, en nuestro nombre: alojamiento y base de datos, envío de correos y mensajes de texto, un servicio de búsqueda de direcciones (Photon de OpenStreetMap) que sugiere direcciones mientras escribe, y un servicio de IA que ayuda a resumir y traducir los detalles del proyecto (no recibe su nombre ni sus datos de contacto)."
+        "p": "Proveedores de servicios que hacen funcionar este sitio, en nuestro nombre: alojamiento y base de datos, envío de correos y mensajes de texto, Cloudflare Turnstile (una verificación contra spam en el formulario), un servicio de búsqueda de direcciones (Photon de OpenStreetMap) que sugiere direcciones mientras escribe, y un servicio de IA que ayuda a resumir y traducir los detalles del proyecto (no recibe su nombre ni sus datos de contacto)."
       },
       {
         "h": "Fotos del proyecto",
@@ -442,7 +443,8 @@
     "state": "Estado",
     "zip": "Código postal",
     "addressHint": "Empiece a escribir y elija su dirección de la lista, o escríbala completa.",
-    "addressSuggestions": "Sugerencias de dirección"
+    "addressSuggestions": "Sugerencias de dirección",
+    "captchaWaiting": "Verificando que no es un robot. Normalmente toma un segundo."
   },
   "admin": {
     "title": "Panel",

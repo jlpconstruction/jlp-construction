@@ -448,3 +448,6 @@ details.faq summary { font-size: 18px; }
 .next-actions.stacked { grid-auto-flow: row; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 .next-actions.stacked > :first-child { grid-column: 1 / -1; }
 @media (max-width: 560px) { .next-actions, .next-actions.stacked { grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); } }
+
+/* Spam check on the review step */
+.turnstile { min-height: 65px; }
