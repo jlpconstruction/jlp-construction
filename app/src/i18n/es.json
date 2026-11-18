@@ -437,6 +437,7 @@
         "email": "correo"
       },
       "slot": "Consulta solicitada: {{when}} (pendiente de confirmar)",
+      "emailSent": "Le enviamos un correo de confirmación a {{email}}. Si no lo ve en unos minutos, revise su carpeta de spam.",
       "another": "Enviar otra solicitud",
       "home": "Volver al inicio"
     },

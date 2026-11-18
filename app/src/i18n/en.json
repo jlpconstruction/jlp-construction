@@ -437,6 +437,7 @@
         "email": "email"
       },
       "slot": "Requested consultation: {{when}} (pending confirmation)",
+      "emailSent": "We sent a confirmation email to {{email}}. If you don't see it in a few minutes, check your spam folder.",
       "another": "Submit another request",
       "home": "Back to home"
     },

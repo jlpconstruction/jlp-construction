@@ -10,7 +10,7 @@ This guide takes the MVP from "code on my computer" to "a live link Jorge can op
 | **Supabase** | The app's **database and login system**. Requests, photos, and notes are saved here. Only Jorge can sign in. |
 | **Cloudflare Pages** | The **web host**. It copies the code from GitHub, builds the website, and gives you a public link. Every time you push to GitHub, it rebuilds automatically. |
 | **`.env` file** | A private file on your computer holding the Supabase address and public key. It's never uploaded to GitHub. |
-| **Resend** | The **email sender**. When a new request comes in, it emails Jorge a notice in Spanish (Part 8). |
+| **Resend** | The **email sender**. When a new request comes in, it emails Jorge a notice in Spanish and sends the customer a "we got your request" email in their language (Part 8). |
 
 The main workflow the MVP covers:
 
@@ -175,9 +175,16 @@ Free Supabase projects pause after about a week with no activity, and while paus
 
 After that it runs every day by itself. If it ever fails, GitHub emails the repo owner, and the run log shows why.
 
-## Part 8: Email Jorge when a new request comes in
+## Part 8: Emails when a new request comes in
 
-Every time someone submits the form, Jorge gets an email in Spanish: who it is, the Saturday they picked, the rooms and services, the budget, the description, and an orange **Abrir la solicitud** button that opens the request in his dashboard.
+Every time someone submits the form, two emails go out:
+
+| Who | Language | What it says |
+|---|---|---|
+| **Jorge** | Spanish | Who it is, the Saturday they picked, the rooms and services, the budget, the description, and an orange **Abrir la solicitud** button that opens the request in his dashboard. |
+| **The customer** | The language they used on the form | "Request received!", their reference number, that Jorge will reach out within 1–3 business days, their requested time (pending confirmation), rooms, services, and address. If they reply, the reply goes to Jorge. |
+
+The customer email uses the same wording as the confirmation screen on the website. The two emails are sent separately, so if one fails, the other still goes out.
 
 How it works: Supabase notices the new request (a **database webhook**) → calls a small server function (`notify-new-request`) → the function sends the email through **Resend**. The website itself doesn't change, so **you don't need to push anything for this to work**, and if an email ever fails, the customer's request is still saved.
 
@@ -206,6 +213,7 @@ Plan on about 30 minutes. Do the steps in order.
    | `RESEND_API_KEY` | the Resend key from 8a |
    | `NOTIFY_EMAIL` | Jorge's email. **While testing**, add yours after a comma: `jorge@…, you@…` |
    | `WEBHOOK_SECRET` | the random password from step 1 |
+   | `REPLY_TO` | Jorge's email. When a customer replies to their "we got your request" email, the reply goes here. |
 
 ### 8c. Deploy the function
 1. Supabase → **Edge Functions** → **Deploy a new function** → **Via Editor**.
@@ -231,7 +239,7 @@ Plan on about 30 minutes. Do the steps in order.
 
 ### 8e. Test it
 1. Submit a test request, either on your computer (http://localhost:5174/request) or on the live site. Both save to the same Supabase, so both send the email.
-2. Within a minute, the addresses in `NOTIFY_EMAIL` should get **"Nueva solicitud JLP-…"**. Check the spam folder the first time, and mark it **Not spam** so the next ones land in the inbox.
+2. Within a minute, the addresses in `NOTIFY_EMAIL` should get **"Nueva solicitud JLP-…"**, and the email you typed on the form should get **"We got your request"** (or **"Recibimos su solicitud"** if you filled out the form in Spanish). Try replying to the customer email: the reply should go to the `REPLY_TO` address. Check the spam folder the first time, and mark it **Not spam** so the next ones land in the inbox.
 3. Tap **Abrir la solicitud**: it should open that request in the dashboard (after Google sign-in).
 4. When it works, change `NOTIFY_EMAIL` to **only Jorge's email** and save. Delete your test request in Supabase → **Table Editor** → `requests` (if it had photos, also delete its folder in **Storage** → `request-photos`).
 5. Ask Jorge to open the first real notice on his iPhone and mark it Not spam (or add `avisos@jlpconstructionchicago.com` to his contacts).
@@ -284,4 +292,4 @@ Only after the live test works: run [`supabase/migrations/005_lock_down_submissi
 | Request form says "The spam check didn't finish" | Wait a few seconds and press Submit again. If it keeps happening: the site key in Cloudflare Pages / `app/.env` must match the Turnstile widget, the site's domain must be in the widget's Hostnames (9a), and `TURNSTILE_SECRET_KEY` in Supabase must be that widget's secret key (9b). |
 | Request form says "couldn't send" after Part 9 | Supabase → **Edge Functions → submit-request → Logs**. If the function isn't deployed or "Verify JWT" is still on, the new site can't save requests (9c). |
 | The domain won't load on one Wi-Fi (school, work) but `jlp-construction.pages.dev` does | That network's firewall blocks "newly registered domains." The site is fine; check on phone data to be sure. It usually clears on its own as the domain gets older, or the network's IT department can unblock it. Meanwhile, test with the `pages.dev` link. |
-| No "Nueva solicitud" email | Check spam first. Then Supabase → **Edge Functions → notify-new-request → Logs**. "unauthorized" = the `x-webhook-secret` header doesn't match `WEBHOOK_SECRET` exactly. "not configured" = a secret is missing. "Resend error 403" = the domain isn't verified yet (8a, step 4). No log at all = the webhook isn't set up or isn't on **Insert** (8d). |
+| No "Nueva solicitud" or "We got your request" email | Check spam first. Then Supabase → **Edge Functions → notify-new-request → Logs**. "unauthorized" = the `x-webhook-secret` header doesn't match `WEBHOOK_SECRET` exactly. "not configured" = a secret is missing. "Resend error 403" = the domain isn't verified yet (8a, step 4). "Customer email … failed" = Jorge's notice went out but the customer's didn't; the log line says why. No log at all = the webhook isn't set up or isn't on **Insert** (8d). |

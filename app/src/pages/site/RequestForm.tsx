@@ -93,7 +93,7 @@ export default function RequestForm() {
   const [error, setError] = useState('')
   const [taken, setTaken] = useState<Set<number> | null>(null)
   const [busy, setBusy] = useState(false)
-  const [done, setDone] = useState<{ ref: string; name: string; via: ContactPref; slot: string } | null>(null)
+  const [done, setDone] = useState<{ ref: string; name: string; via: ContactPref; slot: string; email: string } | null>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
   const [captcha, setCaptcha] = useState('')
   const [captchaKey, setCaptchaKey] = useState(0)
@@ -180,7 +180,7 @@ export default function RequestForm() {
         form.photos.map((p) => p.blob),
         captcha,
       )
-      setDone({ ref, name: form.name.trim().split(/\s+/)[0], via: form.contactPref, slot: form.slot })
+      setDone({ ref, name: form.name.trim().split(/\s+/)[0], via: form.contactPref, slot: form.slot, email: form.email.trim() })
       form.photos.forEach((p) => URL.revokeObjectURL(p.url))
       window.scrollTo(0, 0)
     } catch (e) {
@@ -215,6 +215,7 @@ export default function RequestForm() {
               {t('form.done.next', { via: t(`form.done.via.${done.via}`) })}
             </p>
             {done.slot && <p>{t('form.done.slot', { when: fmtDateTime(done.slot, lng) })}</p>}
+            {done.email && <p>{t('form.done.emailSent', { email: done.email })}</p>}
             <div className="actions" style={{ justifyContent: 'center', marginTop: 20 }}>
               <Link className="btn btn-dark" to="/">
                 {t('form.done.home')}

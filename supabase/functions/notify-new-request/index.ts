@@ -1,14 +1,22 @@
-// notify-new-request: emails Jorge (in Spanish) every time a new request is saved.
+// notify-new-request: sends two emails every time a new request is saved:
+//   1. a notice to Jorge, in Spanish, with all the details and a link to the dashboard
+//   2. a "we got your request" email to the customer, in the language they used on the form
 //
 // How it runs: a Supabase "Database Webhook" calls this function on every INSERT into
-// public.requests. The function builds a short Spanish email and sends it through Resend.
+// public.requests. The function builds the emails and sends them through Resend.
 // The customer's form never waits on this, so if email ever fails, the request is still saved.
+// The two emails are sent separately, so one failing doesn't stop the other.
+//
+// Customer-facing wording reuses the site's confirmation screen (app/src/i18n → form.done)
+// and must stay in both English and Spanish.
 //
 // Secrets (Supabase → Edge Functions → Secrets), never in the website code:
 //   RESEND_API_KEY   the Resend API key
 //   NOTIFY_EMAIL     who gets the notice (Jorge). Several addresses: separate with commas.
 //   WEBHOOK_SECRET   a long random password; the webhook sends it in the x-webhook-secret header
-//   EMAIL_FROM       optional, default "JLP Avisos <avisos@jlpconstructionchicago.com>"
+//   REPLY_TO         where customer replies go (Jorge's email). Default: the first NOTIFY_EMAIL address.
+//   EMAIL_FROM       optional, default "JLP Avisos <avisos@jlpconstructionchicago.com>" (Jorge's notice)
+//   CUSTOMER_FROM    optional, default "JLP Construction <avisos@jlpconstructionchicago.com>"
 //   SITE_URL         optional, default "https://jlpconstructionchicago.com"
 // SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided by Supabase automatically
 // (used only to count the request's photos).
@@ -54,6 +62,62 @@ const BUDGETS = [
 const CONTACT: Record<string, string> = { text: 'Texto', email: 'Correo' }
 const LANGS: Record<string, string> = { es: 'Español', en: 'Inglés' }
 
+// English labels (same wording as app/src/i18n/en.json → options.*), for the customer email
+const ROOMS_EN: Record<string, string> = {
+  kitchen: 'Kitchen',
+  bathroom: 'Bathroom',
+  bedroom: 'Bedroom',
+  living: 'Living / Dining',
+  basement: 'Basement',
+  exterior: 'Exterior / Other',
+}
+const SERVICES_EN: Record<string, string> = {
+  interior: 'Interior Renovations',
+  painting: 'Painting',
+  tile: 'Tile Installation',
+  flooring: 'Flooring Installation',
+  windows: 'Windows & Doors',
+  other: 'Other',
+}
+
+// Customer email wording. Lines marked "site" match the confirmation screen on the website.
+const CUSTOMER = {
+  en: {
+    subject: (ref: string) => `We got your request (${ref}) – JLP Construction`,
+    title: 'Request received!', // site
+    thanks: (first: string, ref: string) => `Thanks, ${first}. Your reference number is ${ref}.`, // site
+    next: (via: string) => `Jorge will review your project details and reach out by ${via} within 1–3 business days.`, // site
+    via: { text: 'text', email: 'email' } as Record<string, string>, // site
+    slot: 'Requested consultation', // site
+    pending: 'pending confirmation', // site
+    rooms: 'Room(s)',
+    services: 'Services',
+    address: 'Address',
+    reply: 'Need to change something or add photos? Just reply to this email.',
+    footer: 'JLP Construction LLC · Residential remodeling, locally owned in Chicago, serving Illinois and Indiana.',
+    why: 'You got this email because you asked for a free visit at jlpconstructionchicago.com.',
+    rooms_: ROOMS_EN,
+    services_: SERVICES_EN,
+  },
+  es: {
+    subject: (ref: string) => `Recibimos su solicitud (${ref}) – JLP Construction`,
+    title: '¡Recibimos su solicitud!', // site
+    thanks: (first: string, ref: string) => `Gracias, ${first}. Su número de referencia es ${ref}.`, // site
+    next: (via: string) => `Jorge revisará los detalles de su proyecto y se comunicará con usted por ${via} en 1 a 3 días hábiles.`, // site
+    via: { text: 'mensaje de texto', email: 'correo' } as Record<string, string>, // site
+    slot: 'Consulta solicitada', // site
+    pending: 'pendiente de confirmar', // site
+    rooms: 'Espacio(s)',
+    services: 'Servicios',
+    address: 'Dirección',
+    reply: '¿Necesita cambiar algo o agregar fotos? Solo responda a este correo.',
+    footer: 'JLP Construction LLC · Remodelación residencial, negocio local en Chicago; servimos Illinois e Indiana.',
+    why: 'Recibe este correo porque pidió una visita gratis en jlpconstructionchicago.com.',
+    rooms_: ROOMS,
+    services_: SERVICES,
+  },
+}
+
 export type RequestRow = {
   id: string
   ref: string
@@ -86,18 +150,20 @@ const esc = (s: unknown) =>
 // One line only, so customer text can't add lines to the subject
 const oneLine = (s: string) => s.replace(/\s+/g, ' ').trim()
 
-/** "sábado 22 de noviembre, 10:00 a. m." in Chicago time */
-export function formatSlot(iso: string | null, short = false): string {
-  if (!iso) return 'Sin hora elegida'
+/** "sábado, 22 de noviembre, 10:00 a.m." / "Saturday, November 22, 10:00 AM" in Chicago time */
+export function formatSlot(iso: string | null, short = false, lang: 'es' | 'en' = 'es'): string {
+  const none = lang === 'en' ? 'No time chosen' : 'Sin hora elegida'
+  if (!iso) return none
   const d = new Date(iso)
-  if (Number.isNaN(d.getTime())) return 'Sin hora elegida'
-  const day = new Intl.DateTimeFormat('es-US', {
+  if (Number.isNaN(d.getTime())) return none
+  const locale = lang === 'en' ? 'en-US' : 'es-US'
+  const day = new Intl.DateTimeFormat(locale, {
     timeZone: TZ,
     weekday: short ? 'short' : 'long',
     day: 'numeric',
     month: short ? 'short' : 'long',
   }).format(d)
-  const time = new Intl.DateTimeFormat('es-US', { timeZone: TZ, hour: 'numeric', minute: '2-digit' }).format(d)
+  const time = new Intl.DateTimeFormat(locale, { timeZone: TZ, hour: 'numeric', minute: '2-digit' }).format(d)
   return `${day}, ${time}`
 }
 
@@ -139,6 +205,7 @@ export function buildEmail(r: RequestRow, siteUrl: string, photoCount: number | 
   const td = 'padding:6px 12px 6px 0;vertical-align:top;font-size:16px;'
   const html = `<!doctype html>
 <html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body style="margin:0;padding:0;background:#f4f4f5;font-family:Arial,Helvetica,sans-serif;color:#111;">
   <div style="max-width:560px;margin:0 auto;background:#fff;">
     <div style="background:#000;color:#fff;padding:18px 20px;">
@@ -179,6 +246,50 @@ export function buildEmail(r: RequestRow, siteUrl: string, photoCount: number | 
   ].join('\n')
 
   return { subject, html, text }
+}
+
+/** The "we got your request" email to the customer, in the language they used on the form. */
+export function buildCustomerEmail(r: RequestRow) {
+  const lang = r.lang === 'es' ? 'es' : 'en'
+  const c = CUSTOMER[lang]
+  const first = oneLine(r.name).split(' ')[0] || r.name
+  const services = r.services
+    .map((s) => (s === 'other' && r.other_service ? `${c.services_.other}: ${oneLine(r.other_service)}` : c.services_[s] ?? s))
+    .join(', ')
+  const rows: [string, string][] = [
+    [c.slot, `${formatSlot(r.slot, false, lang)} (${c.pending})`],
+    [c.rooms, r.rooms.map((x) => c.rooms_[x] ?? x).join(', ')],
+    [c.services, services],
+    [c.address, address(r)],
+  ]
+  const thanks = c.thanks(first, r.ref)
+  const next = c.next(c.via[r.contact_pref] ?? c.via.email)
+
+  const td = 'padding:6px 12px 6px 0;vertical-align:top;font-size:16px;'
+  const html = `<!doctype html>
+<html lang="${lang}">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f4f4f5;font-family:Arial,Helvetica,sans-serif;color:#111;">
+  <div style="max-width:560px;margin:0 auto;background:#fff;">
+    <div style="background:#000;color:#fff;padding:18px 20px;">
+      <div style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#93b4ff;">JLP Construction</div>
+      <div style="font-size:24px;font-weight:bold;margin-top:4px;">${esc(c.title)}</div>
+    </div>
+    <div style="padding:20px;">
+      <p style="font-size:17px;margin:0 0 12px;">${esc(thanks)}</p>
+      <p style="font-size:17px;margin:0 0 18px;">${esc(next)}</p>
+      <table role="presentation" style="border-collapse:collapse;width:100%;border-top:1px solid #e4e4e7;">
+        ${rows.map(([k, v]) => `<tr><td style="${td}color:#555;">${esc(k)}</td><td style="${td}">${esc(v)}</td></tr>`).join('\n        ')}
+      </table>
+      <p style="font-size:17px;margin:18px 0 0;">${esc(c.reply)}</p>
+      <p style="font-size:13px;color:#666;margin:24px 0 0;">${esc(c.footer)}<br>${esc(c.why)}</p>
+    </div>
+  </div>
+</body>
+</html>`
+
+  const text = [c.title, '', thanks, next, '', ...rows.map(([k, v]) => `${k}: ${v}`), '', c.reply, '', c.footer, c.why].join('\n')
+  return { subject: oneLine(c.subject(r.ref)), html, text }
 }
 
 /** Compare secrets without leaking how many characters matched */
@@ -238,24 +349,37 @@ export async function handle(req: Request): Promise<Response> {
   const r = payload.record
   const siteUrl = Deno.env.get('SITE_URL') ?? 'https://jlpconstructionchicago.com'
   const from = Deno.env.get('EMAIL_FROM') ?? 'JLP Avisos <avisos@jlpconstructionchicago.com>'
-  const { subject, html, text } = buildEmail(r, siteUrl, await countPhotos(r.id))
+  const customerFrom = Deno.env.get('CUSTOMER_FROM') ?? 'JLP Construction <avisos@jlpconstructionchicago.com>'
+  const replyTo = (Deno.env.get('REPLY_TO') ?? '').trim() || to[0]
 
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-      // If the webhook retries, Resend won't send the same notice twice
-      'Idempotency-Key': `new-request-${r.id}`,
-    },
-    body: JSON.stringify({ from, to, subject, html, text }),
-  })
-  if (!res.ok) {
-    console.error('Resend error', res.status, await res.text())
+  const send = async (key: string, email: Record<string, unknown>) => {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        // If the webhook retries, Resend won't send the same email twice
+        'Idempotency-Key': key,
+      },
+      body: JSON.stringify(email),
+    })
+    if (!res.ok) throw new Error(`Resend error ${res.status}: ${await res.text()}`)
+  }
+
+  const jorge = send(`new-request-${r.id}`, { from, to, ...buildEmail(r, siteUrl, await countPhotos(r.id)) })
+  const customer = r.email
+    ? send(`customer-confirm-${r.id}`, { from: customerFrom, to: [r.email], reply_to: replyTo, ...buildCustomerEmail(r) })
+    : Promise.resolve()
+  const [j, c] = await Promise.allSettled([jorge, customer])
+
+  if (c.status === 'rejected') console.error(`Customer email for ${r.ref} failed:`, c.reason)
+  else if (r.email) console.log(`Sent customer email for ${r.ref}`)
+  if (j.status === 'rejected') {
+    console.error(`Notice to Jorge for ${r.ref} failed:`, j.reason)
     return reply(502, 'email failed')
   }
   console.log(`Sent notice for ${r.ref}`)
-  return reply(200, 'sent')
+  return reply(200, c.status === 'rejected' ? 'sent (customer email failed)' : 'sent')
 }
 
 // In Supabase this starts the function. (Skipped when the file is loaded by the local test.)
