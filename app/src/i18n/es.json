@@ -556,7 +556,11 @@
         "not_admin": "Solo la cuenta de Jorge puede generar resúmenes.",
         "not_configured": "El resumen con IA todavía no está configurado (falta la clave de Anthropic en Supabase).",
         "not_found": "No se encontró la solicitud."
-      }
+      },
+      "estimate": "Estimado aproximado (sus precios)",
+      "couldRise": "Puede subir por:",
+      "noEstimate": "Todavía sin estimado.",
+      "estimateNote": "Solo usted ve esto. Es un estimado, no una cotización: usted pone el precio final después de la visita."
     },
     "pay": {
       "needTotalTitle": "¿Cuál es el total del trabajo?",

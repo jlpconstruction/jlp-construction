@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import Icon from '../../components/Icon'
 import { ApiError, generateBrief, type Brief, type RequestRow } from '../../lib/api'
 import { isOpen } from '../../lib/options'
-import { fmtDateTime } from '../../lib/time'
+import { fmtDateTime, money } from '../../lib/time'
 
 const LISTS = ['trabajo_probable', 'en_las_fotos', 'preguntas', 'llevar', 'alertas'] as const
 const ERRORS = ['ai_failed', 'not_admin', 'not_configured', 'not_found']
@@ -87,6 +87,36 @@ export default function ProjectBrief({ request: r, onSaved }: { request: Request
             <span>{b.razon}</span>
           </p>
           <p style={{ margin: '0 0 4px' }}>{b.resumen}</p>
+          {b.estimado && (
+            <div className="estimate">
+              <h3>{t('admin.brief.estimate')}</h3>
+              {b.estimado.disponible ? (
+                <>
+                  <p className="estimate-range">
+                    {money(b.estimado.bajo)} – {money(b.estimado.alto)}
+                  </p>
+                  {b.estimado.incluye && <p style={{ margin: '4px 0 0' }}>{b.estimado.incluye}</p>}
+                  {b.estimado.puede_subir.length > 0 && (
+                    <>
+                      <p className="estimate-sub">{t('admin.brief.couldRise')}</p>
+                      <ul>
+                        {b.estimado.puede_subir.map((x, i) => (
+                          <li key={i}>{x}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </>
+              ) : (
+                <p style={{ margin: '4px 0 0' }}>
+                  <strong>{t('admin.brief.noEstimate')}</strong> {b.estimado.falta_saber}
+                </p>
+              )}
+              <p className="tiny muted" style={{ margin: '8px 0 0' }}>
+                {t('admin.brief.estimateNote')}
+              </p>
+            </div>
+          )}
           {LISTS.map((k) =>
             b[k].length ? (
               <div key={k} className={k === 'alertas' ? 'brief-list warn' : 'brief-list'}>

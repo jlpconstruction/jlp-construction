@@ -556,7 +556,11 @@
         "not_admin": "Only Jorge's account can make briefs.",
         "not_configured": "The AI brief isn't set up yet (missing Anthropic key in Supabase).",
         "not_found": "Request not found."
-      }
+      },
+      "estimate": "Rough estimate (your prices)",
+      "couldRise": "Could go up for:",
+      "noEstimate": "No estimate yet.",
+      "estimateNote": "Only you see this. It's an estimate, not a quote: you set the final price after the visit."
     },
     "pay": {
       "needTotalTitle": "What's the job total?",

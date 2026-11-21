@@ -289,11 +289,14 @@ The first time Jorge opens a request in his dashboard, Claude reads the customer
 | **Trabajo probable / En las fotos** | What the job likely involves and what the photos show |
 | **Preguntas para el cliente / Medir o llevar** | What to ask before driving out, and what to measure or bring |
 | **Revisar en persona** | Things to check on site (water damage, old paint, soft floors…) |
+| **Estimado aproximado** | A rough price range from **Jorge's own prices**, what it covers, and extras that could raise it (or "Todavía sin estimado" plus what's missing, when there isn't enough info) |
 | **Descripción en español** | The customer's description translated, when they wrote in English |
 
 How it works: the request page calls a server function (`project-brief`) → it checks that the person signed in is Jorge → sends Claude **only the photos and project details** (never the customer's name, phone, email, or address) → saves the brief on the request, so it's only written once. Jorge can tap **Volver a generar** to get a new one. Requests that are already closed don't get one automatically; there's a **Generar resumen** button instead.
 
-The brief never gives prices. Jorge sets those himself.
+The estimate uses only the price ranges Jorge gave on his pricing sheet (2026-11-21), never internet prices. It's wide on purpose (he asked for open ranges), never goes below his $350 minimum, doesn't add a distance charge, and it's only on his dashboard. It's an estimate, not a quote: he sets the final price after the visit.
+
+**Updating his prices (once a year):** the ranges are in `JORGE_PRICES` near the top of [`supabase/functions/project-brief/index.ts`](../supabase/functions/project-brief/index.ts). Change the numbers, then in Supabase open **Edge Functions → project-brief → Code**, paste the whole file again, and **Deploy**. Commit the change too. Briefs already written keep their old estimate until **Volver a generar** is tapped.
 
 **Cost:** Claude is paid per use. Each brief costs roughly **5–10 cents** (Claude Opus 5.5, up to 6 photos). At 20 requests a month that's about $1–2.
 
@@ -327,7 +330,20 @@ Supabase → **Edge Functions** → **Secrets** → add `ANTHROPIC_API_KEY` with
 3. Sign in to the dashboard and open a request that's still open. The **Resumen del proyecto (IA)** card says Claude is reading the photos; after about 30 seconds the brief appears.
 4. Open the same request again: the brief shows right away (it was saved).
 5. Try a request written in English: the brief should include **Descripción del cliente en español**.
-6. Read a couple of briefs with Jorge and write down anything that's wrong or not useful. That feedback is part of the assignment, and the instructions in the function can be adjusted.
+6. **Check the estimates against Jorge's real jobs.** Submit these as TEST requests (no photos needed) and compare:
+
+   | Test request | Jorge charged |
+   |---|---|
+   | Bathroom, Interior renovations, Small: "Full bathroom remodel, about 6x8 ft. I'll buy the toilet, tub, fixtures and tile." | $4,100 |
+   | Kitchen, Interior renovations, Medium: "Full kitchen remodel, about 12x10 ft. I'll buy the tile, backsplash, sink and countertop." | $7,000 |
+   | Exterior / Other, Windows & doors, Small: "Replace one standard white window, about 30x45 in." | $420 |
+   | Bedroom, Windows & doors, Small: "Replace one standard white interior door, 30x80 in." | $300 |
+   | Exterior / Other, Windows & doors, Small: "Install a new exterior door, 36x80 in. I already bought the door." | $350 |
+   | Basement, Interior renovations, Large: "Finish our basement, about 48x25 ft, including a new bathroom. We'll buy the toilet, mirrors and backsplash." | $18,000 |
+   | Bedroom, Interior renovations, Medium: "Remodel a 12x12 ft bedroom. We'll buy the flooring and the light fixture." | $2,300 |
+
+   Each real price should fall inside (or very close to) the estimate. If one is far off, note it; the prices in `JORGE_PRICES` can be adjusted.
+7. Read a couple of briefs with Jorge and write down anything that's wrong or not useful. That feedback is part of the assignment, and the instructions in the function can be adjusted.
 
 ## Part 11: Payments tracker (35/35/30)
 

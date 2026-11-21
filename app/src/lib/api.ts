@@ -112,6 +112,15 @@ export type Brief = {
   veredicto: 'visitar' | 'pedir_info' | 'no_encaja'
   razon: string
   resumen: string
+  /** Rough price range from Jorge's own prices (briefs written before 2026-11-21 don't have one). */
+  estimado?: {
+    disponible: boolean
+    bajo: number
+    alto: number
+    incluye: string
+    puede_subir: string[]
+    falta_saber: string
+  }
   trabajo_probable: string[]
   en_las_fotos: string[]
   preguntas: string[]

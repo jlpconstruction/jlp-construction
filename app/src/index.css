@@ -302,6 +302,11 @@ a.item:hover { background: var(--surface-2); }
 .brief-list ul { margin: 0; padding-left: 20px; }
 .brief-list li { margin: 2px 0; }
 .brief-list.warn h3 { color: var(--warn); }
+.estimate { margin: 14px 0 0; padding: 12px 14px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); }
+.estimate h3 { font-size: 15px; margin: 0; }
+.estimate-range { font-size: 26px; font-weight: 700; margin: 4px 0 0; }
+.estimate-sub { font-weight: 600; margin: 10px 0 2px; }
+.estimate ul { margin: 0; padding-left: 20px; }
 .brief-quote { margin: 0; padding: 10px 12px; background: var(--surface); border-radius: 8px; white-space: pre-wrap; }
 .ai-tag { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; font-weight: 600; color: var(--accent-text); }
 .panel.next { border: 2px solid var(--accent); }
