@@ -480,7 +480,11 @@
       "waitingInfo": "Esperando fotos/info",
       "waitingQuote": "Cotización enviada, sin respuesta",
       "wants": "quiere {{when}}",
-      "payments": "El control de pagos (35/35/30) llega en la próxima versión."
+      "collect": "Pagos por cobrar",
+      "collectSub": "Trabajos aceptados que todavía deben un pago.",
+      "collectNext": "Pago {{n}} de 3: {{amount}}",
+      "collectNoTotal": "Falta escribir el total",
+      "collectEmpty": "No hay pagos por cobrar."
     },
     "requests": {
       "title": "Solicitudes",
@@ -493,8 +497,6 @@
     "detail": {
       "back": "← Solicitudes",
       "notFound": "No se encontró la solicitud.",
-      "aiSoon": "Resumen del proyecto (IA)",
-      "aiSoonText": "Llega en la próxima versión: Claude leerá las fotos y la descripción, y sugerirá un veredicto, un precio típico y preguntas para el cliente.",
       "nextStep": "Siguiente paso",
       "photos": "Fotos",
       "noPhotos": "Aún no hay fotos.",
@@ -527,6 +529,73 @@
       "moreInfoHint": "Teléfono, correo, mensajes, permiso de fotos y estado",
       "notesHint": "Historial de esta solicitud y tus notas"
     },
+    "brief": {
+      "title": "Resumen del proyecto (IA)",
+      "working": "Claude está leyendo las fotos y la descripción. Tarda unos 30 segundos…",
+      "again": "Volver a generar",
+      "retry": "Intentar de nuevo",
+      "make": "Generar resumen",
+      "closed": "Esta solicitud está cerrada, así que no se generó el resumen automáticamente.",
+      "translated": "Descripción del cliente en español",
+      "footer_one": "Escrito por IA el {{when}} con la descripción y 1 foto. Revise los detalles antes de decidir.",
+      "footer_other": "Escrito por IA el {{when}} con la descripción y {{count}} fotos. Revise los detalles antes de decidir.",
+      "verdict": {
+        "visitar": "Vale la pena visitar",
+        "pedir_info": "Pida más información primero",
+        "no_encaja": "Probablemente no encaja"
+      },
+      "lists": {
+        "trabajo_probable": "Trabajo probable",
+        "en_las_fotos": "En las fotos",
+        "preguntas": "Preguntas para el cliente",
+        "llevar": "Medir o llevar",
+        "alertas": "Revisar en persona"
+      },
+      "err": {
+        "ai_failed": "No se pudo escribir el resumen ahora. Intente de nuevo en un minuto.",
+        "not_admin": "Solo la cuenta de Jorge puede generar resúmenes.",
+        "not_configured": "El resumen con IA todavía no está configurado (falta la clave de Anthropic en Supabase).",
+        "not_found": "No se encontró la solicitud."
+      }
+    },
+    "pay": {
+      "needTotalTitle": "¿Cuál es el total del trabajo?",
+      "needTotalText": "Escriba el precio final para preparar los pagos 35/35/30.",
+      "nextTitle": "Cobrar el pago {{n}} de 3",
+      "when": {
+        "1": "35% en la primera semana: {{amount}}.",
+        "2": "35% a la mitad del trabajo: {{amount}}.",
+        "3": "El último 30% al terminar: {{amount}}."
+      },
+      "doneTitle": "Pagado completo 🎉",
+      "doneText": "Ya llegaron los tres pagos. Total: {{total}}.",
+      "totalLabel": "Total del trabajo ($)",
+      "totalSave": "Guardar",
+      "changeTotal": "Cambiar el total del trabajo",
+      "paidOf": "Pagado {{paid}} de {{total}}",
+      "left": "Faltan {{left}}",
+      "stage": {
+        "1": "Primera semana ({{pct}}%)",
+        "2": "A la mitad ({{pct}}%)",
+        "3": "Al terminar ({{pct}}%)"
+      },
+      "dueLine": "Toca cobrar: {{amount}}",
+      "paidLine": "Pagó {{amount}}, {{date}}, {{method}}",
+      "amount": "Monto recibido ($)",
+      "date": "Fecha de pago",
+      "method": "Cómo pagó",
+      "chooseMethod": "Escoja…",
+      "methods": {
+        "cash": "Efectivo",
+        "check": "Cheque",
+        "zelle": "Zelle",
+        "card": "Tarjeta",
+        "other": "Otro"
+      },
+      "markPaid": "Marcar como pagado",
+      "undo": "Deshacer",
+      "undoConfirm": "¿Marcar el pago {{n}} como no pagado?"
+    },
     "next": {
       "confirmTitle": "¿Confirmar la visita?",
       "confirmText": "{{name}} pidió el {{when}}",
@@ -555,8 +624,6 @@
       "accepted": "Sí, aceptó",
       "notAccepted": "No",
       "followUp": "Dar seguimiento",
-      "wonTitle": "Proyecto aceptado 🎉",
-      "wonText": "El control de pagos (35/35/30) llega en la próxima versión.",
       "closedTitle": "Cerrada",
       "closedText": "Esta solicitud está cerrada.",
       "reopen": "Reabrir",
@@ -590,7 +657,10 @@
         "followup": "seguimiento de cotización",
         "cancel": "visita cancelada"
       },
-      "cancelled": "Se canceló la visita del {{when}}."
+      "cancelled": "Se canceló la visita del {{when}}.",
+      "paid": "Pago {{stage}} de 3 recibido: {{amount}} ({{method}}), {{date}}.",
+      "unpaid": "El pago {{stage}} se marcó como no pagado.",
+      "total_set": "Total del trabajo: {{amount}}."
     },
     "saturdays": {
       "title": "Sábados",

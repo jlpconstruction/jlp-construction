@@ -1,5 +1,6 @@
 import { supabase } from './supabase'
 import type { ContactPref, Room, Service, Size, Status } from './options'
+import type { PaymentRow, PayMethod } from './payments'
 
 export const PHOTO_BUCKET = 'request-photos'
 
@@ -102,6 +103,38 @@ export type RequestRow = {
   sms_consent_at: string | null
   sms_stopped_at: string | null
   no_feature: boolean
+  ai_brief: Brief | null
+  ai_brief_at: string | null
+}
+
+/** The AI project brief (written in Spanish by the project-brief Edge Function). */
+export type Brief = {
+  veredicto: 'visitar' | 'pedir_info' | 'no_encaja'
+  razon: string
+  resumen: string
+  trabajo_probable: string[]
+  en_las_fotos: string[]
+  preguntas: string[]
+  llevar: string[]
+  alertas: string[]
+  descripcion_es: string
+  photos: number
+}
+
+/** Asks Claude (through the project-brief Edge Function) to write the brief, and saves it. */
+export async function generateBrief(id: string): Promise<{ brief: Brief; at: string }> {
+  const { data, error } = await db().functions.invoke('project-brief', { body: { id } })
+  if (error) {
+    let key = 'ai_failed'
+    try {
+      const body = await (error as { context?: Response }).context?.json()
+      if (typeof body?.error === 'string') key = body.error
+    } catch {
+      // network error or no JSON body
+    }
+    throw new ApiError(key)
+  }
+  return data as { brief: Brief; at: string }
 }
 
 export type NoteRow = { id: string; created_at: string; body: string | null; event: string | null }
@@ -114,10 +147,11 @@ export async function listRequests(): Promise<RequestRow[]> {
 
 export async function getRequest(id: string) {
   const client = db()
-  const [req, photos, notes] = await Promise.all([
+  const [req, photos, notes, payments] = await Promise.all([
     client.from('requests').select('*').eq('id', id).maybeSingle(),
     client.from('request_photos').select('storage_path').eq('request_id', id).order('storage_path'),
     client.from('notes').select('id, created_at, body, event').eq('request_id', id).order('created_at'),
+    client.from('payments').select('*').eq('request_id', id).order('stage'),
   ])
   if (req.error || photos.error || notes.error) throw new ApiError('load_failed')
   let photoUrls: string[] = []
@@ -127,7 +161,13 @@ export async function getRequest(id: string) {
     const { data } = await client.storage.from(PHOTO_BUCKET).createSignedUrls(paths, 600)
     photoUrls = (data ?? []).flatMap((x) => (x.signedUrl ? [x.signedUrl] : []))
   }
-  return { request: req.data as RequestRow | null, photoUrls, notes: (notes.data ?? []) as NoteRow[] }
+  return {
+    request: req.data as RequestRow | null,
+    photoUrls,
+    notes: (notes.data ?? []) as NoteRow[],
+    // Before migration 007 is run the payments table doesn't exist; the page still loads
+    payments: (payments.error ? [] : payments.data ?? []) as PaymentRow[],
+  }
 }
 
 /** Saves changes to a request; `event` adds an automatic note (e.g. "status:consult"). */
@@ -141,4 +181,27 @@ export async function updateRequest(id: string, patch: Partial<RequestRow>, even
 export async function addNote(requestId: string, note: { body?: string; event?: string }) {
   const { error } = await db().from('notes').insert({ request_id: requestId, ...note })
   if (error) throw new ApiError('save_failed')
+}
+
+/* ---------- Payments (35/35/30) ---------- */
+
+/** Every payment received, for the Today list. */
+export async function listPayments(): Promise<PaymentRow[]> {
+  const { data, error } = await db().from('payments').select('*')
+  if (error) throw new ApiError('load_failed')
+  return data as PaymentRow[]
+}
+
+/** Marks one of the three payments as received, and logs it in Notes. */
+export async function markPaid(requestId: string, p: { stage: 1 | 2 | 3; amount: number; method: PayMethod; paid_on: string }) {
+  const { error } = await db().from('payments').insert({ request_id: requestId, ...p })
+  if (error) throw new ApiError('save_failed')
+  await addNote(requestId, { event: JSON.stringify({ k: 'paid', stage: p.stage, amount: p.amount, method: p.method, date: p.paid_on }) })
+}
+
+/** Undoes a payment marked by mistake, and logs it in Notes. */
+export async function unmarkPaid(requestId: string, stage: 1 | 2 | 3) {
+  const { error } = await db().from('payments').delete().eq('request_id', requestId).eq('stage', stage)
+  if (error) throw new ApiError('save_failed')
+  await addNote(requestId, { event: JSON.stringify({ k: 'unpaid', stage }) })
 }

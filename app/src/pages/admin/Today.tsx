@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import Icon from '../../components/Icon'
@@ -5,7 +6,9 @@ import { useAdmin } from '../../components/AdminLayout'
 import { isOpen } from '../../lib/options'
 import { chicagoHour, fmtDate, fmtDateTime, fmtLongDay, fmtTime, sameDay, upcomingSaturdays, ymdDate } from '../../lib/time'
 import { fullAddress } from '../../lib/address'
-import type { RequestRow } from '../../lib/api'
+import { listPayments, type RequestRow } from '../../lib/api'
+import { money } from '../../lib/time'
+import { paymentSummary, type PaymentRow } from '../../lib/payments'
 import { initials, LoadError, RequestItem } from './shared'
 
 /** "Today": a short to-do list instead of stats. */
@@ -13,6 +16,13 @@ export default function Today() {
   const { t, i18n } = useTranslation()
   const lng = i18n.language
   const { requests, error } = useAdmin()
+  const [payments, setPayments] = useState<PaymentRow[] | null>(null)
+
+  useEffect(() => {
+    listPayments()
+      .then(setPayments)
+      .catch(() => setPayments([])) // e.g. before migration 007 is run
+  }, [])
 
   if (!requests) return error ? <LoadError error={error} /> : <p className="empty">{t('common.loading')}</p>
 
@@ -27,7 +37,16 @@ export default function Today() {
   const followUp = requests.filter(
     (r) => isOpen(r.status) && r.status !== 'new' && r.follow_up_due && new Date(r.follow_up_due).getTime() <= Date.now() + 86400000,
   )
-  const allClear = !answer.length && !saturday.length && !followUp.length
+  // Accepted jobs that still owe one of the 35/35/30 payments (or still need a total)
+  const toCollect = requests
+    .filter((r) => r.status === 'won')
+    .map((r) => {
+      const total = r.quote_amount ? Number(r.quote_amount) : 0
+      const s = total ? paymentSummary(total, (payments ?? []).filter((p) => p.request_id === r.id)) : null
+      return { r, s }
+    })
+    .filter(({ s }) => !s || s.next)
+  const allClear = !answer.length && !saturday.length && !followUp.length && !toCollect.length
 
   const panel = (title: string, sub: string, count: number, children: React.ReactNode, empty: string) => (
     <section className="panel">
@@ -109,9 +128,25 @@ export default function Today() {
           )),
           t('admin.today.followUpEmpty'),
         )}
-        <section className="panel">
-          <div className="body small muted">{t('admin.today.payments')}</div>
-        </section>
+        {panel(
+          t('admin.today.collect'),
+          t('admin.today.collectSub'),
+          payments ? toCollect.length : 0,
+          toCollect.map(({ r, s }) => (
+            <Link key={r.id} className="item" to={`/admin/requests/${r.id}`}>
+              <div className="av">{initials(r.name)}</div>
+              <div className="grow">
+                <div className="t">{r.name}</div>
+                <div className="s">
+                  {s?.next
+                    ? t('admin.today.collectNext', { n: s.next.stage, amount: money(s.nextAmount) })
+                    : t('admin.today.collectNoTotal')}
+                </div>
+              </div>
+            </Link>
+          )),
+          payments ? t('admin.today.collectEmpty') : t('common.loading'),
+        )}
       </div>
     </>
   )

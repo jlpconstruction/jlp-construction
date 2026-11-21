@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import Icon from '../../components/Icon'
 import { useAdmin } from '../../components/AdminLayout'
-import { addNote, ApiError, getRequest, updateRequest, type NoteRow, type RequestRow } from '../../lib/api'
+import { addNote, ApiError, getRequest, markPaid, unmarkPaid, updateRequest, type NoteRow, type RequestRow } from '../../lib/api'
 import { isOpen, STATUSES, type Status } from '../../lib/options'
 import {
   fmtDate,
@@ -18,9 +18,12 @@ import {
 } from '../../lib/time'
 import { fullAddress } from '../../lib/address'
 import { LangTag, LoadError, StatusPill, useRoomsText } from './shared'
+import ProjectBrief from './ProjectBrief'
+import PaymentsTracker from './PaymentsTracker'
+import { paymentSummary, type PaymentRow } from '../../lib/payments'
 
 type MessageKind = 'confirm' | 'info' | 'decline' | 'followup' | 'cancel'
-type Detail = { request: RequestRow | null; photoUrls: string[]; notes: NoteRow[] }
+type Detail = { request: RequestRow | null; photoUrls: string[]; notes: NoteRow[]; payments: PaymentRow[] }
 
 const DAY = 86400000
 const inDays = (n: number) => new Date(Date.now() + n * DAY).toISOString()
@@ -82,6 +85,21 @@ export default function RequestDetail() {
       await updateRequest(r.id, patch, ev)
       after?.()
       await Promise.all([load(), reloadList()])
+      setToast(t('admin.detail.saved'))
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : 'save_failed')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  /** Saves or undoes a payment, then refreshes the page. */
+  const payAction = async (run: () => Promise<void>) => {
+    setBusy(true)
+    setError('')
+    try {
+      await run()
+      await load()
       setToast(t('admin.detail.saved'))
     } catch (e) {
       setError(e instanceof ApiError ? e.message : 'save_failed')
@@ -294,13 +312,35 @@ export default function RequestDetail() {
         ),
       }
       break
-    case 'won':
+    case 'won': {
+      // The payments tracker: the next of the three 35/35/30 payments to collect
+      const total = r.quote_amount ? Number(r.quote_amount) : null
+      const pay = total ? paymentSummary(total, detail.payments) : null
       next = {
-        title: t('admin.next.wonTitle'),
-        text: `${money(r.quote_amount ?? 0)}. ${t('admin.next.wonText')}`,
+        title: !pay
+          ? t('admin.pay.needTotalTitle')
+          : pay.next
+            ? t('admin.pay.nextTitle', { n: pay.next.stage })
+            : t('admin.pay.doneTitle'),
+        text: !pay
+          ? t('admin.pay.needTotalText')
+          : pay.next
+            ? t(`admin.pay.when.${pay.next.stage}`, { amount: money(pay.nextAmount) })
+            : t('admin.pay.doneText', { total: money(total!) }),
         actions: null,
+        more: (
+          <PaymentsTracker
+            total={total}
+            payments={detail.payments}
+            busy={busy}
+            onSetTotal={(amount) => change({ quote_amount: amount }, event('total_set', { amount }))}
+            onMarkPaid={(p) => payAction(() => markPaid(r.id, p))}
+            onUndo={(stage) => payAction(() => unmarkPaid(r.id, stage))}
+          />
+        ),
       }
       break
+    }
     default:
       next = {
         title: t('admin.next.closedTitle'),
@@ -318,7 +358,9 @@ export default function RequestDetail() {
       if (p.when) params.when = fmtDateTime(p.when, lng)
       if (p.amount) params.amount = money(p.amount)
       if (p.kind) params.kind = t(`admin.events.kinds.${p.kind}`)
-      if (p.date) params.date = fmtDate(p.date, lng)
+      if (p.date) params.date = fmtDate(p.date.length === 10 ? p.date + 'T12:00:00' : p.date, lng)
+      if (p.stage) params.stage = String(p.stage)
+      if (p.method) params.method = t(`admin.pay.methods.${p.method}`)
       return t(`admin.events.${k}`, params)
     } catch {
       return n.event
@@ -374,14 +416,15 @@ export default function RequestDetail() {
         </div>
       </div>
 
-      <section className="ai-soon" aria-label={t('admin.detail.aiSoon')}>
-        <div className="ai-tag">
-          <Icon name="spark" size={15} /> {t('admin.detail.aiSoon')}
-        </div>
-        <p className="small" style={{ margin: '6px 0 0' }}>
-          {t('admin.detail.aiSoonText')}
-        </p>
-      </section>
+      {/* The AI brief only shows once it's switched on (VITE_AI_BRIEF=on), i.e. after Anthropic credits are added */}
+      {import.meta.env.VITE_AI_BRIEF === 'on' && (
+        <ProjectBrief
+          request={r}
+          onSaved={(brief, at) =>
+            setDetail((d) => (d?.request ? { ...d, request: { ...d.request, ai_brief: brief, ai_brief_at: at } } : d))
+          }
+        />
+      )}
 
       <LoadError error={error} />
 

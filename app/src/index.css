@@ -291,7 +291,18 @@ a.item:hover { background: var(--surface-2); }
 .detail { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px; align-items: start; }
 @media (max-width: 1100px) { .detail { grid-template-columns: minmax(0, 1fr); } }
 .stack { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
-.ai-soon { border: 1.5px dashed var(--field-edge); background: var(--accent-soft); color: var(--ink); border-radius: 16px; padding: 16px 20px; margin-bottom: 18px; }
+.brief { border: 1.5px solid var(--field-edge); background: var(--accent-soft); color: var(--ink); border-radius: 16px; padding: 16px 20px; margin-bottom: 18px; }
+.brief-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.brief-head h2 { margin: 0; }
+.verdict { display: flex; flex-direction: column; gap: 2px; border-radius: 10px; padding: 10px 12px; margin: 12px 0; border-left: 5px solid; background: var(--surface); }
+.verdict.v-visitar { border-color: var(--ok); } .verdict.v-visitar strong { color: var(--ok); }
+.verdict.v-pedir_info { border-color: var(--warn); } .verdict.v-pedir_info strong { color: var(--warn); }
+.verdict.v-no_encaja { border-color: var(--bad); } .verdict.v-no_encaja strong { color: var(--bad); }
+.brief-list h3 { font-size: 15px; margin: 14px 0 4px; }
+.brief-list ul { margin: 0; padding-left: 20px; }
+.brief-list li { margin: 2px 0; }
+.brief-list.warn h3 { color: var(--warn); }
+.brief-quote { margin: 0; padding: 10px 12px; background: var(--surface); border-radius: 8px; white-space: pre-wrap; }
 .ai-tag { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; font-weight: 600; color: var(--accent-text); }
 .panel.next { border: 2px solid var(--accent); }
 .panel.next .tag { color: var(--accent-text); font-weight: 600; font-size: 14px; }
@@ -451,3 +462,25 @@ details.faq summary { font-size: 18px; }
 
 /* Spam check on the review step */
 .turnstile { min-height: 65px; }
+
+/* Payments tracker (35/35/30) on the request page */
+.pay-track { margin-top: 4px; }
+.pay-sum { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin: 0 0 8px; }
+.pay-sum span { color: var(--ink-2); }
+.pay-bar { display: flex; gap: 4px; height: 10px; margin-bottom: 14px; }
+.pay-bar span { border-radius: 5px; background: var(--surface-2); }
+.pay-bar span.on { background: var(--ok); }
+.pay-list { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.pay-list li { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.pay-list li.next { border: 2px solid var(--accent); }
+.pay-row { display: flex; align-items: center; gap: 10px; }
+.pay-row .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.pay-ico { width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; font-weight: 600; background: var(--surface-2); color: var(--ink-2); }
+.pay-list li.paid .pay-ico { background: var(--ok-soft); color: var(--ok); }
+.pay-list li.next .pay-ico { background: var(--accent-fill); color: var(--accent-ink); }
+.pay-name { font-weight: 600; }
+.pay-meta { font-size: 16px; color: var(--ink-2); }
+.pay-form { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: end; margin-top: 12px; }
+.pay-form .field { margin: 0; }
+.pay-form .btn { grid-column: 1 / -1; }
+@media (max-width: 560px) { .pay-form { grid-template-columns: minmax(0, 1fr); } }

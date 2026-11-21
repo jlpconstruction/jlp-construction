@@ -480,7 +480,11 @@
       "waitingInfo": "Waiting for photos/info",
       "waitingQuote": "Quote sent, no answer",
       "wants": "wants {{when}}",
-      "payments": "Payments tracker (35/35/30) comes in the next version."
+      "collect": "Payments to collect",
+      "collectSub": "Accepted jobs that still owe a payment.",
+      "collectNext": "Payment {{n}} of 3: {{amount}}",
+      "collectNoTotal": "Enter the job total",
+      "collectEmpty": "No payments to collect."
     },
     "requests": {
       "title": "Requests",
@@ -493,8 +497,6 @@
     "detail": {
       "back": "← Requests",
       "notFound": "Request not found.",
-      "aiSoon": "AI project brief",
-      "aiSoonText": "Coming in the next version: Claude will read the photos and description and suggest a verdict, a typical price, and questions to ask.",
       "nextStep": "Next step",
       "photos": "Photos",
       "noPhotos": "No photos yet.",
@@ -527,6 +529,73 @@
       "moreInfoHint": "Phone, email, texts, photo permission, and status",
       "notesHint": "History of this request, and your own notes"
     },
+    "brief": {
+      "title": "AI project brief",
+      "working": "Claude is reading the photos and description. This takes about 30 seconds…",
+      "again": "Write it again",
+      "retry": "Try again",
+      "make": "Write brief",
+      "closed": "This request is closed, so no brief was written automatically.",
+      "translated": "Customer's description in Spanish",
+      "footer_one": "Written by AI on {{when}} from the description and 1 photo, in Spanish. Check the details yourself before deciding.",
+      "footer_other": "Written by AI on {{when}} from the description and {{count}} photos, in Spanish. Check the details yourself before deciding.",
+      "verdict": {
+        "visitar": "Worth a visit",
+        "pedir_info": "Ask for more info first",
+        "no_encaja": "Probably not a fit"
+      },
+      "lists": {
+        "trabajo_probable": "Likely work",
+        "en_las_fotos": "In the photos",
+        "preguntas": "Ask the customer",
+        "llevar": "Measure or bring",
+        "alertas": "Check in person"
+      },
+      "err": {
+        "ai_failed": "Couldn't write the brief right now. Try again in a minute.",
+        "not_admin": "Only Jorge's account can make briefs.",
+        "not_configured": "The AI brief isn't set up yet (missing Anthropic key in Supabase).",
+        "not_found": "Request not found."
+      }
+    },
+    "pay": {
+      "needTotalTitle": "What's the job total?",
+      "needTotalText": "Enter the final price to set up the 35/35/30 payments.",
+      "nextTitle": "Collect payment {{n}} of 3",
+      "when": {
+        "1": "35% in the first week: {{amount}}.",
+        "2": "35% at the halfway point: {{amount}}.",
+        "3": "The last 30% at completion: {{amount}}."
+      },
+      "doneTitle": "Paid in full 🎉",
+      "doneText": "All three payments are in. Total: {{total}}.",
+      "totalLabel": "Job total ($)",
+      "totalSave": "Save",
+      "changeTotal": "Change the job total",
+      "paidOf": "Paid {{paid}} of {{total}}",
+      "left": "{{left}} left",
+      "stage": {
+        "1": "First week ({{pct}}%)",
+        "2": "Halfway ({{pct}}%)",
+        "3": "Completion ({{pct}}%)"
+      },
+      "dueLine": "Due: {{amount}}",
+      "paidLine": "Paid {{amount}}, {{date}}, {{method}}",
+      "amount": "Amount received ($)",
+      "date": "Date paid",
+      "method": "How they paid",
+      "chooseMethod": "Choose…",
+      "methods": {
+        "cash": "Cash",
+        "check": "Check",
+        "zelle": "Zelle",
+        "card": "Card",
+        "other": "Other"
+      },
+      "markPaid": "Mark as paid",
+      "undo": "Undo",
+      "undoConfirm": "Mark payment {{n}} as not paid?"
+    },
     "next": {
       "confirmTitle": "Confirm the visit?",
       "confirmText": "{{name}} asked for {{when}}",
@@ -555,8 +624,6 @@
       "accepted": "Yes, accepted",
       "notAccepted": "No",
       "followUp": "Send a follow-up",
-      "wonTitle": "Project accepted 🎉",
-      "wonText": "The payments tracker (35/35/30) comes in the next version.",
       "closedTitle": "Closed",
       "closedText": "This request is closed.",
       "reopen": "Reopen",
@@ -590,7 +657,10 @@
         "followup": "quote follow-up",
         "cancel": "visit cancelled"
       },
-      "cancelled": "Visit for {{when}} was cancelled."
+      "cancelled": "Visit for {{when}} was cancelled.",
+      "paid": "Payment {{stage}} of 3 received: {{amount}} ({{method}}), {{date}}.",
+      "unpaid": "Payment {{stage}} marked as not paid.",
+      "total_set": "Job total set to {{amount}}."
     },
     "saturdays": {
       "title": "Saturdays",

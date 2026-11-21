@@ -10,6 +10,7 @@ This guide takes the MVP from "code on my computer" to "a live link Jorge can op
 | **Supabase** | The app's **database and login system**. Requests, photos, and notes are saved here. Only Jorge can sign in. |
 | **Cloudflare Pages** | The **web host**. It copies the code from GitHub, builds the website, and gives you a public link. Every time you push to GitHub, it rebuilds automatically. |
 | **`.env` file** | A private file on your computer holding the Supabase address and public key. It's never uploaded to GitHub. |
+| **Claude (Anthropic)** | The **AI** that writes Jorge's project brief from the photos and description (Part 10). Paid per use, a few cents per brief. |
 | **Resend** | The **email sender**. When a new request comes in, it emails Jorge a notice in Spanish and sends the customer a "we got your request" email in their language (Part 8). |
 
 The main workflow the MVP covers:
@@ -277,6 +278,86 @@ Commit and push (I'll give you the exact commands). When Cloudflare shows the ne
 ### 9f. Lock the database (last)
 Only after the live test works: run [`supabase/migrations/005_lock_down_submissions.sql`](../supabase/migrations/005_lock_down_submissions.sql) in the SQL Editor. From then on, requests and photos can only come in through the spam-checked server step. Submit one more test request on the live site to confirm.
 
+## Part 10: AI project brief (Claude)
+
+The first time Jorge opens a request in his dashboard, Claude reads the customer's photos and description and writes him a short brief in Spanish:
+
+| Section | What it tells Jorge |
+|---|---|
+| **Veredicto** | "Vale la pena visitar", "Pida más información primero", or "Probablemente no encaja", with one sentence why |
+| **Resumen** | What the customer wants, in 2–3 sentences |
+| **Trabajo probable / En las fotos** | What the job likely involves and what the photos show |
+| **Preguntas para el cliente / Medir o llevar** | What to ask before driving out, and what to measure or bring |
+| **Revisar en persona** | Things to check on site (water damage, old paint, soft floors…) |
+| **Descripción en español** | The customer's description translated, when they wrote in English |
+
+How it works: the request page calls a server function (`project-brief`) → it checks that the person signed in is Jorge → sends Claude **only the photos and project details** (never the customer's name, phone, email, or address) → saves the brief on the request, so it's only written once. Jorge can tap **Volver a generar** to get a new one. Requests that are already closed don't get one automatically; there's a **Generar resumen** button instead.
+
+The brief never gives prices. Jorge sets those himself.
+
+**Cost:** Claude is paid per use. Each brief costs roughly **5–10 cents** (Claude Opus 5.5, up to 6 photos). At 20 requests a month that's about $1–2.
+
+**Order matters:** 10a → 10b → 10c → 10d → 10e (switch it on) → test.
+
+The brief card is hidden until it's switched on with `VITE_AI_BRIEF=on` (10e). That way the rest of the site can be pushed before credits are added.
+
+### 10a. Get a Claude API key (Anthropic)
+1. Go to **https://platform.claude.com** and sign up (ideally with an account Jorge can get into later).
+2. **Billing**: add a payment method and buy credits. The minimum is small ($5), and $5 covers about 50–100 briefs. *(This is a purchase, so the account owner does this step.)*
+3. **Limits** (or **Spend limits**): set a monthly limit, for example **$10**, so the bill can never surprise anyone.
+4. **API keys** → **Create key** → name it `jlp-project-brief` → **Create**. Copy the key (starts with `sk-ant-`). It's shown only once.
+   - ⚠️ This key is a secret. It goes only into Supabase (10c), never in `app/.env` or the code.
+
+### 10b. Add the brief columns to the database
+1. Supabase → **SQL Editor** → **New query**.
+2. Paste everything from [`supabase/migrations/006_ai_brief.sql`](../supabase/migrations/006_ai_brief.sql) → **Run**. It should say "Success. No rows returned." (It only adds two empty columns; nothing is deleted.)
+
+### 10c. Give Supabase the key
+Supabase → **Edge Functions** → **Secrets** → add `ANTHROPIC_API_KEY` with the key from 10a → **Save**.
+
+### 10d. Deploy the function
+1. Supabase → **Edge Functions** → **Deploy a new function** → **Via Editor**.
+2. Name it exactly `project-brief`.
+3. Delete the sample code, paste everything from [`supabase/functions/project-brief/index.ts`](../supabase/functions/project-brief/index.ts), and click **Deploy**.
+4. **Leave "Verify JWT" ON** (this one is different from the other two functions). Only a signed-in user can call it, and the code also checks that it's Jorge.
+
+### 10e. Switch it on and test
+1. **On your computer first:** add `VITE_AI_BRIEF=on` to `app/.env` and restart `npm run dev`. Test at http://localhost:5174/admin (steps 2–4 below).
+2. **Then the live site:** Cloudflare → your Pages project → **Settings → Variables and Secrets** → add `VITE_AI_BRIEF` = `on` (Production) → **Save**. Then push, or **Deployments → ⋯ → Retry deployment** if there's nothing new to push. Wait for **Success**.
+3. Sign in to the dashboard and open a request that's still open. The **Resumen del proyecto (IA)** card says Claude is reading the photos; after about 30 seconds the brief appears.
+4. Open the same request again: the brief shows right away (it was saved).
+5. Try a request written in English: the brief should include **Descripción del cliente en español**.
+6. Read a couple of briefs with Jorge and write down anything that's wrong or not useful. That feedback is part of the assignment, and the instructions in the function can be adjusted.
+
+## Part 11: Payments tracker (35/35/30)
+
+When a job is marked **Aceptado**, its request page's **Siguiente paso** card becomes the payment tracker:
+
+| Payment | When | Share of the total |
+|---|---|---|
+| 1 | First week | 35% |
+| 2 | Halfway | 35% |
+| 3 | Completion | 30% (takes any rounding, so the three add up to the total) |
+
+- The card shows the next payment to collect and its amount, a **Marcar como pagado** form (amount received, date, and how they paid: cash, check, Zelle, card, other), all three payments with their status, and how much is still owed.
+- **Deshacer** un-marks a payment entered by mistake. **Cambiar el total del trabajo** updates the total if the price changed; the amounts due are worked out again.
+- If a job was accepted without a quote, the card asks for the job total first.
+- Every payment (and undo) is logged in **Notas**.
+- The **Hoy** page lists **Pagos por cobrar**: every accepted job that still owes a payment, with the next amount.
+
+Only Jorge can see payments; the public has no access to the table. This tracks payments Jorge receives in person; it doesn't charge cards online.
+
+### Setup (one step)
+1. Supabase → **SQL Editor** → **New query** → paste everything from [`supabase/migrations/007_payments.sql`](../supabase/migrations/007_payments.sql) → **Run**. It only adds a new table.
+2. **Run it before you push.** (If the site is pushed first, the dashboard still loads, but payments can't be saved until 007 is run.)
+
+### Test
+1. Open a request and mark it **Aceptado** (use **Cambiar estado a mano** under **Más información** if needed). Enter a total if asked.
+2. Mark payment 1 as paid. Check the bar, "Pagado … de …", and the note in **Notas**.
+3. Check **Hoy → Pagos por cobrar** shows payment 2.
+4. Try **Deshacer**, then mark all three. The card should say **Pagado completo** and the job leaves **Pagos por cobrar**.
+5. Switch the dashboard to English (globe button) and check the same screens.
+
 ## Troubleshooting
 
 | Problem | Fix |
@@ -292,4 +373,9 @@ Only after the live test works: run [`supabase/migrations/005_lock_down_submissi
 | Request form says "The spam check didn't finish" | Wait a few seconds and press Submit again. If it keeps happening: the site key in Cloudflare Pages / `app/.env` must match the Turnstile widget, the site's domain must be in the widget's Hostnames (9a), and `TURNSTILE_SECRET_KEY` in Supabase must be that widget's secret key (9b). |
 | Request form says "couldn't send" after Part 9 | Supabase → **Edge Functions → submit-request → Logs**. If the function isn't deployed or "Verify JWT" is still on, the new site can't save requests (9c). |
 | The domain won't load on one Wi-Fi (school, work) but `jlp-construction.pages.dev` does | That network's firewall blocks "newly registered domains." The site is fine; check on phone data to be sure. It usually clears on its own as the domain gets older, or the network's IT department can unblock it. Meanwhile, test with the `pages.dev` link. |
+| "Couldn't save" when marking a payment | Migration `007_payments.sql` hasn't been run yet (Part 11). |
+| AI brief card doesn't show at all | `VITE_AI_BRIEF` isn't `on` in `app/.env` (restart `npm run dev`) or in Cloudflare Pages (then redeploy) (10e). |
+| AI brief says "isn't set up yet" | `ANTHROPIC_API_KEY` is missing in Supabase secrets (10c). |
+| AI brief says "Couldn't write the brief right now" | Supabase → **Edge Functions → project-brief → Logs**. "not valid" = wrong key (10a). "rate limit or no credits left" = buy credits or raise the spend limit in the Claude Console. If there's no log at all, the function isn't deployed with that exact name (10d). |
+| AI brief says "Only Jorge's account can make briefs" | The signed-in Google account isn't in the `admins` table (Part 3c). |
 | No "Nueva solicitud" or "We got your request" email | Check spam first. Then Supabase → **Edge Functions → notify-new-request → Logs**. "unauthorized" = the `x-webhook-secret` header doesn't match `WEBHOOK_SECRET` exactly. "not configured" = a secret is missing. "Resend error 403" = the domain isn't verified yet (8a, step 4). "Customer email … failed" = Jorge's notice went out but the customer's didn't; the log line says why. No log at all = the webhook isn't set up or isn't on **Insert** (8d). |
