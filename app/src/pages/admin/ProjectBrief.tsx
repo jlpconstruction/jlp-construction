@@ -11,10 +11,12 @@ const ERRORS = ['ai_failed', 'not_admin', 'not_configured', 'not_found']
 /**
  * The AI project brief on Jorge's request page. The first time an open request is viewed,
  * it asks Claude to write one (no button needed); after that it shows the saved brief.
- * The brief itself is always in Spanish (Jorge's language); the labels follow the dashboard.
+ * The brief and the whole card are always in Spanish (Jorge's language).
  */
 export default function ProjectBrief({ request: r, onSaved }: { request: RequestRow; onSaved: (brief: Brief, at: string) => void }) {
-  const { t, i18n } = useTranslation()
+  // The whole card is always in Spanish, like the brief Claude writes, whatever language the dashboard is in
+  const { i18n } = useTranslation()
+  const t = i18n.getFixedT('es')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const started = useRef('')
@@ -42,7 +44,7 @@ export default function ProjectBrief({ request: r, onSaved }: { request: Request
 
   const b = r.ai_brief
   return (
-    <section className="brief" aria-labelledby="brief-title" aria-busy={busy}>
+    <section className="brief" lang="es" aria-labelledby="brief-title" aria-busy={busy}>
       <div className="brief-head">
         <h2 id="brief-title" className="ai-tag">
           <Icon name="spark" size={16} /> {t('admin.brief.title')}
@@ -137,7 +139,7 @@ export default function ProjectBrief({ request: r, onSaved }: { request: Request
           )}
           <p className="tiny muted" style={{ margin: '12px 0 0' }}>
             {t('admin.brief.footer', {
-              when: r.ai_brief_at ? fmtDateTime(r.ai_brief_at, i18n.language) : '',
+              when: r.ai_brief_at ? fmtDateTime(r.ai_brief_at, 'es') : '',
               count: b.photos,
             })}
           </p>
