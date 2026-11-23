@@ -27,7 +27,8 @@
     "invalid_phone": "Enter a mobile phone number.",
     "invalid_email": "Enter your email address.",
     "invalid_address": "Please check the project address and ZIP code.",
-    "spam_check": "The spam check didn't finish. Please wait a few seconds, then press Submit again."
+    "spam_check": "The spam check didn't finish. Please wait a few seconds, then press Submit again.",
+    "delete_failed": "Couldn't delete the request. If it has photos, migration 008 may still need to be run in Supabase."
   },
   "site": {
     "brandSub": "Residential Remodeling",
@@ -527,7 +528,10 @@
       "saved": "Saved",
       "directionsTo": "Get directions to {{address}}",
       "moreInfoHint": "Phone, email, texts, photo permission, and status",
-      "notesHint": "History of this request, and your own notes"
+      "notesHint": "History of this request, and your own notes",
+      "delete": "Delete request",
+      "deleteHint": "For test or spam requests. For a real customer who didn't move forward, use Declined instead, so you keep the history.",
+      "deleteConfirm": "Delete request {{ref}} from {{name}} for good?\n\nIts photos, notes, and payments are deleted too. This can't be undone."
     },
     "brief": {
       "title": "AI project brief",

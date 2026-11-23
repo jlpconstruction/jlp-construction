@@ -78,6 +78,9 @@
 .btn-ghost:hover { background: var(--surface-2); filter: none; }
 .btn-dark { background: var(--chrome); color: var(--on-dark); }
 .btn-sm { padding: 8px 12px; font-size: 14px; border-radius: 8px; }
+.btn-danger { background: transparent; border: 1.5px solid var(--bad); color: var(--bad); }
+.btn-danger:hover { background: var(--bad-soft); filter: none; }
+.danger-zone { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
 .btn-mini { min-height: 32px; padding: 4px 8px; font-size: 12px; border-radius: 8px; }
 .link { background: none; border: 0; padding: 0; color: var(--accent-text); font-weight: 600; cursor: pointer; font-size: inherit; text-decoration: underline; }
 .link:active { opacity: .8; }

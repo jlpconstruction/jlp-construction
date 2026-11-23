@@ -192,6 +192,24 @@ export async function addNote(requestId: string, note: { body?: string; event?: 
   if (error) throw new ApiError('save_failed')
 }
 
+/**
+ * Deletes a request for good: its photos in storage first (they're private customer photos),
+ * then the request, which also deletes its photo records, notes, and payments.
+ */
+export async function deleteRequest(id: string) {
+  const client = db()
+  const { data: photos, error: listError } = await client.from('request_photos').select('storage_path').eq('request_id', id)
+  if (listError) throw new ApiError('delete_failed')
+  const paths = (photos ?? []).map((p) => p.storage_path as string)
+  if (paths.length) {
+    const { data: removed, error } = await client.storage.from(PHOTO_BUCKET).remove(paths)
+    // Without delete permission (migration 008) storage quietly removes nothing: stop, so no photos are left behind
+    if (error || (removed ?? []).length < paths.length) throw new ApiError('delete_failed')
+  }
+  const { data, error } = await client.from('requests').delete().eq('id', id).select('id')
+  if (error || !data?.length) throw new ApiError('delete_failed')
+}
+
 /* ---------- Payments (35/35/30) ---------- */
 
 /** Every payment received, for the Today list. */

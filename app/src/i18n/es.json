@@ -27,7 +27,8 @@
     "invalid_phone": "Escriba un número de celular.",
     "invalid_email": "Escriba su correo electrónico.",
     "invalid_address": "Por favor revise la dirección del proyecto y el código postal.",
-    "spam_check": "La verificación contra spam no terminó. Espere unos segundos y presione Enviar otra vez."
+    "spam_check": "La verificación contra spam no terminó. Espere unos segundos y presione Enviar otra vez.",
+    "delete_failed": "No se pudo borrar la solicitud. Si tiene fotos, puede que falte correr la migración 008 en Supabase."
   },
   "site": {
     "brandSub": "Remodelación residencial",
@@ -527,7 +528,10 @@
       "saved": "Guardado",
       "directionsTo": "Cómo llegar a {{address}}",
       "moreInfoHint": "Teléfono, correo, mensajes, permiso de fotos y estado",
-      "notesHint": "Historial de esta solicitud y tus notas"
+      "notesHint": "Historial de esta solicitud y tus notas",
+      "delete": "Borrar solicitud",
+      "deleteHint": "Para solicitudes de prueba o spam. Si es un cliente real que no siguió, mejor márquela como Descartado para guardar el historial.",
+      "deleteConfirm": "¿Borrar para siempre la solicitud {{ref}} de {{name}}?\n\nTambién se borran sus fotos, notas y pagos. No se puede deshacer."
     },
     "brief": {
       "title": "Resumen del proyecto (IA)",

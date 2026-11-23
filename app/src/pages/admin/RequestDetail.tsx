@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
-import { Link, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import Icon from '../../components/Icon'
 import { useAdmin } from '../../components/AdminLayout'
-import { addNote, ApiError, getRequest, markPaid, unmarkPaid, updateRequest, type NoteRow, type RequestRow } from '../../lib/api'
+import { addNote, ApiError, deleteRequest, getRequest, markPaid, unmarkPaid, updateRequest, type NoteRow, type RequestRow } from '../../lib/api'
 import { isOpen, STATUSES, type Status } from '../../lib/options'
 import {
   fmtDate,
@@ -35,6 +35,7 @@ export default function RequestDetail() {
   const { t, i18n } = useTranslation()
   const lng = i18n.language
   const { requests, reload: reloadList } = useAdmin()
+  const navigate = useNavigate()
   const rooms = useRoomsText()
   const [detail, setDetail] = useState<Detail | null>(null)
   const [error, setError] = useState('')
@@ -89,6 +90,21 @@ export default function RequestDetail() {
     } catch (e) {
       setError(e instanceof ApiError ? e.message : 'save_failed')
     } finally {
+      setBusy(false)
+    }
+  }
+
+  /** Deletes the request for good (after a clear warning), then goes back to the list. */
+  const remove = async () => {
+    if (!confirm(t('admin.detail.deleteConfirm', { ref: r.ref, name: r.name }))) return
+    setBusy(true)
+    setError('')
+    try {
+      await deleteRequest(r.id)
+      await reloadList()
+      navigate('/admin/requests')
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : 'delete_failed')
       setBusy(false)
     }
   }
@@ -625,6 +641,14 @@ export default function RequestDetail() {
                   }}
                 >
                   {t('admin.detail.remind')}
+                </button>
+              </div>
+              <div className="danger-zone">
+                <p className="small muted" style={{ margin: '0 0 8px' }}>
+                  {t('admin.detail.deleteHint')}
+                </p>
+                <button type="button" className="btn btn-danger btn-sm" onClick={remove} disabled={busy}>
+                  {t('admin.detail.delete')}
                 </button>
               </div>
             </div>

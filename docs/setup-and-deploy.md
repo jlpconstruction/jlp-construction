@@ -242,7 +242,7 @@ Plan on about 30 minutes. Do the steps in order.
 1. Submit a test request, either on your computer (http://localhost:5174/request) or on the live site. Both save to the same Supabase, so both send the email.
 2. Within a minute, the addresses in `NOTIFY_EMAIL` should get **"Nueva solicitud JLP-…"**, and the email you typed on the form should get **"We got your request"** (or **"Recibimos su solicitud"** if you filled out the form in Spanish). Try replying to the customer email: the reply should go to the `REPLY_TO` address. Check the spam folder the first time, and mark it **Not spam** so the next ones land in the inbox.
 3. Tap **Abrir la solicitud**: it should open that request in the dashboard (after Google sign-in).
-4. When it works, change `NOTIFY_EMAIL` to **only Jorge's email** and save. Delete your test request in Supabase → **Table Editor** → `requests` (if it had photos, also delete its folder in **Storage** → `request-photos`).
+4. When it works, change `NOTIFY_EMAIL` to **only Jorge's email** and save. Delete your test request with **Borrar solicitud** on its page (Part 12).
 5. Ask Jorge to open the first real notice on his iPhone and mark it Not spam (or add `avisos@jlpconstructionchicago.com` to his contacts).
 
 ## Part 9: Spam protection (Turnstile)
@@ -374,6 +374,22 @@ Only Jorge can see payments; the public has no access to the table. This tracks 
 4. Try **Deshacer**, then mark all three. The card should say **Pagado completo** and the job leaves **Pagos por cobrar**.
 5. Switch the dashboard to English (globe button) and check the same screens.
 
+## Part 12: Deleting a request
+
+Each request page has a **Borrar solicitud** button at the bottom of **Más información**. It's meant for test and spam requests. For a real customer who didn't move forward, mark the request **Descartado** instead, so the history stays.
+
+Deleting asks for confirmation first, then removes the request for good: its photos in storage (they're private customer photos), photo records, notes, and payments. A Saturday time it was holding opens up again. It can't be undone.
+
+### Setup (one step)
+Supabase → **SQL Editor** → **New query** → paste [`supabase/migrations/008_admin_delete_photos.sql`](../supabase/migrations/008_admin_delete_photos.sql) → **Run**. It lets Jorge's account delete photos (before, it could only view them). Run it **before** you push.
+
+If 008 hasn't been run, deleting a request that has photos stops with an error instead of leaving the photos behind. Requests without photos delete either way.
+
+### Test
+1. Submit a TEST request **with a photo**.
+2. Open it → **Más información** → **Borrar solicitud** → confirm. You land back on **Solicitudes** and it's gone.
+3. Supabase → **Storage** → `request-photos`: that request's folder is gone too.
+
 ## Troubleshooting
 
 | Problem | Fix |
@@ -389,6 +405,7 @@ Only Jorge can see payments; the public has no access to the table. This tracks 
 | Request form says "The spam check didn't finish" | Wait a few seconds and press Submit again. If it keeps happening: the site key in Cloudflare Pages / `app/.env` must match the Turnstile widget, the site's domain must be in the widget's Hostnames (9a), and `TURNSTILE_SECRET_KEY` in Supabase must be that widget's secret key (9b). |
 | Request form says "couldn't send" after Part 9 | Supabase → **Edge Functions → submit-request → Logs**. If the function isn't deployed or "Verify JWT" is still on, the new site can't save requests (9c). |
 | The domain won't load on one Wi-Fi (school, work) but `jlp-construction.pages.dev` does | That network's firewall blocks "newly registered domains." The site is fine; check on phone data to be sure. It usually clears on its own as the domain gets older, or the network's IT department can unblock it. Meanwhile, test with the `pages.dev` link. |
+| "Couldn't delete the request" | If the request has photos, migration `008_admin_delete_photos.sql` hasn't been run yet (Part 12). |
 | "Couldn't save" when marking a payment | Migration `007_payments.sql` hasn't been run yet (Part 11). |
 | AI brief card doesn't show at all | `VITE_AI_BRIEF` isn't `on` in `app/.env` (restart `npm run dev`) or in Cloudflare Pages (then redeploy) (10e). |
 | AI brief says "isn't set up yet" | `ANTHROPIC_API_KEY` is missing in Supabase secrets (10c). |
